@@ -83,8 +83,8 @@ export default function Home() {
                     }}
                   />
                   <span
-                    className="text-[9px] uppercase tracking-[0.32em]"
-                    style={{ color: `${hoveredDragon.color}88` }}
+                    className="text-[10px] uppercase tracking-[0.28em]"
+                    style={{ color: `${hoveredDragon.color}aa` }}
                   >
                     {locale === "zh" ? "邊註" : "Marginal Note"}
                   </span>
@@ -97,10 +97,10 @@ export default function Home() {
                 </div>
 
                 <p
-                  className="text-[15px] font-medium italic tracking-[0.05em] leading-relaxed"
+                  className="text-[16px] md:text-[15px] font-medium italic tracking-[0.04em] leading-relaxed"
                   style={{
-                    color: `${hoveredDragon.color}e6`,
-                    textShadow: "0 1px 10px rgba(8, 7, 5, 0.9)",
+                    color: `${hoveredDragon.color}f0`,
+                    textShadow: "0 1px 12px rgba(8, 7, 5, 0.95)",
                   }}
                 >
                   {locale === "zh"
