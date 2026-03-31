@@ -154,8 +154,8 @@ export default function OracleChat({ locale }: OracleChatProps) {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.38, ease: "easeOut" }}
             className="fixed z-50 pointer-events-auto flex flex-col
-              bottom-0 left-0 right-0 h-[78vh]
-              sm:bottom-24 sm:right-6 sm:left-auto sm:w-[380px] sm:h-[480px] sm:rounded-sm"
+              bottom-3 left-3 right-3 h-[76vh] overflow-hidden rounded-sm
+              sm:bottom-24 sm:right-6 sm:left-auto sm:w-[388px] sm:h-[500px]"
             style={{
               background:
                 "linear-gradient(180deg, rgba(10,8,5,0.97) 0%, rgba(8,7,5,0.95) 100%)",
@@ -216,11 +216,11 @@ export default function OracleChat({ locale }: OracleChatProps) {
               </div>
             )}
 
-            <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">
+            <div className="flex flex-1 flex-col gap-5 overflow-y-auto px-7 py-6">
               {showStarters && (
-                <div className="mt-1 flex flex-col gap-2.5">
+                <div className="mt-2 flex flex-col gap-3.5">
                   <p
-                    className="mb-1 text-[9px] tracking-[0.2em] uppercase"
+                    className="mb-1 px-1 text-[9px] tracking-[0.2em] uppercase"
                     style={{ color: "rgba(160, 140, 100, 0.5)" }}
                   >
                     {locale === "zh" ? "或試試這些問題" : "Or try these questions"}
@@ -230,7 +230,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
                       key={prompt}
                       type="button"
                       onClick={() => sendMessage(prompt)}
-                      className="rounded-sm px-3 py-2.5 text-left text-[11px] leading-relaxed tracking-[0.04em] transition-colors"
+                      className="rounded-sm px-4 py-3 text-left text-[11px] leading-relaxed tracking-[0.04em] transition-colors"
                       style={{
                         background: "rgba(201, 168, 76, 0.05)",
                         border: "1px solid rgba(201, 168, 76, 0.14)",
@@ -254,10 +254,10 @@ export default function OracleChat({ locale }: OracleChatProps) {
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex px-1 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className="max-w-[84%] rounded-sm px-4 py-3 text-[12px] leading-[1.9] tracking-[0.03em]"
+                    className="max-w-[78%] rounded-sm px-5 py-4 text-[12px] leading-[2] tracking-[0.03em]"
                     style={
                       msg.role === "user"
                         ? {
@@ -324,10 +324,10 @@ export default function OracleChat({ locale }: OracleChatProps) {
               style={{ borderTop: "1px solid rgba(201, 168, 76, 0.1)" }}
             >
               <div
-                className="flex items-center gap-3 rounded-sm px-3.5 py-2.5"
+                className="flex items-center gap-3 rounded-sm px-4 py-3"
                 style={{
-                  background: "rgba(255,255,255,0.02)",
-                  border: "1px solid rgba(201, 168, 76, 0.12)",
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(201, 168, 76, 0.16)",
                 }}
               >
                 <input
