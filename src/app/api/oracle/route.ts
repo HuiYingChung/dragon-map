@@ -151,8 +151,12 @@ export async function POST(request: NextRequest) {
     const detail =
       error instanceof Error ? error.message : "Unknown OpenAI request failure.";
 
+    console.error("Oracle request failed", {
+      detail,
+    });
+
     return Response.json(
-      { error: `Oracle request failed: ${detail}` },
+      { error: "Oracle request failed. Please try again shortly." },
       { status: 500 }
     );
   }
