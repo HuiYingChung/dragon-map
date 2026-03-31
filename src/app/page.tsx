@@ -52,6 +52,7 @@ export default function Home() {
           onRegionClick={handleRegionClick}
         />
 
+        <div className="hidden md:contents">
         <AnimatePresence>
           {hoveredDragon && !activeRegion && (
             <motion.div
@@ -107,6 +108,7 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
 
       <MythCard dragon={activeDragon} locale={locale} onClose={handleClose} />
