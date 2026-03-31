@@ -22,7 +22,7 @@ const STARTER_PROMPTS = {
   zh: [
     "東方與西方的龍有什麼共同之處？",
     "哪條龍統治著海洋？",
-    "為何某些文化畏懼龍，而另一些文化卻崇敬龍？",
+    "為什麼某些文化畏懼龍，而另一些文化卻崇敬龍？",
   ],
 };
 
@@ -37,9 +37,9 @@ const LABELS = {
   },
   zh: {
     title: "問龍使者",
-    placeholder: "請提出您的問題⋯⋯",
+    placeholder: "請提出您的問題…",
     send: "送出",
-    loading: "龍使者正在感應⋯⋯",
+    loading: "龍使者正在感應…",
     close: "關閉",
     error: "龍使者的視野蒙塵，請再試一次。",
   },
@@ -92,11 +92,18 @@ export default function OracleChat({ locale }: OracleChatProps) {
           body: JSON.stringify({ message: trimmed, language: locale }),
         });
 
-        if (!res.ok) throw new Error("Oracle did not respond");
         const data = await res.json();
+        if (!res.ok) {
+          throw new Error(
+            typeof data?.error === "string" ? data.error : "Oracle did not respond"
+          );
+        }
+
         setMessages((prev) => [...prev, { role: "oracle", content: data.reply }]);
-      } catch {
-        setError(labels.error);
+      } catch (error) {
+        const message =
+          error instanceof Error && error.message ? error.message : labels.error;
+        setError(message);
       } finally {
         setIsLoading(false);
       }
@@ -113,7 +120,6 @@ export default function OracleChat({ locale }: OracleChatProps) {
 
   return (
     <>
-      {/* Floating trigger button */}
       <motion.button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
@@ -131,12 +137,11 @@ export default function OracleChat({ locale }: OracleChatProps) {
         aria-label={labels.title}
         title={labels.title}
       >
-        <span className="text-[18px] leading-none select-none" role="img" aria-hidden>
+        <span className="select-none text-[18px] leading-none" role="img" aria-hidden>
           🐉
         </span>
       </motion.button>
 
-      {/* Chat panel */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -157,13 +162,14 @@ export default function OracleChat({ locale }: OracleChatProps) {
               boxShadow: "0 -8px 48px rgba(0,0,0,0.55), 0 0 32px rgba(201,168,76,0.06)",
             }}
           >
-            {/* Header */}
             <div
-              className="flex items-center justify-between px-5 py-4 shrink-0"
+              className="flex shrink-0 items-center justify-between px-5 py-4"
               style={{ borderBottom: "1px solid rgba(201, 168, 76, 0.1)" }}
             >
               <div className="flex items-center gap-2.5">
-                <span className="text-[14px]" role="img" aria-hidden>🐉</span>
+                <span className="text-[14px]" role="img" aria-hidden>
+                  🐉
+                </span>
                 <h2
                   className="text-[11px] tracking-[0.28em] uppercase font-semibold"
                   style={{ color: "rgba(224, 196, 118, 0.9)" }}
@@ -176,24 +182,22 @@ export default function OracleChat({ locale }: OracleChatProps) {
                 onClick={() => setIsOpen(false)}
                 className="text-[9px] tracking-[0.22em] uppercase transition-colors"
                 style={{ color: "rgba(160, 140, 100, 0.6)" }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "rgba(224, 196, 118, 0.9)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "rgba(160, 140, 100, 0.6)")
-                }
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "rgba(224, 196, 118, 0.9)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "rgba(160, 140, 100, 0.6)";
+                }}
               >
                 {labels.close}
               </button>
             </div>
 
-            {/* Message area */}
-            <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3">
-              {/* Starter prompt chips */}
+            <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
               {showStarters && (
-                <div className="flex flex-col gap-2 mt-1">
+                <div className="mt-1 flex flex-col gap-2">
                   <p
-                    className="text-[9px] tracking-[0.2em] uppercase mb-1"
+                    className="mb-1 text-[9px] tracking-[0.2em] uppercase"
                     style={{ color: "rgba(160, 140, 100, 0.5)" }}
                   >
                     {locale === "zh" ? "或試試這些問題" : "Or try these questions"}
@@ -203,23 +207,19 @@ export default function OracleChat({ locale }: OracleChatProps) {
                       key={prompt}
                       type="button"
                       onClick={() => sendMessage(prompt)}
-                      className="text-left px-3 py-2.5 rounded-sm text-[11px] leading-relaxed tracking-[0.04em] transition-colors"
+                      className="rounded-sm px-3 py-2.5 text-left text-[11px] leading-relaxed tracking-[0.04em] transition-colors"
                       style={{
                         background: "rgba(201, 168, 76, 0.05)",
                         border: "1px solid rgba(201, 168, 76, 0.14)",
                         color: "rgba(201, 178, 139, 0.75)",
                       }}
                       onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLButtonElement).style.background =
-                          "rgba(201, 168, 76, 0.1)";
-                        (e.currentTarget as HTMLButtonElement).style.color =
-                          "rgba(224, 196, 118, 0.9)";
+                        e.currentTarget.style.background = "rgba(201, 168, 76, 0.1)";
+                        e.currentTarget.style.color = "rgba(224, 196, 118, 0.9)";
                       }}
                       onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLButtonElement).style.background =
-                          "rgba(201, 168, 76, 0.05)";
-                        (e.currentTarget as HTMLButtonElement).style.color =
-                          "rgba(201, 178, 139, 0.75)";
+                        e.currentTarget.style.background = "rgba(201, 168, 76, 0.05)";
+                        e.currentTarget.style.color = "rgba(201, 178, 139, 0.75)";
                       }}
                     >
                       {prompt}
@@ -228,14 +228,13 @@ export default function OracleChat({ locale }: OracleChatProps) {
                 </div>
               )}
 
-              {/* Messages */}
               {messages.map((msg, i) => (
                 <div
                   key={i}
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className="max-w-[88%] px-3.5 py-2.5 rounded-sm text-[12px] leading-relaxed tracking-[0.03em]"
+                    className="max-w-[88%] rounded-sm px-3.5 py-2.5 text-[12px] leading-relaxed tracking-[0.03em]"
                     style={
                       msg.role === "user"
                         ? {
@@ -253,7 +252,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
                   >
                     {msg.role === "oracle" && (
                       <span
-                        className="block text-[8px] tracking-[0.25em] uppercase mb-1.5 not-italic"
+                        className="mb-1.5 block text-[8px] tracking-[0.25em] uppercase not-italic"
                         style={{ color: "rgba(201, 168, 76, 0.45)" }}
                       >
                         {locale === "zh" ? "龍使者" : "Oracle"}
@@ -264,11 +263,10 @@ export default function OracleChat({ locale }: OracleChatProps) {
                 </div>
               ))}
 
-              {/* Loading state */}
               {isLoading && (
                 <div className="flex justify-start">
                   <div
-                    className="px-3.5 py-2.5 rounded-sm text-[11px] italic tracking-[0.06em]"
+                    className="rounded-sm px-3.5 py-2.5 text-[11px] italic tracking-[0.06em]"
                     style={{
                       background: "rgba(255,255,255,0.02)",
                       border: "1px solid rgba(201, 168, 76, 0.08)",
@@ -285,10 +283,9 @@ export default function OracleChat({ locale }: OracleChatProps) {
                 </div>
               )}
 
-              {/* Error state */}
               {error && (
                 <p
-                  className="text-[10px] italic tracking-[0.04em] text-center px-2"
+                  className="px-2 text-center text-[10px] italic tracking-[0.04em]"
                   style={{ color: "rgba(180, 100, 80, 0.8)" }}
                 >
                   {error}
@@ -298,10 +295,9 @@ export default function OracleChat({ locale }: OracleChatProps) {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
             <form
               onSubmit={handleSubmit}
-              className="shrink-0 flex items-center gap-2 px-4 py-3"
+              className="flex shrink-0 items-center gap-2 px-4 py-3"
               style={{ borderTop: "1px solid rgba(201, 168, 76, 0.1)" }}
             >
               <input
@@ -311,7 +307,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={labels.placeholder}
                 disabled={isLoading}
-                className="flex-1 bg-transparent outline-none text-[12px] tracking-[0.04em] placeholder:opacity-40"
+                className="flex-1 bg-transparent text-[12px] tracking-[0.04em] outline-none placeholder:opacity-40"
                 style={{
                   color: "rgba(224, 196, 118, 0.88)",
                   caretColor: "rgba(201, 168, 76, 0.7)",
@@ -320,7 +316,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="text-[9px] tracking-[0.22em] uppercase px-3 py-1.5 rounded-sm transition-colors shrink-0 disabled:opacity-30"
+                className="shrink-0 rounded-sm px-3 py-1.5 text-[9px] tracking-[0.22em] uppercase transition-colors disabled:opacity-30"
                 style={{
                   background: "rgba(201, 168, 76, 0.12)",
                   border: "1px solid rgba(201, 168, 76, 0.22)",

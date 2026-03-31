@@ -161,15 +161,13 @@ export default function Home() {
 
       <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
         <p
-          className="pointer-events-none text-right text-[9px] tracking-[0.15em] uppercase font-light hidden md:block"
+          className="pointer-events-none hidden text-right text-[9px] tracking-[0.15em] uppercase font-light md:block"
           style={{ color: "rgba(140, 120, 90, 0.2)" }}
         >
-          {locale === "zh"
-            ? "滑過以喚醒 · 點擊以展開"
-            : "Hover to awaken · Click to reveal"}
+          {locale === "zh" ? "滑過以喚醒 · 點擊以展開" : "Hover to awaken · Click to reveal"}
         </p>
         <p
-          className="pointer-events-none text-right text-[9px] tracking-[0.15em] uppercase font-light block md:hidden"
+          className="pointer-events-none block text-right text-[9px] tracking-[0.15em] uppercase font-light md:hidden"
           style={{ color: "rgba(140, 120, 90, 0.3)" }}
         >
           {locale === "zh" ? "點擊以展開" : "Tap to reveal"}

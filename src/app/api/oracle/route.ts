@@ -11,27 +11,40 @@ export async function POST(request: NextRequest) {
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    return Response.json({ error: "Oracle is silent — API key not configured." }, { status: 500 });
+  if (!apiKey || apiKey === "your_openai_api_key_here") {
+    return Response.json(
+      {
+        error:
+          "OPENAI_API_KEY is missing for local dev. Add your real key to .env.local and restart npm run dev.",
+      },
+      { status: 500 }
+    );
   }
 
-  const client = new OpenAI({ apiKey });
+  try {
+    const client = new OpenAI({ apiKey });
+    const userContent =
+      language === "zh" ? `[使用者以繁體中文提問] ${message}` : message;
 
-  const userContent =
-    language === "zh"
-      ? `[使用者以繁體中文提問] ${message}`
-      : message;
+    const completion = await client.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: userContent },
+      ],
+      max_tokens: 200,
+      temperature: 0.85,
+    });
 
-  const completion = await client.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      { role: "user", content: userContent },
-    ],
-    max_tokens: 200,
-    temperature: 0.85,
-  });
+    const reply = completion.choices[0]?.message?.content ?? "";
+    return Response.json({ reply });
+  } catch (error) {
+    const detail =
+      error instanceof Error ? error.message : "Unknown OpenAI request failure.";
 
-  const reply = completion.choices[0]?.message?.content ?? "";
-  return Response.json({ reply });
+    return Response.json(
+      { error: `Oracle request failed: ${detail}` },
+      { status: 500 }
+    );
+  }
 }

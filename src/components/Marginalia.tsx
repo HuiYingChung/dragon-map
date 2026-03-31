@@ -27,7 +27,7 @@ export default function Marginalia({
       }}
     >
       <div
-        className="h-[1px] w-16 mb-4"
+        className="mb-4 h-[1px] w-16"
         style={{
           background:
             "linear-gradient(90deg, rgba(201, 168, 76, 0.25), transparent)",
@@ -43,7 +43,7 @@ export default function Marginalia({
           : "Here be not monsters, but memory."}
       </p>
       <p
-        className="text-[12px] md:text-[14px] leading-[1.7] font-medium italic mt-1"
+        className="mt-1 text-[12px] md:text-[14px] leading-[1.7] font-medium italic"
         style={{ color: "rgba(204, 184, 152, 0.8)" }}
       >
         {locale === "zh"
@@ -52,7 +52,7 @@ export default function Marginalia({
       </p>
 
       <div
-        className="h-[1px] w-10 mt-4"
+        className="mt-4 h-[1px] w-10"
         style={{
           background:
             "linear-gradient(90deg, rgba(201, 168, 76, 0.15), transparent)",
@@ -60,7 +60,7 @@ export default function Marginalia({
       />
 
       <p
-        className="text-[10px] tracking-[0.18em] uppercase mt-3 font-medium"
+        className="mt-3 text-[10px] tracking-[0.18em] uppercase font-medium"
         style={{ color: "rgba(181, 158, 118, 0.66)" }}
       >
         {locale === "zh" ? "眾多傳統 · 同一世界" : "Many traditions · One world"}
