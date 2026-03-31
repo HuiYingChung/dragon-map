@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import type { DragonRegion, Locale } from "@/data/dragons";
 
 interface MythCardProps {
@@ -10,23 +11,36 @@ interface MythCardProps {
 }
 
 export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <AnimatePresence>
       {dragon && (
         <motion.aside
           key={dragon.id}
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 18 }}
+          initial={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 24 }}
+          animate={{ opacity: 1, y: 0, x: 0 }}
+          exit={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 18 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="fixed top-5 right-5 z-50 w-[calc(100%-2.5rem)] max-w-[232px] pointer-events-auto rounded-sm overflow-hidden"
+          className="fixed z-50 pointer-events-auto overflow-hidden
+            bottom-0 left-0 right-0 rounded-t-sm max-h-[72vh] overflow-y-auto
+            md:bottom-auto md:top-5 md:left-auto md:right-5 md:max-h-none md:overflow-y-visible md:w-[232px] md:rounded-sm"
           style={{
             background:
-              "linear-gradient(180deg, rgba(9,8,6,0.76), rgba(9,8,6,0.58) 40%, rgba(9,8,6,0.36) 100%)",
+              "linear-gradient(180deg, rgba(9,8,6,0.92), rgba(9,8,6,0.78) 40%, rgba(9,8,6,0.68) 100%)",
             backdropFilter: "blur(14px)",
             WebkitBackdropFilter: "blur(14px)",
             border: `1px solid ${dragon.color}18`,
-            boxShadow: `-18px 0 40px rgba(0,0,0,0.22)`,
+            boxShadow: isMobile
+              ? `0 -12px 40px rgba(0,0,0,0.45)`
+              : `-18px 0 40px rgba(0,0,0,0.22)`,
           }}
         >
           <div className="flex flex-col px-4 py-5 md:px-5 md:py-6">

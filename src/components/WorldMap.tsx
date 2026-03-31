@@ -50,6 +50,7 @@ export default function WorldMap({
           viewBox="0 0 100 62.5"
           className="absolute inset-0 w-full h-full"
           preserveAspectRatio="xMidYMid meet"
+          style={{ touchAction: "manipulation" }}
         >
           <defs>
             {/* Radial glow for hotspots */}
@@ -153,7 +154,7 @@ export default function WorldMap({
                 <circle
                   cx={region.mapPosition.x}
                   cy={region.mapPosition.y}
-                  r="5"
+                  r="7"
                   fill="transparent"
                   className="cursor-pointer"
                   onMouseEnter={() => onRegionHover(region.id)}

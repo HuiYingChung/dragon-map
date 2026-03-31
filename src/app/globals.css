@@ -58,3 +58,21 @@ body {
   background: rgba(201, 168, 76, 0.2);
   color: #c9a84c;
 }
+
+/* Mobile: larger SVG region labels */
+@media (max-width: 767px) {
+  svg text {
+    font-size: 3.2px;
+  }
+}
+
+/* Prevent double-tap zoom on map interactions */
+svg {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth momentum scrolling in bottom sheet on iOS */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+}
