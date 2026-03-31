@@ -198,14 +198,21 @@ export default function OracleChat({ locale }: OracleChatProps) {
 
             {isMockMode && (
               <div
-                className="mx-4 mt-3 shrink-0 rounded-sm px-3 py-2 text-[9px] uppercase tracking-[0.2em]"
+                className="mx-4 mt-3 shrink-0 rounded-sm px-3 py-2"
                 style={{
                   background: "rgba(201, 168, 76, 0.06)",
                   border: "1px solid rgba(201, 168, 76, 0.18)",
                   color: "rgba(224, 196, 118, 0.76)",
                 }}
               >
-                {locale === "zh" ? "模擬模式已啟用，不會使用 API 額度" : "Mock mode active - no API cost"}
+                <div className="text-[8px] uppercase tracking-[0.28em]">
+                  {locale === "zh" ? "示範模式" : "Demo mode"}
+                </div>
+                <div className="mt-1 text-[10px] tracking-[0.04em]">
+                  {locale === "zh"
+                    ? "目前顯示的是模擬回覆，不會使用 API 額度。"
+                    : "Responses are simulated right now and do not use your API budget."}
+                </div>
               </div>
             )}
 
