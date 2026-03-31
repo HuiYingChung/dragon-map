@@ -207,7 +207,7 @@ export const dragonRegions: DragonRegion[] = [
     atmosphere:
       "In much of Europe, the dragon is a beast to be fought, feared, and sung about.",
     atmosphereZh: "在歐洲大地，龍往往是被征戰、被畏懼，也被歌唱的巨獸。",
-    mapPosition: { x: 50.6, y: 23.3 },
+    mapPosition: { x: 49.7, y: 23.9 },
     color: "#c45c3e",
     glowColor: "rgba(196, 92, 62, 0.3)",
     dragonStyle: "winged",
@@ -230,7 +230,7 @@ export const dragonRegions: DragonRegion[] = [
     atmosphere:
       "In the northern waters, the serpent circles the edge of fate itself.",
     atmosphereZh: "在北方海域，巨蛇盤繞著命運本身的邊界。",
-    mapPosition: { x: 45.0, y: 20.6 },
+    mapPosition: { x: 43.8, y: 19.8 },
     color: "#93a7a0",
     glowColor: "rgba(147, 167, 160, 0.28)",
     dragonStyle: "storm",
@@ -253,7 +253,7 @@ export const dragonRegions: DragonRegion[] = [
     atmosphere:
       "These dragons do not always dwell in castles. Some belong to storm, swamp, and folktale fear.",
     atmosphereZh: "這些龍不總住在城堡裡，有些屬於風暴、沼澤與民間故事裡的恐懼。",
-    mapPosition: { x: 55.4, y: 21.5 },
+    mapPosition: { x: 56.8, y: 20.8 },
     color: "#6b8f71",
     glowColor: "rgba(107, 143, 113, 0.3)",
     dragonStyle: "storm",
