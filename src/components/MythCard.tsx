@@ -46,7 +46,7 @@ export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
           <div className="flex flex-col px-5 py-5 md:px-6 md:py-6 pb-8 md:pb-6">
             <button
               onClick={onClose}
-              className="self-end text-stone-400 hover:text-stone-200 transition-colors text-[11px] tracking-[0.22em] uppercase"
+              className="self-end text-stone-400 hover:text-stone-200 transition-colors text-[13px] md:text-[11px] tracking-[0.22em] uppercase"
             >
               {locale === "zh" ? "關閉" : "close"}
             </button>
@@ -76,7 +76,7 @@ export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15, duration: 0.5 }}
-              className="mb-2 text-[22px] md:text-[20px] font-light tracking-[0.11em] uppercase text-left"
+              className="mb-2 text-[26px] md:text-[20px] font-light tracking-[0.11em] uppercase text-left"
               style={{ color: dragon.color }}
             >
               {locale === "zh" ? dragon.nameZh : dragon.name}
@@ -86,7 +86,7 @@ export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.78 }}
               transition={{ delay: 0.25, duration: 0.5 }}
-              className="mb-4 text-[11px] tracking-[0.18em] uppercase text-stone-300 text-left"
+              className="mb-4 text-[13px] md:text-[11px] tracking-[0.18em] uppercase text-stone-300 text-left"
             >
               {locale === "zh" ? dragon.traditionZh : dragon.tradition}
             </motion.p>
@@ -97,11 +97,11 @@ export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
               transition={{ delay: 0.35, duration: 0.5 }}
               className="mb-5"
             >
-              <p className="text-[13px] text-stone-200 font-light italic leading-relaxed">
+              <p className="text-[15px] md:text-[13px] text-stone-200 font-light italic leading-relaxed">
                 {locale === "zh" ? dragon.regionZh : dragon.region}
               </p>
               <p
-                className="mt-2 text-[11px] leading-[1.7] font-light italic"
+                className="mt-2 text-[13px] md:text-[11px] leading-[1.7] font-light italic"
                 style={{ color: `${dragon.color}cc` }}
               >
                 {locale === "zh" ? dragon.associatedWithZh : dragon.associatedWith}
@@ -122,7 +122,7 @@ export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.9 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="text-[14px] md:text-[13px] leading-[1.85] text-stone-200 font-light"
+              className="text-[16px] md:text-[13px] leading-[1.9] text-stone-200 font-light"
             >
               {locale === "zh" ? dragon.descriptionZh : dragon.description}
             </motion.p>

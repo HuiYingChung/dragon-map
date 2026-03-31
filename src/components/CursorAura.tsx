@@ -19,7 +19,7 @@ export default function CursorAura() {
   });
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(pointer: fine)");
+    const mediaQuery = window.matchMedia("(pointer: fine) and (min-width: 1024px)");
     if (!mediaQuery.matches) {
       return;
     }
@@ -67,7 +67,7 @@ export default function CursorAura() {
   return (
     <motion.div
       aria-hidden="true"
-      className="pointer-events-none fixed top-0 left-0 z-[120] hidden md:block"
+      className="pointer-events-none fixed top-0 left-0 z-[120] hidden lg:block"
       animate={{
         x: cursor.x,
         y: cursor.y,

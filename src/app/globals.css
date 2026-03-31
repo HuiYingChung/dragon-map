@@ -28,7 +28,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media (pointer: fine) {
+@media (pointer: fine) and (min-width: 1024px) {
   html,
   body,
   button,
