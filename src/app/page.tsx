@@ -60,7 +60,7 @@ export default function Home() {
               exit={{ opacity: 0, y: 6 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
               className="pointer-events-none z-20
-                fixed top-[8rem] left-4 right-4
+                fixed top-[10rem] left-4 right-4
                 md:absolute md:top-auto md:bottom-9 md:left-1/2 md:right-auto md:w-[min(88vw,42rem)] md:-translate-x-1/2"
             >
               <div
