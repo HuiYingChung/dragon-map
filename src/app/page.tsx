@@ -8,6 +8,7 @@ import WorldMap from "@/components/WorldMap";
 import MythCard from "@/components/MythCard";
 import Marginalia from "@/components/Marginalia";
 import CursorAura from "@/components/CursorAura";
+import OracleChat from "@/components/OracleChat";
 
 const AmbientEffects = dynamic(() => import("@/components/AmbientEffects"), {
   ssr: false,
@@ -114,6 +115,8 @@ export default function Home() {
       <MythCard dragon={activeDragon} locale={locale} onClose={handleClose} />
 
       <Marginalia dimmed={!!activeRegion} locale={locale} />
+
+      <OracleChat locale={locale} />
 
       <div
         className="fixed top-5 left-5 z-40 pointer-events-none rounded-sm px-3 py-2"
