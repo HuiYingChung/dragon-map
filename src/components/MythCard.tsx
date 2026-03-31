@@ -19,7 +19,7 @@ export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 18 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="dragon-map-card fixed top-5 right-5 z-50 w-[calc(100%-2.5rem)] max-w-[232px] pointer-events-auto rounded-sm overflow-hidden"
+          className="fixed top-5 right-5 z-50 w-[calc(100%-2.5rem)] max-w-[232px] pointer-events-auto rounded-sm overflow-hidden"
           style={{
             background:
               "linear-gradient(180deg, rgba(9,8,6,0.76), rgba(9,8,6,0.58) 40%, rgba(9,8,6,0.36) 100%)",

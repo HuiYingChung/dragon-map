@@ -14,7 +14,7 @@ export default function Marginalia({
 }: MarginaliaProps) {
   return (
     <motion.div
-      className="dragon-map-marginalia fixed left-6 bottom-[15%] z-40 pointer-events-none w-[240px] rounded-sm px-3 py-2"
+      className="fixed left-6 bottom-[15%] z-40 pointer-events-none w-[240px] rounded-sm px-3 py-2"
       initial={{ opacity: 0 }}
       animate={{ opacity: dimmed ? 0.15 : 1 }}
       transition={{ duration: 0.8 }}

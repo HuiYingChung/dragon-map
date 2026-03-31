@@ -34,12 +34,12 @@ export default function Home() {
   const hoveredDragon = dragonRegions.find((r) => r.id === hoveredRegion);
 
   return (
-    <main className="dragon-map-shell relative w-screen h-screen overflow-hidden bg-[#080705]">
+    <main className="relative w-screen h-screen overflow-hidden bg-[#080705]">
       <CursorAura />
       <AmbientEffects />
 
       <div
-        className={`dragon-map-stage relative z-10 flex h-full w-full items-center justify-center transition-[padding] duration-700 ease-out ${
+        className={`relative z-10 flex h-full w-full items-center justify-center transition-[padding] duration-700 ease-out ${
           activeDragon ? "md:pr-[320px] lg:pr-[360px]" : ""
         } md:-translate-x-4 lg:-translate-x-6`}
       >
@@ -59,7 +59,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 6 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="dragon-map-note pointer-events-none absolute bottom-9 left-1/2 z-20 w-[min(88vw,42rem)] -translate-x-1/2"
+              className="pointer-events-none absolute bottom-9 left-1/2 z-20 w-[min(88vw,42rem)] -translate-x-1/2"
             >
               <div
                 className="rounded-sm px-5 py-3 text-center"
@@ -114,7 +114,7 @@ export default function Home() {
       <Marginalia dimmed={!!activeRegion} locale={locale} />
 
       <div
-        className="dragon-map-brand fixed top-5 left-5 z-40 pointer-events-none rounded-sm px-3 py-2"
+        className="fixed top-5 left-5 z-40 pointer-events-none rounded-sm px-3 py-2"
         style={{
           background:
             "linear-gradient(135deg, rgba(8, 7, 5, 0.76), rgba(8, 7, 5, 0.2) 78%, transparent)",
@@ -139,7 +139,7 @@ export default function Home() {
       </div>
 
       <div
-        className="dragon-map-credit fixed left-6 bottom-6 z-40 pointer-events-none rounded-sm px-3 py-2"
+        className="fixed left-6 bottom-6 z-40 pointer-events-none rounded-sm px-3 py-2"
         style={{
           background:
             "linear-gradient(90deg, rgba(8, 7, 5, 0.72), rgba(8, 7, 5, 0.18) 78%, transparent)",
@@ -154,7 +154,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="dragon-map-controls fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
         <p
           className="pointer-events-none text-right text-[9px] tracking-[0.15em] uppercase font-light"
           style={{ color: "rgba(140, 120, 90, 0.2)" }}
