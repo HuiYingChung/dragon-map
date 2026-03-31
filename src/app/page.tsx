@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { dragonRegions, type Locale } from "@/data/dragons";
@@ -188,6 +189,42 @@ export default function Home() {
           {locale === "zh" ? "EN / 英文" : "中文 / ZH"}
         </button>
       </div>
+
+      <section className="sr-only" aria-label="About this dragon mythology atlas">
+        <h2>About Where Dragons Dwell</h2>
+        <p>
+          Where Dragons Dwell is an interactive mythology atlas about dragon
+          stories, serpent beings, and sacred creatures across world cultures.
+          The project compares how East Asian, Japanese, Korean, South Asian,
+          Mesoamerican, European, Norse, Egyptian, Persian, Aboriginal
+          Australian, Polynesian, and Indigenous American traditions imagined
+          dragons in relation to rivers, storms, creation, kingship, wisdom,
+          danger, and cosmic order.
+        </p>
+        <p>
+          Visitors can explore dragon myths including Long, Ryu, Yong, Imugi,
+          Naga, Quetzalcoatl, Boiuna, Horned Serpent, the medieval European
+          dragon, Jormungandr, Zmey, Apep, Azhdaha, the Rainbow Serpent, and
+          Taniwha.
+        </p>
+        <h3>Topics covered</h3>
+        <ul>
+          <li>Dragon mythology by region</li>
+          <li>Comparative folklore and symbolic meanings</li>
+          <li>Sacred serpents, weather beings, and creation myths</li>
+          <li>Interactive world map of dragon traditions</li>
+        </ul>
+        <h3>Dragon entries</h3>
+        <ul>
+          {dragonRegions.map((dragon) => (
+            <li key={dragon.id}>
+              <Link href={`/dragons/${dragon.id}`}>
+                {dragon.name} - {dragon.tradition}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }
