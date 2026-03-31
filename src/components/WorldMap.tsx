@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import type { DragonRegion, Locale } from "@/data/dragons";
 import DragonSilhouette from "./DragonSilhouette";
@@ -21,13 +22,21 @@ export default function WorldMap({
   onRegionHover,
   onRegionClick,
 }: WorldMapProps) {
+  const visibleRegions = regions.filter(
+    (region) => hoveredRegion === region.id || activeRegion === region.id,
+  );
+
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       {/* Antique map background image */}
       <div className="relative w-full h-full max-w-[1400px] max-h-[900px]">
-        <img
-          src="/map.png"
+        <Image
+          src="/map.webp"
           alt="Ancient world map"
+          fill
+          priority
+          quality={70}
+          sizes="(max-width: 768px) 100vw, (max-width: 1400px) 92vw, 1400px"
           className="w-full h-full object-contain"
           style={{
             filter: "brightness(0.45) sepia(0.3) saturate(0.7)",
@@ -168,7 +177,7 @@ export default function WorldMap({
         </svg>
 
         {/* Dragon image overlays (HTML layer on top of SVG) */}
-        {regions.map((region) => {
+        {visibleRegions.map((region) => {
           const isHovered = hoveredRegion === region.id;
           const isActive = activeRegion === region.id;
           const isHighlighted = isHovered || isActive;

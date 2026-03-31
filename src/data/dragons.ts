@@ -50,7 +50,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#c9a84c",
     glowColor: "rgba(201, 168, 76, 0.3)",
     dragonStyle: "flowing",
-    image: "/dragons/china-east-asia-long.png",
+    image: "/dragons/china-east-asia-long.webp",
   },
   {
     id: "japan",
@@ -73,7 +73,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#7a9bb5",
     glowColor: "rgba(122, 155, 181, 0.3)",
     dragonStyle: "flowing",
-    image: "/dragons/japan-ryu.png",
+    image: "/dragons/japan-ryu.webp",
   },
   {
     id: "korea",
@@ -96,7 +96,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#9cb88b",
     glowColor: "rgba(156, 184, 139, 0.3)",
     dragonStyle: "flowing",
-    image: "/dragons/korea-yong-iImugi.png",
+    image: "/dragons/korea-yong-iImugi.webp",
   },
   {
     id: "india",
@@ -119,7 +119,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#b07aa1",
     glowColor: "rgba(176, 122, 161, 0.3)",
     dragonStyle: "coiling",
-    image: "/dragons/india-south-asia-naga.png",
+    image: "/dragons/india-south-asia-naga.webp",
   },
   {
     id: "mesoamerica",
@@ -142,7 +142,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#4db89e",
     glowColor: "rgba(77, 184, 158, 0.3)",
     dragonStyle: "feathered",
-    image: "/dragons/mesoamerica-quetzalcoatl-feathered-serpent.png",
+    image: "/dragons/mesoamerica-quetzalcoatl-feathered-serpent.webp",
   },
   {
     id: "south-america",
@@ -165,7 +165,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#5f8c87",
     glowColor: "rgba(95, 140, 135, 0.3)",
     dragonStyle: "serpent",
-    image: "/dragons/south-america-boiuna-cobra-grande.png",
+    image: "/dragons/south-america-boiuna-cobra-grande.webp",
   },
   {
     id: "north-america",
@@ -188,7 +188,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#6d9f92",
     glowColor: "rgba(109, 159, 146, 0.3)",
     dragonStyle: "serpent",
-    image: "/dragons/indigenous-north-america-horned-serpent.png",
+    image: "/dragons/indigenous-north-america-horned-serpent.webp",
   },
   {
     id: "europe",
@@ -211,7 +211,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#c45c3e",
     glowColor: "rgba(196, 92, 62, 0.3)",
     dragonStyle: "winged",
-    image: "/dragons/europe-medieval-dragon.png",
+    image: "/dragons/europe-medieval-dragon.webp",
   },
   {
     id: "norse",
@@ -234,7 +234,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#93a7a0",
     glowColor: "rgba(147, 167, 160, 0.28)",
     dragonStyle: "storm",
-    image: "/dragons/norse-north-atlantic-jormungandr.png",
+    image: "/dragons/norse-north-atlantic-jormungandr.webp",
   },
   {
     id: "slavic",
@@ -257,7 +257,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#6b8f71",
     glowColor: "rgba(107, 143, 113, 0.3)",
     dragonStyle: "storm",
-    image: "/dragons/slavic-eastern-europe-zmey-storm-serpent-variant.png",
+    image: "/dragons/slavic-eastern-europe-zmey-storm-serpent-variant.webp",
   },
   {
     id: "egypt",
@@ -280,7 +280,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#d1b07a",
     glowColor: "rgba(209, 176, 122, 0.3)",
     dragonStyle: "cosmic",
-    image: "/dragons/egypt-north-africa-apep.png",
+    image: "/dragons/egypt-north-africa-apep.webp",
   },
   {
     id: "persia",
@@ -303,7 +303,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#d4a574",
     glowColor: "rgba(212, 165, 116, 0.3)",
     dragonStyle: "cosmic",
-    image: "/dragons/middle-east-persia-cosmic-serpent-chaos-dragon.png",
+    image: "/dragons/middle-east-persia-cosmic-serpent-chaos-dragon.webp",
   },
   {
     id: "australia",
@@ -326,7 +326,7 @@ export const dragonRegions: DragonRegion[] = [
     color: "#cba177",
     glowColor: "rgba(203, 161, 119, 0.28)",
     dragonStyle: "flowing",
-    image: "/dragons/australia-rainbow-serpent.png",
+    image: "/dragons/australia-rainbow-serpent.webp",
   },
   {
     id: "polynesia",
@@ -349,6 +349,6 @@ export const dragonRegions: DragonRegion[] = [
     color: "#7fb7b9",
     glowColor: "rgba(127, 183, 185, 0.3)",
     dragonStyle: "flowing",
-    image: "/dragons/polynesia-pacific-oceanic-serpent-sea-guardian.png",
+    image: "/dragons/polynesia-pacific-oceanic-serpent-sea-guardian.webp",
   },
 ];

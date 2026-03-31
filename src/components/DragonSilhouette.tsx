@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import type { DragonRegion } from "@/data/dragons";
 
@@ -56,14 +57,18 @@ export default function DragonSilhouette({
           }}
         />
         {/* Dragon image */}
-        <img
+        <Image
           src={dragon.image}
           alt={dragon.name}
+          width={440}
+          height={440}
+          loading="lazy"
+          quality={65}
+          sizes="(max-width: 768px) 28vw, (max-width: 1200px) 18vw, 220px"
           className="relative w-full h-auto"
           style={{
             filter: `brightness(1.1) drop-shadow(0 0 12px ${dragon.color}88)`,
           }}
-          draggable={false}
         />
       </motion.div>
     </div>
