@@ -50,6 +50,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isMockMode, setIsMockMode] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -99,8 +100,10 @@ export default function OracleChat({ locale }: OracleChatProps) {
           );
         }
 
+        setIsMockMode(data?.mocked === true);
         setMessages((prev) => [...prev, { role: "oracle", content: data.reply }]);
       } catch (error) {
+        setIsMockMode(false);
         const message =
           error instanceof Error && error.message ? error.message : labels.error;
         setError(message);
@@ -192,6 +195,19 @@ export default function OracleChat({ locale }: OracleChatProps) {
                 {labels.close}
               </button>
             </div>
+
+            {isMockMode && (
+              <div
+                className="mx-4 mt-3 shrink-0 rounded-sm px-3 py-2 text-[9px] uppercase tracking-[0.2em]"
+                style={{
+                  background: "rgba(201, 168, 76, 0.06)",
+                  border: "1px solid rgba(201, 168, 76, 0.18)",
+                  color: "rgba(224, 196, 118, 0.76)",
+                }}
+              >
+                {locale === "zh" ? "模擬模式已啟用，不會使用 API 額度" : "Mock mode active - no API cost"}
+              </div>
+            )}
 
             <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
               {showStarters && (
