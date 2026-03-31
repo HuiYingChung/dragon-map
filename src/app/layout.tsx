@@ -9,6 +9,12 @@ const siteDescription =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: ["/favicon.svg"],
+  },
   title: {
     default: siteTitle,
     template: "%s | Where Dragons Dwell",
