@@ -166,7 +166,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
             }}
           >
             <div
-              className="flex shrink-0 items-center justify-between px-5 py-4"
+              className="flex shrink-0 items-center justify-between px-6 py-4"
               style={{ borderBottom: "1px solid rgba(201, 168, 76, 0.1)" }}
             >
               <div className="flex items-center gap-2.5">
@@ -198,7 +198,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
 
             {isMockMode && (
               <div
-                className="mx-4 mt-3 shrink-0 rounded-sm px-3 py-2"
+                className="mx-6 mt-4 shrink-0 rounded-sm px-3.5 py-2.5"
                 style={{
                   background: "rgba(201, 168, 76, 0.06)",
                   border: "1px solid rgba(201, 168, 76, 0.18)",
@@ -216,9 +216,9 @@ export default function OracleChat({ locale }: OracleChatProps) {
               </div>
             )}
 
-            <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
+            <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">
               {showStarters && (
-                <div className="mt-1 flex flex-col gap-2">
+                <div className="mt-1 flex flex-col gap-2.5">
                   <p
                     className="mb-1 text-[9px] tracking-[0.2em] uppercase"
                     style={{ color: "rgba(160, 140, 100, 0.5)" }}
@@ -320,7 +320,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
 
             <form
               onSubmit={handleSubmit}
-              className="flex shrink-0 items-center gap-2 px-4 py-3"
+              className="flex shrink-0 items-center gap-2 px-6 py-4"
               style={{ borderTop: "1px solid rgba(201, 168, 76, 0.1)" }}
             >
               <input
