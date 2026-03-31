@@ -13,34 +13,6 @@ interface OracleChatProps {
   locale: Locale;
 }
 
-function OracleDragonSeal({ className = "h-6 w-6" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 64 64"
-      aria-hidden="true"
-      className={className}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle cx="32" cy="32" r="29" stroke="rgba(201,168,76,0.45)" strokeWidth="1.5" />
-      <circle cx="32" cy="32" r="22" fill="rgba(9,8,5,0.92)" />
-      <path
-        d="M23 38.5C23 31.2 27.8 25 35 25C40.5 25 44.7 28.4 44.7 33.1C44.7 36.7 42.2 39.4 38.5 39.4C36.4 39.4 34.6 38.6 33.2 37.2C33.6 41 36.8 43.5 40.9 43.5C37.9 46.4 33.8 47.9 29.7 47.9C23.8 47.9 19.6 44.3 19.6 39.5C19.6 36.8 21 34.8 23.4 33.6C22.9 35 23 36.5 23 38.5Z"
-        fill="#6BBF3B"
-      />
-      <path
-        d="M37.9 22.8C41.8 23 45 25.1 46.7 28.7C44 27.7 41.3 27.8 39.1 29.4C39.4 27.2 38.9 24.8 37.9 22.8Z"
-        fill="#6BBF3B"
-      />
-      <path
-        d="M29.9 31.6C31.5 30 33.1 29.1 34.8 29.1C36.7 29.1 38 30 38 31.3C38 32.4 37.1 33.2 35.8 33.2C34.8 33.2 33.9 32.8 33.1 32.1C33.2 33.8 34.6 35 36.6 35C35 36.4 33.3 37.1 31.5 37.1C29.1 37.1 27.4 35.7 27.4 33.8C27.4 32.9 28.3 32.1 29.9 31.6Z"
-        fill="#080705"
-      />
-      <circle cx="38.3" cy="30.4" r="1.2" fill="#C9A84C" />
-    </svg>
-  );
-}
-
 const STARTER_PROMPTS = {
   en: [
     "What do Eastern and Western dragons have in common?",
@@ -62,10 +34,6 @@ const LABELS = {
     loading: "The Oracle stirs...",
     close: "close",
     error: "The Oracle's vision clouds. Please try again.",
-    demo: "Demo mode",
-    demoBody: "Responses are simulated right now and do not use your API budget.",
-    starterLabel: "Or try these questions",
-    oracle: "Oracle",
   },
   zh: {
     title: "問龍使者",
@@ -74,10 +42,6 @@ const LABELS = {
     loading: "龍使者正在感應…",
     close: "關閉",
     error: "龍使者的視野蒙塵，請再試一次。",
-    demo: "示範模式",
-    demoBody: "目前顯示的是模擬回覆，不會使用 API 額度。",
-    starterLabel: "或試試這些問題",
-    oracle: "龍使者",
   },
 };
 
@@ -176,7 +140,9 @@ export default function OracleChat({ locale }: OracleChatProps) {
         aria-label={labels.title}
         title={labels.title}
       >
-        <OracleDragonSeal className="h-7 w-7" />
+        <span className="select-none text-[18px] leading-none" role="img" aria-hidden>
+          🐉
+        </span>
       </motion.button>
 
       <AnimatePresence>
@@ -204,7 +170,9 @@ export default function OracleChat({ locale }: OracleChatProps) {
               style={{ borderBottom: "1px solid rgba(201, 168, 76, 0.1)" }}
             >
               <div className="flex items-center gap-2.5">
-                <OracleDragonSeal className="h-5 w-5" />
+                <span className="text-[14px]" role="img" aria-hidden>
+                  🐉
+                </span>
                 <h2
                   className="text-[11px] tracking-[0.28em] uppercase font-semibold"
                   style={{ color: "rgba(224, 196, 118, 0.9)" }}
@@ -237,8 +205,14 @@ export default function OracleChat({ locale }: OracleChatProps) {
                   color: "rgba(224, 196, 118, 0.76)",
                 }}
               >
-                <div className="text-[8px] uppercase tracking-[0.28em]">{labels.demo}</div>
-                <div className="mt-1 text-[10px] tracking-[0.04em]">{labels.demoBody}</div>
+                <div className="text-[8px] uppercase tracking-[0.28em]">
+                  {locale === "zh" ? "示範模式" : "Demo mode"}
+                </div>
+                <div className="mt-1 text-[10px] tracking-[0.04em]">
+                  {locale === "zh"
+                    ? "目前顯示的是模擬回覆，不會使用 API 額度。"
+                    : "Responses are simulated right now and do not use your API budget."}
+                </div>
               </div>
             )}
 
@@ -249,7 +223,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
                     className="mb-1 text-[9px] tracking-[0.2em] uppercase"
                     style={{ color: "rgba(160, 140, 100, 0.5)" }}
                   >
-                    {labels.starterLabel}
+                    {locale === "zh" ? "或試試這些問題" : "Or try these questions"}
                   </p>
                   {starters.map((prompt) => (
                     <button
@@ -304,7 +278,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
                         className="mb-1.5 block text-[8px] tracking-[0.25em] uppercase not-italic"
                         style={{ color: "rgba(201, 168, 76, 0.45)" }}
                       >
-                        {labels.oracle}
+                        {locale === "zh" ? "龍使者" : "Oracle"}
                       </span>
                     )}
                     {msg.content}
