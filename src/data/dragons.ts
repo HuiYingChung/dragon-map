@@ -115,7 +115,7 @@ export const dragonRegions: DragonRegion[] = [
     atmosphere:
       "Not all dragons fly. Some coil beneath rivers, thresholds, and sacred memory.",
     atmosphereZh: "並非所有龍都飛翔；有些盤踞於河流、門檻與神聖記憶之下。",
-    mapPosition: { x: 61.2, y: 27.9 },
+    mapPosition: { x: 62.2, y: 28.8 },
     color: "#b07aa1",
     glowColor: "rgba(176, 122, 161, 0.3)",
     dragonStyle: "coiling",
@@ -299,7 +299,7 @@ export const dragonRegions: DragonRegion[] = [
     atmosphere:
       "Some dragon forms emerge where myth speaks in stars, deserts, kings, and cosmic struggle.",
     atmosphereZh: "有些龍誕生於星辰、沙漠、王權與宇宙對抗交織的神話語言之中。",
-    mapPosition: { x: 60.8, y: 26.8 },
+    mapPosition: { x: 59.6, y: 25.8 },
     color: "#d4a574",
     glowColor: "rgba(212, 165, 116, 0.3)",
     dragonStyle: "cosmic",
