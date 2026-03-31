@@ -7,6 +7,7 @@ import { dragonRegions, type Locale } from "@/data/dragons";
 import WorldMap from "@/components/WorldMap";
 import MythCard from "@/components/MythCard";
 import Marginalia from "@/components/Marginalia";
+import CursorAura from "@/components/CursorAura";
 
 const AmbientEffects = dynamic(() => import("@/components/AmbientEffects"), {
   ssr: false,
@@ -34,6 +35,7 @@ export default function Home() {
 
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-[#080705]">
+      <CursorAura />
       <AmbientEffects />
 
       <div
