@@ -1,65 +1,182 @@
-import Image from "next/image";
+"use client";
+
+import dynamic from "next/dynamic";
+import { useState, useCallback } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { dragonRegions, type Locale } from "@/data/dragons";
+import WorldMap from "@/components/WorldMap";
+import MythCard from "@/components/MythCard";
+import Marginalia from "@/components/Marginalia";
+
+const AmbientEffects = dynamic(() => import("@/components/AmbientEffects"), {
+  ssr: false,
+});
 
 export default function Home() {
+  const [locale, setLocale] = useState<Locale>("en");
+  const [activeRegion, setActiveRegion] = useState<string | null>(null);
+  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+
+  const handleRegionClick = useCallback((id: string) => {
+    setActiveRegion((prev) => (prev === id ? null : id));
+  }, []);
+
+  const handleRegionHover = useCallback((id: string | null) => {
+    setHoveredRegion(id);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setActiveRegion(null);
+  }, []);
+
+  const activeDragon = dragonRegions.find((r) => r.id === activeRegion) ?? null;
+  const hoveredDragon = dragonRegions.find((r) => r.id === hoveredRegion);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="relative w-screen h-screen overflow-hidden bg-[#080705]">
+      <AmbientEffects />
+
+      <div
+        className={`relative z-10 flex h-full w-full items-center justify-center transition-[padding] duration-700 ease-out ${
+          activeDragon ? "md:pr-[320px] lg:pr-[360px]" : ""
+        } md:-translate-x-4 lg:-translate-x-6`}
+      >
+        <WorldMap
+          regions={dragonRegions}
+          locale={locale}
+          activeRegion={activeRegion}
+          hoveredRegion={hoveredRegion}
+          onRegionHover={handleRegionHover}
+          onRegionClick={handleRegionClick}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+
+        <AnimatePresence>
+          {hoveredDragon && !activeRegion && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 6 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              className="pointer-events-none absolute bottom-9 left-1/2 z-20 w-[min(88vw,42rem)] -translate-x-1/2"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+              <div
+                className="rounded-sm px-5 py-3 text-center"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(13, 11, 8, 0.16), rgba(13, 11, 8, 0.78) 32%, rgba(13, 11, 8, 0.28) 100%)",
+                  backdropFilter: "blur(3px)",
+                  border: `1px solid ${hoveredDragon.color}22`,
+                  boxShadow: "0 10px 30px rgba(0, 0, 0, 0.2)",
+                }}
+              >
+                <div className="mb-2 flex items-center gap-3">
+                  <div
+                    className="h-px flex-1"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${hoveredDragon.color}44)`,
+                    }}
+                  />
+                  <span
+                    className="text-[9px] uppercase tracking-[0.32em]"
+                    style={{ color: `${hoveredDragon.color}88` }}
+                  >
+                    {locale === "zh" ? "邊註" : "Marginal Note"}
+                  </span>
+                  <div
+                    className="h-px flex-1"
+                    style={{
+                      background: `linear-gradient(90deg, ${hoveredDragon.color}44, transparent)`,
+                    }}
+                  />
+                </div>
+
+                <p
+                  className="text-[15px] font-medium italic tracking-[0.05em] leading-relaxed"
+                  style={{
+                    color: `${hoveredDragon.color}e6`,
+                    textShadow: "0 1px 10px rgba(8, 7, 5, 0.9)",
+                  }}
+                >
+                  {locale === "zh"
+                    ? hoveredDragon.atmosphereZh
+                    : hoveredDragon.atmosphere}
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      <MythCard dragon={activeDragon} locale={locale} onClose={handleClose} />
+
+      <Marginalia dimmed={!!activeRegion} locale={locale} />
+
+      <div
+        className="fixed top-5 left-5 z-40 pointer-events-none rounded-sm px-3 py-2"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(8, 7, 5, 0.76), rgba(8, 7, 5, 0.2) 78%, transparent)",
+          backdropFilter: "blur(2px)",
+        }}
+      >
+        <h1
+          className="text-[12px] tracking-[0.3em] uppercase font-semibold"
+          style={{
+            color: "rgba(224, 196, 118, 0.92)",
+            textShadow: "0 1px 8px rgba(8, 7, 5, 0.55)",
+          }}
+        >
+          {locale === "zh" ? "群龍所居之處" : "Where Dragons Dwell"}
+        </h1>
+        <p
+          className="mt-1 text-[9px] tracking-[0.17em] uppercase"
+          style={{ color: "rgba(201, 178, 139, 0.78)" }}
+        >
+          {locale === "zh" ? "世界龍神話圖譜" : "An Atlas of Dragon Myths"}
+        </p>
+      </div>
+
+      <div
+        className="fixed left-6 bottom-6 z-40 pointer-events-none rounded-sm px-3 py-2"
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(8, 7, 5, 0.72), rgba(8, 7, 5, 0.18) 78%, transparent)",
+          backdropFilter: "blur(1.5px)",
+        }}
+      >
+        <p
+          className="text-[9px] tracking-[0.16em] uppercase"
+          style={{ color: "rgba(191, 168, 129, 0.62)" }}
+        >
+          Copyright © 2026 Huiying Chung
+        </p>
+      </div>
+
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+        <p
+          className="pointer-events-none text-right text-[9px] tracking-[0.15em] uppercase font-light"
+          style={{ color: "rgba(140, 120, 90, 0.2)" }}
+        >
+          {locale === "zh"
+            ? "滑過以喚醒 · 點擊以展開"
+            : "Hover to awaken · Click to reveal"}
+        </p>
+        <button
+          type="button"
+          onClick={() => setLocale((prev) => (prev === "en" ? "zh" : "en"))}
+          className="pointer-events-auto rounded-sm border px-3 py-2 text-[10px] tracking-[0.2em] uppercase transition-colors hover:text-stone-100"
+          style={{
+            color: "rgba(214, 193, 160, 0.86)",
+            borderColor: "rgba(201, 168, 76, 0.22)",
+            background:
+              "linear-gradient(180deg, rgba(8, 7, 5, 0.8), rgba(8, 7, 5, 0.45))",
+            backdropFilter: "blur(2px)",
+          }}
+          aria-label={locale === "zh" ? "切換至英文" : "切換至中文"}
+        >
+          {locale === "zh" ? "EN / 英文" : "中文 / ZH"}
+        </button>
+      </div>
+    </main>
   );
 }
