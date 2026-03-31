@@ -198,7 +198,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
 
             {isMockMode && (
               <div
-                className="mx-6 mt-4 shrink-0 rounded-sm px-3.5 py-2.5"
+                className="mx-6 mt-4 mr-8 shrink-0 rounded-sm px-4 py-3"
                 style={{
                   background: "rgba(201, 168, 76, 0.06)",
                   border: "1px solid rgba(201, 168, 76, 0.18)",
@@ -208,7 +208,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
                 <div className="text-[8px] uppercase tracking-[0.28em]">
                   {locale === "zh" ? "示範模式" : "Demo mode"}
                 </div>
-                <div className="mt-1 text-[10px] tracking-[0.04em]">
+                <div className="mt-1.5 text-[10px] leading-relaxed tracking-[0.04em]">
                   {locale === "zh"
                     ? "目前顯示的是模擬回覆，不會使用 API 額度。"
                     : "Responses are simulated right now and do not use your API budget."}
@@ -257,7 +257,7 @@ export default function OracleChat({ locale }: OracleChatProps) {
                   className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className="max-w-[88%] rounded-sm px-3.5 py-2.5 text-[12px] leading-relaxed tracking-[0.03em]"
+                    className="max-w-[84%] rounded-sm px-4 py-3 text-[12px] leading-[1.9] tracking-[0.03em]"
                     style={
                       msg.role === "user"
                         ? {
@@ -320,34 +320,42 @@ export default function OracleChat({ locale }: OracleChatProps) {
 
             <form
               onSubmit={handleSubmit}
-              className="flex shrink-0 items-center gap-2 px-6 py-4"
+              className="px-6 py-4"
               style={{ borderTop: "1px solid rgba(201, 168, 76, 0.1)" }}
             >
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={labels.placeholder}
-                disabled={isLoading}
-                className="flex-1 bg-transparent text-[12px] tracking-[0.04em] outline-none placeholder:opacity-40"
+              <div
+                className="flex items-center gap-3 rounded-sm px-3.5 py-2.5"
                 style={{
-                  color: "rgba(224, 196, 118, 0.88)",
-                  caretColor: "rgba(201, 168, 76, 0.7)",
-                }}
-              />
-              <button
-                type="submit"
-                disabled={isLoading || !input.trim()}
-                className="shrink-0 rounded-sm px-3 py-1.5 text-[9px] tracking-[0.22em] uppercase transition-colors disabled:opacity-30"
-                style={{
-                  background: "rgba(201, 168, 76, 0.12)",
-                  border: "1px solid rgba(201, 168, 76, 0.22)",
-                  color: "rgba(224, 196, 118, 0.82)",
+                  background: "rgba(255,255,255,0.02)",
+                  border: "1px solid rgba(201, 168, 76, 0.12)",
                 }}
               >
-                {labels.send}
-              </button>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={labels.placeholder}
+                  disabled={isLoading}
+                  className="flex-1 bg-transparent text-[12px] tracking-[0.04em] outline-none placeholder:opacity-40"
+                  style={{
+                    color: "rgba(224, 196, 118, 0.88)",
+                    caretColor: "rgba(201, 168, 76, 0.7)",
+                  }}
+                />
+                <button
+                  type="submit"
+                  disabled={isLoading || !input.trim()}
+                  className="shrink-0 rounded-sm px-3 py-1.5 text-[9px] tracking-[0.22em] uppercase transition-colors disabled:opacity-30"
+                  style={{
+                    background: "rgba(201, 168, 76, 0.12)",
+                    border: "1px solid rgba(201, 168, 76, 0.22)",
+                    color: "rgba(224, 196, 118, 0.82)",
+                  }}
+                >
+                  {labels.send}
+                </button>
+              </div>
             </form>
           </motion.div>
         )}
