@@ -52,7 +52,6 @@ export default function Home() {
           onRegionClick={handleRegionClick}
         />
 
-        <div className="hidden md:contents">
         <AnimatePresence>
           {hoveredDragon && !activeRegion && (
             <motion.div
@@ -60,7 +59,9 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 6 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="pointer-events-none absolute bottom-9 left-1/2 z-20 w-[min(88vw,42rem)] -translate-x-1/2"
+              className="pointer-events-none z-20
+                fixed top-[13rem] left-4 right-4
+                md:absolute md:top-auto md:bottom-9 md:left-1/2 md:right-auto md:w-[min(88vw,42rem)] md:-translate-x-1/2"
             >
               <div
                 className="rounded-sm px-5 py-3 text-center"
@@ -108,7 +109,6 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
-        </div>
       </div>
 
       <MythCard dragon={activeDragon} locale={locale} onClose={handleClose} />
