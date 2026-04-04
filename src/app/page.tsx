@@ -380,7 +380,9 @@ export default function Home() {
       </div>
 
       <div
-        className="fixed bottom-20 left-4 z-40 hidden pointer-events-none rounded-sm px-3 py-2"
+        className={`page-mobile-copyright fixed bottom-[4.75rem] left-4 z-30 pointer-events-none rounded-sm px-3 py-2 lg:hidden ${
+          isLandscapeMobile ? "page-mobile-copyright-landscape" : ""
+        }`}
         style={{
           background:
             "linear-gradient(90deg, rgba(8, 7, 5, 0.72), rgba(8, 7, 5, 0.18) 78%, transparent)",

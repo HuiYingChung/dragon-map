@@ -119,6 +119,11 @@ svg {
     gap: 0.375rem;
   }
 
+  .page-mobile-copyright {
+    bottom: 4.5rem !important;
+    left: 0.75rem !important;
+  }
+
   .myth-card,
   .compare-card {
     top: 0.5rem;
@@ -175,6 +180,14 @@ svg {
     top: 0.625rem !important;
     left: 0.75rem !important;
     max-width: 13rem !important;
+  }
+
+  .page-mobile-copyright-landscape {
+    left: 12rem !important;
+    right: auto !important;
+    bottom: 0.85rem !important;
+    padding-inline: 0.5rem !important;
+    padding-block: 0.35rem !important;
   }
 
   .page-bottom-controls-landscape {
