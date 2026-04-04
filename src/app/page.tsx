@@ -28,12 +28,14 @@ export default function Home() {
   const [isOracleOpen, setIsOracleOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isLandscapeMobile, setIsLandscapeMobile] = useState(false);
+  const [isSmallViewport, setIsSmallViewport] = useState(false);
 
   useEffect(() => {
     const updateViewportMode = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
       setIsLandscapeMobile(width < 1024 && width > height && height <= 560);
+      setIsSmallViewport(width < 768);
     };
 
     updateViewportMode();
@@ -107,7 +109,7 @@ export default function Home() {
       <AmbientEffects />
 
       <div
-        className={`page-map-wrap relative z-10 flex h-full w-full items-center justify-center transition-[padding,transform] duration-700 ease-out lg:pl-[17rem] ${
+        className={`page-map-wrap relative z-10 flex h-full w-full items-center justify-center pb-[5.5rem] transition-[padding,transform] duration-700 ease-out lg:pl-[17rem] ${
           activeDragon ? "pb-[34vh] md:pb-0 md:pr-[320px] lg:pr-[360px]" : ""
         } ${activeDragon || comparisonIds ? "page-map-with-panel" : ""} ${
           isLandscapeMobile ? "page-map-wrap-landscape" : ""
@@ -394,9 +396,21 @@ export default function Home() {
       </div>
 
       <div
-        className={`page-bottom-controls fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2 md:bottom-6 md:right-6 md:gap-3 ${
+        className={`page-bottom-controls fixed bottom-3 left-3 right-16 z-40 flex items-center justify-center gap-2 rounded-sm border px-3 py-2 md:bottom-6 md:left-auto md:right-6 md:flex-col md:items-end md:justify-start md:gap-3 md:border-0 md:px-0 md:py-0 ${
           isLandscapeMobile ? "page-bottom-controls-landscape" : ""
         }`}
+        style={{
+          borderColor:
+            isSmallViewport || isLandscapeMobile
+              ? "rgba(201, 168, 76, 0.14)"
+              : "transparent",
+          background:
+            isSmallViewport || isLandscapeMobile
+              ? "linear-gradient(180deg, rgba(8, 7, 5, 0.92), rgba(8, 7, 5, 0.74))"
+              : "transparent",
+          backdropFilter:
+            isSmallViewport || isLandscapeMobile ? "blur(6px)" : "none",
+        }}
       >
         <p
           className={`pointer-events-none text-right text-[9px] font-light uppercase tracking-[0.15em] ${
@@ -408,7 +422,7 @@ export default function Home() {
         </p>
         <p
           className={`pointer-events-none block text-right text-[9px] font-light uppercase tracking-[0.15em] ${
-            isLandscapeMobile ? "hidden" : "md:hidden"
+            isLandscapeMobile ? "hidden" : "hidden"
           }`}
           style={{ color: "rgba(140, 120, 90, 0.3)" }}
         >
@@ -417,7 +431,7 @@ export default function Home() {
         <button
           type="button"
           onClick={() => setIsGuideOpen(true)}
-          className="pointer-events-auto rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.18em] transition-colors hover:text-stone-100"
+          className="pointer-events-auto flex-1 rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.18em] transition-colors hover:text-stone-100 md:flex-none"
           style={{
             color: "rgba(214, 193, 160, 0.86)",
             borderColor: "rgba(201, 168, 76, 0.18)",
@@ -431,7 +445,7 @@ export default function Home() {
         <button
           type="button"
           onClick={() => setLocale((prev) => (prev === "en" ? "zh" : "en"))}
-          className="pointer-events-auto rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.2em] transition-colors hover:text-stone-100"
+          className="pointer-events-auto flex-1 rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.2em] transition-colors hover:text-stone-100 md:flex-none"
           style={{
             color: "rgba(214, 193, 160, 0.86)",
             borderColor: "rgba(201, 168, 76, 0.22)",

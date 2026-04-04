@@ -29,9 +29,9 @@ export default function WorldMap({
   );
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
+    <div className="relative flex h-full w-full items-center justify-center">
       {/* Antique map background image */}
-      <div className="relative w-full h-full max-w-[1400px] max-h-[900px]">
+      <div className="world-map-frame relative h-full w-full max-w-[1480px] max-h-[940px] scale-[1.05] md:scale-100">
         <Image
           src="/map.webp"
           alt="Ancient world map"

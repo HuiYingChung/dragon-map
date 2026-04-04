@@ -64,6 +64,11 @@ body {
   svg text {
     font-size: 3.2px;
   }
+
+  .world-map-frame {
+    transform: scale(1.1);
+    transform-origin: center center;
+  }
 }
 
 /* Prevent double-tap zoom on map interactions */
@@ -173,12 +178,14 @@ svg {
   }
 
   .page-bottom-controls-landscape {
-    top: 0.625rem !important;
-    right: 0.75rem !important;
-    bottom: auto !important;
+    left: 0.75rem !important;
+    right: 4.25rem !important;
+    bottom: 0.75rem !important;
+    top: auto !important;
     flex-direction: row !important;
     gap: 0.5rem !important;
-    align-items: flex-start !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   .page-guide-panel-landscape {
