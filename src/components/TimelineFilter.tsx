@@ -21,7 +21,7 @@ export default function TimelineFilter({
 }: TimelineFilterProps) {
   return (
     <div
-      className={`fixed left-1/2 top-[4.6rem] z-40 w-[min(96vw,56rem)] -translate-x-1/2 rounded-sm px-3 py-3 transition-opacity duration-300 md:top-16 md:w-[min(94vw,56rem)] md:px-3 md:py-3 ${
+      className={`timeline-filter fixed left-1/2 top-[4.6rem] z-40 w-[min(96vw,56rem)] -translate-x-1/2 rounded-sm px-3 py-3 transition-opacity duration-300 md:top-16 md:w-[min(94vw,56rem)] md:px-3 md:py-3 ${
         desktopInline
           ? "lg:static lg:left-auto lg:top-auto lg:z-auto lg:w-full lg:-translate-x-0 lg:translate-y-0 lg:px-0 lg:py-0"
           : "lg:left-6 lg:top-[9.25rem] lg:w-60 lg:-translate-x-0 lg:translate-y-0 lg:px-3 lg:py-4"

@@ -187,7 +187,7 @@ export default function CompareCard({
           animate={{ opacity: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 18 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="fixed z-50 pointer-events-auto overflow-hidden
+          className="compare-card fixed z-50 pointer-events-auto overflow-hidden
             bottom-2 left-2 right-2 rounded-sm max-h-[80vh] overflow-y-auto
             md:bottom-auto md:top-5 md:left-auto md:right-5 md:w-[min(92vw,760px)] md:max-h-[calc(100vh-2.5rem)] md:rounded-sm"
           style={{

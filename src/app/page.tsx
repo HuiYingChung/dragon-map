@@ -26,6 +26,7 @@ export default function Home() {
   const [comparisonIds, setComparisonIds] = useState<[string, string] | null>(null);
   const [activeTimeline, setActiveTimeline] = useState<TimelinePeriod | "all">("all");
   const [isOracleOpen, setIsOracleOpen] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   const handleRegionClick = useCallback((id: string) => {
     setComparisonIds(null);
@@ -63,15 +64,29 @@ export default function Home() {
   const comparisonRight = comparisonIds
     ? dragonRegions.find((region) => region.id === comparisonIds[1]) ?? null
     : null;
+  const guideSteps =
+    locale === "zh"
+      ? [
+          "滑過地圖上的區域即可預覽該地的龍與氛圍，點擊後展開詳細卡片。",
+          "使用時間軸可聚焦特定時代；其他傳統會被淡化，但仍可繼續探索。",
+          "在右側卡片底部選擇第二條龍，即可進入並列比較模式。",
+          "打開 Oracle，向它詢問不同文化之間的龍、蛇與神話聯繫。",
+        ]
+      : [
+          "Hover over a region to preview its dragon tradition and click to open the full entry.",
+          "Use the timeline to focus on a period; other traditions dim, but remain explorable.",
+          "Choose a second dragon at the bottom of the card to enter side-by-side comparison mode.",
+          "Open the Oracle to ask about cross-cultural dragon, serpent, and myth connections.",
+        ];
 
   return (
-    <main className="relative w-screen h-screen overflow-hidden bg-[#080705]">
+    <main className="page-shell relative h-[100dvh] min-h-[100dvh] w-screen overflow-hidden bg-[#080705]">
       <CursorAura />
       <AmbientEffects />
 
       <div
-        className={`relative z-10 flex h-full w-full items-center justify-center transition-[padding,transform] duration-700 ease-out lg:pl-[17rem] ${
-          activeDragon ? "md:pr-[320px] lg:pr-[360px] pb-[40vh] md:pb-0" : ""
+        className={`page-map-wrap relative z-10 flex h-full w-full items-center justify-center transition-[padding,transform] duration-700 ease-out lg:pl-[17rem] ${
+          activeDragon ? "pb-[34vh] md:pb-0 md:pr-[320px] lg:pr-[360px]" : ""
         } md:-translate-x-4 lg:-translate-x-6`}
       >
         <WorldMap
@@ -91,9 +106,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 6 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
-              className="pointer-events-none z-20
-                fixed top-[10rem] left-4 right-4
-                md:absolute md:top-auto md:bottom-9 md:left-1/2 md:right-auto md:w-[min(88vw,42rem)] md:-translate-x-1/2"
+              className="page-hover-note pointer-events-none z-20 fixed left-4 right-4 top-[10rem] md:absolute md:bottom-9 md:left-1/2 md:right-auto md:top-auto md:w-[min(88vw,42rem)] md:-translate-x-1/2"
             >
               <div
                 className="rounded-sm px-5 py-3 text-center"
@@ -127,15 +140,13 @@ export default function Home() {
                 </div>
 
                 <p
-                  className="text-[16px] md:text-[15px] font-medium italic tracking-[0.04em] leading-relaxed"
+                  className="text-[16px] font-medium italic leading-relaxed tracking-[0.04em] md:text-[15px]"
                   style={{
                     color: `${hoveredDragon.color}f0`,
                     textShadow: "0 1px 12px rgba(8, 7, 5, 0.95)",
                   }}
                 >
-                  {locale === "zh"
-                    ? hoveredDragon.atmosphereZh
-                    : hoveredDragon.atmosphere}
+                  {locale === "zh" ? hoveredDragon.atmosphereZh : hoveredDragon.atmosphere}
                 </p>
               </div>
             </motion.div>
@@ -162,10 +173,10 @@ export default function Home() {
         />
       )}
 
-      <div className="hidden lg:absolute lg:left-6 lg:top-5 lg:bottom-6 lg:z-40 lg:flex lg:w-60 lg:flex-col lg:justify-between">
+      <div className="hidden lg:absolute lg:bottom-6 lg:left-6 lg:top-5 lg:z-40 lg:flex lg:w-60 lg:flex-col lg:justify-between">
         <div className="pointer-events-none rounded-sm px-3 py-2">
           <h1
-            className="text-[12px] tracking-[0.3em] uppercase font-semibold"
+            className="text-[12px] font-semibold uppercase tracking-[0.3em]"
             style={{
               color: "rgba(224, 196, 118, 0.92)",
               textShadow: "0 1px 8px rgba(8, 7, 5, 0.55)",
@@ -174,7 +185,7 @@ export default function Home() {
             {locale === "zh" ? "群龍所居之處" : "Where Dragons Dwell"}
           </h1>
           <p
-            className="mt-1 text-[9px] tracking-[0.17em] uppercase"
+            className="mt-1 text-[9px] uppercase tracking-[0.17em]"
             style={{ color: "rgba(201, 178, 139, 0.78)" }}
           >
             {locale === "zh" ? "世界龍神話圖譜" : "An Atlas of Dragon Myths"}
@@ -196,7 +207,7 @@ export default function Home() {
 
           <div className="pointer-events-none rounded-sm px-3 py-2">
             <p
-              className="text-[9px] tracking-[0.16em] uppercase"
+              className="text-[9px] uppercase tracking-[0.16em]"
               style={{ color: "rgba(191, 168, 129, 0.62)" }}
             >
               Copyright © 2026 Huiying Chung
@@ -220,33 +231,116 @@ export default function Home() {
 
       <OracleChat locale={locale} onOpenChange={setIsOracleOpen} />
 
-      <div
-        className="fixed top-3 left-3 z-40 max-w-[calc(100vw-7.5rem)] pointer-events-none rounded-sm px-2.5 py-2 md:top-5 md:left-5 md:max-w-none md:px-3 lg:hidden"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(8, 7, 5, 0.76), rgba(8, 7, 5, 0.2) 78%, transparent)",
-          backdropFilter: "blur(2px)",
-        }}
-      >
-        <h1
-          className="text-[10px] tracking-[0.24em] uppercase font-semibold md:text-[12px] md:tracking-[0.3em]"
+      <AnimatePresence>
+        {isGuideOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/45 backdrop-blur-[2px]"
+            onClick={() => setIsGuideOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 18, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.98 }}
+              transition={{ duration: 0.28, ease: "easeOut" }}
+              className="page-guide-panel absolute left-4 right-4 top-[5.5rem] mx-auto max-w-[28rem] rounded-sm border px-5 py-5 md:left-auto md:bottom-28 md:right-6 md:top-auto md:w-[24rem]"
+              style={{
+                borderColor: "rgba(201, 168, 76, 0.2)",
+                background:
+                  "linear-gradient(180deg, rgba(10,8,5,0.97), rgba(8,7,5,0.92) 100%)",
+                boxShadow: "0 20px 50px rgba(0,0,0,0.45)",
+              }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p
+                    className="text-[10px] uppercase tracking-[0.24em]"
+                    style={{ color: "rgba(224, 196, 118, 0.78)" }}
+                  >
+                    {locale === "zh" ? "使用說明" : "How to Explore"}
+                  </p>
+                  <h2
+                    className="mt-2 text-[18px] tracking-[0.04em] md:text-[20px]"
+                    style={{ color: "rgba(231, 220, 198, 0.94)" }}
+                  >
+                    {locale === "zh"
+                      ? "從地圖、時間與對照中閱讀龍的世界"
+                      : "Read dragon traditions through map, time, and comparison"}
+                  </h2>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsGuideOpen(false)}
+                  className="text-[11px] uppercase tracking-[0.18em] transition-colors"
+                  style={{ color: "rgba(191, 168, 129, 0.72)" }}
+                >
+                  {locale === "zh" ? "關閉" : "close"}
+                </button>
+              </div>
+
+              <div className="mt-5 space-y-3">
+                {guideSteps.map((step, index) => (
+                  <div
+                    key={step}
+                    className="grid grid-cols-[1.8rem_minmax(0,1fr)] items-start gap-3 rounded-sm border px-3 py-3"
+                    style={{
+                      borderColor: "rgba(201, 168, 76, 0.12)",
+                      background: "rgba(255,255,255,0.025)",
+                    }}
+                  >
+                    <div
+                      className="flex h-7 w-7 items-center justify-center rounded-full text-[10px] uppercase"
+                      style={{
+                        color: "rgba(224, 196, 118, 0.92)",
+                        border: "1px solid rgba(201, 168, 76, 0.22)",
+                        background: "rgba(201, 168, 76, 0.08)",
+                      }}
+                    >
+                      {index + 1}
+                    </div>
+                    <p className="pt-0.5 text-[13px] leading-[1.75] text-stone-200 md:text-[12px]">
+                      {step}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="page-mobile-title fixed left-3 top-3 z-40 max-w-[calc(100vw-7.5rem)] pointer-events-none rounded-sm px-2.5 py-2 md:left-5 md:top-5 md:max-w-none md:px-3 lg:hidden">
+        <div
           style={{
-            color: "rgba(224, 196, 118, 0.92)",
-            textShadow: "0 1px 8px rgba(8, 7, 5, 0.55)",
+            background:
+              "linear-gradient(135deg, rgba(8, 7, 5, 0.76), rgba(8, 7, 5, 0.2) 78%, transparent)",
+            backdropFilter: "blur(2px)",
           }}
         >
-          {locale === "zh" ? "群龍所居之處" : "Where Dragons Dwell"}
-        </h1>
-        <p
-          className="mt-1 text-[8px] tracking-[0.14em] uppercase md:text-[9px] md:tracking-[0.17em]"
-          style={{ color: "rgba(201, 178, 139, 0.78)" }}
-        >
-          {locale === "zh" ? "世界龍神話圖譜" : "An Atlas of Dragon Myths"}
-        </p>
+          <h1
+            className="text-[10px] font-semibold uppercase tracking-[0.24em] md:text-[12px] md:tracking-[0.3em]"
+            style={{
+              color: "rgba(224, 196, 118, 0.92)",
+              textShadow: "0 1px 8px rgba(8, 7, 5, 0.55)",
+            }}
+          >
+            {locale === "zh" ? "群龍所居之處" : "Where Dragons Dwell"}
+          </h1>
+          <p
+            className="mt-1 text-[8px] uppercase tracking-[0.14em] md:text-[9px] md:tracking-[0.17em]"
+            style={{ color: "rgba(201, 178, 139, 0.78)" }}
+          >
+            {locale === "zh" ? "世界龍神話圖譜" : "An Atlas of Dragon Myths"}
+          </p>
+        </div>
       </div>
 
       <div
-        className="fixed left-4 bottom-20 z-40 hidden pointer-events-none rounded-sm px-3 py-2"
+        className="fixed bottom-20 left-4 z-40 hidden pointer-events-none rounded-sm px-3 py-2"
         style={{
           background:
             "linear-gradient(90deg, rgba(8, 7, 5, 0.72), rgba(8, 7, 5, 0.18) 78%, transparent)",
@@ -254,30 +348,44 @@ export default function Home() {
         }}
       >
         <p
-          className="text-[9px] tracking-[0.16em] uppercase"
+          className="text-[9px] uppercase tracking-[0.16em]"
           style={{ color: "rgba(191, 168, 129, 0.62)" }}
         >
           Copyright © 2026 Huiying Chung
         </p>
       </div>
 
-      <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2 md:bottom-6 md:right-6 md:gap-3">
+      <div className="page-bottom-controls fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2 md:bottom-6 md:right-6 md:gap-3">
         <p
-          className="pointer-events-none hidden text-right text-[9px] tracking-[0.15em] uppercase font-light md:block"
+          className="pointer-events-none hidden text-right text-[9px] font-light uppercase tracking-[0.15em] md:block"
           style={{ color: "rgba(140, 120, 90, 0.2)" }}
         >
           {locale === "zh" ? "滑過以喚醒 · 點擊以展開" : "Hover to awaken · Click to reveal"}
         </p>
         <p
-          className="pointer-events-none block text-right text-[9px] tracking-[0.15em] uppercase font-light md:hidden"
+          className="pointer-events-none block text-right text-[9px] font-light uppercase tracking-[0.15em] md:hidden"
           style={{ color: "rgba(140, 120, 90, 0.3)" }}
         >
           {locale === "zh" ? "點擊以展開" : "Tap to reveal"}
         </p>
         <button
           type="button"
+          onClick={() => setIsGuideOpen(true)}
+          className="pointer-events-auto rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.18em] transition-colors hover:text-stone-100"
+          style={{
+            color: "rgba(214, 193, 160, 0.86)",
+            borderColor: "rgba(201, 168, 76, 0.18)",
+            background:
+              "linear-gradient(180deg, rgba(8, 7, 5, 0.72), rgba(8, 7, 5, 0.38))",
+            backdropFilter: "blur(2px)",
+          }}
+        >
+          {locale === "zh" ? "如何探索" : "How to Explore"}
+        </button>
+        <button
+          type="button"
           onClick={() => setLocale((prev) => (prev === "en" ? "zh" : "en"))}
-          className="pointer-events-auto rounded-sm border px-3 py-2 text-[10px] tracking-[0.2em] uppercase transition-colors hover:text-stone-100"
+          className="pointer-events-auto rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.2em] transition-colors hover:text-stone-100"
           style={{
             color: "rgba(214, 193, 160, 0.86)",
             borderColor: "rgba(201, 168, 76, 0.22)",
@@ -294,19 +402,17 @@ export default function Home() {
       <section className="sr-only" aria-label="About this dragon mythology atlas">
         <h2>About Where Dragons Dwell</h2>
         <p>
-          Where Dragons Dwell is an interactive mythology atlas about dragon
-          stories, serpent beings, and sacred creatures across world cultures.
-          The project compares how East Asian, Japanese, Korean, South Asian,
-          Mesoamerican, European, Norse, Egyptian, Persian, Aboriginal
-          Australian, Polynesian, and Indigenous American traditions imagined
-          dragons in relation to rivers, storms, creation, kingship, wisdom,
-          danger, and cosmic order.
+          Where Dragons Dwell is an interactive mythology atlas about dragon stories,
+          serpent beings, and sacred creatures across world cultures. The project
+          compares how East Asian, Japanese, Korean, South Asian, Mesoamerican,
+          European, Norse, Egyptian, Persian, Aboriginal Australian, Polynesian, and
+          Indigenous American traditions imagined dragons in relation to rivers,
+          storms, creation, kingship, wisdom, danger, and cosmic order.
         </p>
         <p>
-          Visitors can explore dragon myths including Long, Ryu, Yong, Imugi,
-          Naga, Quetzalcoatl, Boiuna, Horned Serpent, the medieval European
-          dragon, Jormungandr, Zmey, Apep, Azhdaha, the Rainbow Serpent, and
-          Taniwha.
+          Visitors can explore dragon myths including Long, Ryu, Yong, Imugi, Naga,
+          Quetzalcoatl, Boiuna, Horned Serpent, the medieval European dragon,
+          Jormungandr, Zmey, Apep, Azhdaha, the Rainbow Serpent, and Taniwha.
         </p>
         <h3>Topics covered</h3>
         <ul>

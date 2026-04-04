@@ -16,7 +16,7 @@ export default function Marginalia({
 }: MarginaliaProps) {
   return (
     <motion.div
-      className={`fixed z-40 pointer-events-none rounded-sm px-3 py-2
+      className={`marginalia-panel fixed z-40 pointer-events-none rounded-sm px-3 py-2
         left-3 bottom-[5.5rem] w-[min(calc(100vw-7rem),260px)]
         md:left-4 md:bottom-[8rem] md:w-[min(36vw,260px)] ${
           desktopInline

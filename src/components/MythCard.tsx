@@ -17,6 +17,8 @@ interface MythCardProps {
 const LABELS = {
   en: {
     close: "close",
+    overview: "Overview",
+    quickFacts: "At a glance",
     era: "Era",
     role: "Cultural role",
     domains: "Primary domains",
@@ -26,11 +28,15 @@ const LABELS = {
     comparison: "Comparative note",
     description: "Curatorial note",
     compareTitle: "Comparison mode",
+    compareLead: "Place this tradition beside another dragon in the atlas.",
+    compareFieldLabel: "Select a second dragon",
     comparePlaceholder: "Choose another dragon",
     compareAction: "Compare",
   },
   zh: {
     close: "關閉",
+    overview: "概覽",
+    quickFacts: "快速閱讀",
     era: "時代",
     role: "文化角色",
     domains: "主要領域",
@@ -40,6 +46,8 @@ const LABELS = {
     comparison: "對照註記",
     description: "策展說明",
     compareTitle: "比較模式",
+    compareLead: "將這條龍與地圖中的另一條龍並列閱讀。",
+    compareFieldLabel: "選擇第二條龍",
     comparePlaceholder: "選擇另一條龍",
     compareAction: "開始比較",
   },
@@ -48,14 +56,16 @@ const LABELS = {
 function SectionTitle({
   label,
   color,
+  muted = false,
 }: {
   label: string;
   color: string;
+  muted?: boolean;
 }) {
   return (
     <p
-      className="mb-2 text-[10px] tracking-[0.22em] uppercase"
-      style={{ color: `${color}aa` }}
+      className="mb-2 text-[10px] tracking-[0.24em] uppercase"
+      style={{ color: muted ? "rgba(191, 168, 129, 0.58)" : `${color}aa` }}
     >
       {label}
     </p>
@@ -88,6 +98,36 @@ function ChipList({
   );
 }
 
+function FactCard({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: string;
+  color: string;
+}) {
+  return (
+    <div
+      className="rounded-sm border px-3 py-3"
+      style={{
+        borderColor: `${color}16`,
+        background: "rgba(255,255,255,0.025)",
+      }}
+    >
+      <p
+        className="text-[9px] uppercase tracking-[0.18em]"
+        style={{ color: "rgba(191, 168, 129, 0.56)" }}
+      >
+        {label}
+      </p>
+      <p className="mt-2 text-[13px] leading-relaxed text-stone-100 md:text-[12px]">
+        {value}
+      </p>
+    </div>
+  );
+}
+
 export default function MythCard({
   dragon,
   locale,
@@ -116,12 +156,12 @@ export default function MythCard({
           animate={{ opacity: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 18 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="fixed z-50 pointer-events-auto overflow-hidden
+          className="myth-card fixed z-50 pointer-events-auto overflow-hidden
             bottom-2 left-2 right-2 rounded-sm max-h-[78vh] overflow-y-auto
-            md:bottom-auto md:top-5 md:left-auto md:right-5 md:max-h-[calc(100vh-2.5rem)] md:w-[320px] md:rounded-sm"
+            md:bottom-auto md:top-5 md:left-auto md:right-5 md:max-h-[calc(100vh-2.5rem)] md:w-[340px] md:rounded-sm lg:w-[360px]"
           style={{
             background:
-              "linear-gradient(180deg, rgba(9,8,6,0.94), rgba(9,8,6,0.84) 42%, rgba(9,8,6,0.74) 100%)",
+              "linear-gradient(180deg, rgba(9,8,6,0.96), rgba(9,8,6,0.88) 40%, rgba(9,8,6,0.78) 100%)",
             backdropFilter: "blur(14px)",
             WebkitBackdropFilter: "blur(14px)",
             border: `1px solid ${dragon.color}18`,
@@ -138,7 +178,7 @@ export default function MythCard({
               {labels.close}
             </button>
 
-            <div className="mb-5 mt-5 flex items-center gap-2">
+            <div className="mb-4 mt-5 flex items-center gap-2">
               <div
                 className="h-px flex-1"
                 style={{
@@ -159,96 +199,94 @@ export default function MythCard({
               />
             </div>
 
-            <motion.h2
+            <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.12, duration: 0.45 }}
-              className="mb-2 text-left text-[26px] font-light uppercase tracking-[0.11em] md:text-[20px]"
-              style={{ color: dragon.color }}
             >
-              {locale === "zh" ? dragon.nameZh : dragon.name}
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.78 }}
-              transition={{ delay: 0.2, duration: 0.45 }}
-              className="mb-2 text-left text-[13px] uppercase tracking-[0.18em] text-stone-300 md:text-[11px]"
-            >
-              {locale === "zh" ? dragon.traditionZh : dragon.tradition}
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.86 }}
-              transition={{ delay: 0.26, duration: 0.45 }}
-              className="mb-5 text-[14px] italic leading-relaxed text-stone-200 md:text-[12px]"
-            >
-              {locale === "zh" ? dragon.regionZh : dragon.region}
-            </motion.p>
-
-            <div className="space-y-5">
-              <motion.section
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.34, duration: 0.45 }}
+              <SectionTitle label={labels.overview} color={dragon.color} />
+              <h2
+                className="text-left text-[28px] font-light uppercase tracking-[0.11em] md:text-[22px]"
+                style={{ color: dragon.color }}
               >
-                <SectionTitle label={labels.era} color={dragon.color} />
-                <p className="text-[13px] leading-relaxed text-stone-200 md:text-[12px]">
-                  {locale === "zh" ? dragon.eraZh : dragon.era}
+                {locale === "zh" ? dragon.nameZh : dragon.name}
+              </h2>
+
+              <p className="mt-2 text-[12px] uppercase tracking-[0.18em] text-stone-300 md:text-[11px]">
+                {locale === "zh" ? dragon.traditionZh : dragon.tradition}
+              </p>
+
+              <p className="mt-1 text-[14px] italic leading-relaxed text-stone-200 md:text-[12px]">
+                {locale === "zh" ? dragon.regionZh : dragon.region}
+              </p>
+
+              <div
+                className="mt-4 rounded-sm border px-4 py-4"
+                style={{
+                  borderColor: `${dragon.color}1d`,
+                  background: `${dragon.color}08`,
+                }}
+              >
+                <p className="text-[15px] leading-[1.9] text-stone-100 md:text-[13px]">
+                  {locale === "zh" ? dragon.descriptionZh : dragon.description}
                 </p>
-              </motion.section>
+              </div>
+            </motion.div>
 
+            <div className="mt-5 space-y-5">
               <motion.section
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.45 }}
+                transition={{ delay: 0.22, duration: 0.45 }}
               >
-                <SectionTitle label={labels.role} color={dragon.color} />
-                <p className="text-[14px] leading-relaxed text-stone-100 md:text-[12px]">
-                  {locale === "zh" ? dragon.roleZh : dragon.role}
-                </p>
+                <SectionTitle label={labels.quickFacts} color={dragon.color} />
+                <div className="grid gap-3 md:grid-cols-2">
+                  <FactCard
+                    label={labels.era}
+                    value={locale === "zh" ? dragon.eraZh : dragon.era}
+                    color={dragon.color}
+                  />
+                  <FactCard
+                    label={labels.role}
+                    value={locale === "zh" ? dragon.roleZh : dragon.role}
+                    color={dragon.color}
+                  />
+                </div>
               </motion.section>
 
               <motion.section
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.46, duration: 0.45 }}
+                transition={{ delay: 0.3, duration: 0.45 }}
               >
-                <SectionTitle label={labels.domains} color={dragon.color} />
-                <ChipList
-                  items={locale === "zh" ? dragon.domainsZh : dragon.domains}
-                  color={dragon.color}
-                />
+                <div className="grid gap-4">
+                  <div>
+                    <SectionTitle label={labels.domains} color={dragon.color} />
+                    <ChipList
+                      items={locale === "zh" ? dragon.domainsZh : dragon.domains}
+                      color={dragon.color}
+                    />
+                  </div>
+
+                  <div>
+                    <SectionTitle label={labels.traits} color={dragon.color} />
+                    <ChipList
+                      items={locale === "zh" ? dragon.traitsZh : dragon.traits}
+                      color={dragon.color}
+                    />
+                  </div>
+                </div>
               </motion.section>
 
               <motion.section
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.52, duration: 0.45 }}
-              >
-                <SectionTitle label={labels.traits} color={dragon.color} />
-                <ChipList
-                  items={locale === "zh" ? dragon.traitsZh : dragon.traits}
-                  color={dragon.color}
-                />
-              </motion.section>
-
-              <motion.section
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.58, duration: 0.45 }}
-              >
-                <SectionTitle label={labels.sources} color={dragon.color} />
-                <p className="text-[13px] leading-[1.8] text-stone-300 md:text-[12px]">
-                  {locale === "zh" ? dragon.sourceContextZh : dragon.sourceContext}
-                </p>
-              </motion.section>
-
-              <motion.section
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.64, duration: 0.45 }}
+                transition={{ delay: 0.38, duration: 0.45 }}
+                className="rounded-sm border px-4 py-4"
+                style={{
+                  borderColor: `${dragon.color}18`,
+                  background: "rgba(255,255,255,0.02)",
+                }}
               >
                 <SectionTitle label={labels.associations} color={dragon.color} />
                 <p
@@ -264,7 +302,7 @@ export default function MythCard({
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
-                transition={{ delay: 0.68, duration: 0.8 }}
+                transition={{ delay: 0.46, duration: 0.8 }}
                 className="h-px origin-left"
                 style={{
                   background: `linear-gradient(90deg, ${dragon.color}55, transparent)`,
@@ -274,71 +312,94 @@ export default function MythCard({
               <motion.section
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.72, duration: 0.5 }}
+                transition={{ delay: 0.54, duration: 0.45 }}
+                className="space-y-4"
               >
-                <SectionTitle label={labels.description} color={dragon.color} />
-                <p className="text-[15px] leading-[1.9] text-stone-200 md:text-[13px]">
-                  {locale === "zh" ? dragon.descriptionZh : dragon.description}
-                </p>
+                <div>
+                  <SectionTitle label={labels.sources} color={dragon.color} muted />
+                  <p className="text-[13px] leading-[1.8] text-stone-300 md:text-[12px]">
+                    {locale === "zh" ? dragon.sourceContextZh : dragon.sourceContext}
+                  </p>
+                </div>
+
+                <div>
+                  <SectionTitle label={labels.comparison} color={dragon.color} muted />
+                  <p className="text-[13px] leading-[1.8] text-stone-300 md:text-[12px]">
+                    {locale === "zh"
+                      ? dragon.comparativeNoteZh
+                      : dragon.comparativeNote}
+                  </p>
+                </div>
               </motion.section>
 
               <motion.section
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.78, duration: 0.5 }}
-              >
-                <SectionTitle label={labels.comparison} color={dragon.color} />
-                <p className="text-[13px] leading-[1.8] text-stone-300 md:text-[12px]">
-                  {locale === "zh"
-                    ? dragon.comparativeNoteZh
-                    : dragon.comparativeNote}
-                </p>
-              </motion.section>
-
-              <motion.section
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.84, duration: 0.5 }}
+                transition={{ delay: 0.62, duration: 0.45 }}
                 className="rounded-sm border px-4 py-4"
                 style={{
-                  borderColor: `${dragon.color}22`,
-                  background: `${dragon.color}08`,
+                  borderColor: `${dragon.color}30`,
+                  background: `linear-gradient(180deg, ${dragon.color}12, rgba(255,255,255,0.02))`,
+                  boxShadow: `0 0 0 1px ${dragon.color}10 inset`,
                 }}
               >
                 <SectionTitle label={labels.compareTitle} color={dragon.color} />
+                <p className="mb-4 text-[13px] leading-[1.75] text-stone-200 md:text-[12px]">
+                  {labels.compareLead}
+                </p>
                 <div className="flex flex-col gap-3">
-                  <select
-                    value={compareTargetId}
-                    onChange={(e) => onCompareTargetChange(e.target.value)}
-                    className="rounded-sm border bg-transparent px-3 py-2 text-[12px] outline-none"
-                    style={{
-                      borderColor: `${dragon.color}26`,
-                      color: "rgba(226, 216, 196, 0.9)",
-                    }}
-                  >
-                    <option value="" style={{ background: "#12100c", color: "#e2d8c4" }}>
-                      {labels.comparePlaceholder}
-                    </option>
-                    {compareOptions.map((option) => (
-                      <option
-                        key={option.id}
-                        value={option.id}
-                        style={{ background: "#12100c", color: "#e2d8c4" }}
+                  <div>
+                    <p
+                      className="mb-2 text-[9px] uppercase tracking-[0.18em]"
+                      style={{ color: "rgba(191, 168, 129, 0.62)" }}
+                    >
+                      {labels.compareFieldLabel}
+                    </p>
+                    <div className="relative">
+                      <select
+                        value={compareTargetId}
+                        onChange={(e) => onCompareTargetChange(e.target.value)}
+                        className="w-full appearance-none rounded-sm border bg-transparent px-3 py-3 pr-10 text-[13px] outline-none"
+                        style={{
+                          borderColor: `${dragon.color}38`,
+                          color: "rgba(226, 216, 196, 0.94)",
+                          background: "rgba(8,7,5,0.26)",
+                        }}
                       >
-                        {locale === "zh" ? option.nameZh : option.name}
-                      </option>
-                    ))}
-                  </select>
+                        <option value="" style={{ background: "#12100c", color: "#e2d8c4" }}>
+                          {labels.comparePlaceholder}
+                        </option>
+                        {compareOptions.map((option) => (
+                          <option
+                            key={option.id}
+                            value={option.id}
+                            style={{ background: "#12100c", color: "#e2d8c4" }}
+                          >
+                            {locale === "zh" ? option.nameZh : option.name}
+                          </option>
+                        ))}
+                      </select>
+                      <span
+                        className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[14px]"
+                        style={{ color: `${dragon.color}cc` }}
+                      >
+                        ▾
+                      </span>
+                    </div>
+                  </div>
 
                   <button
                     type="button"
                     disabled={!compareTargetId}
                     onClick={onStartCompare}
-                    className="rounded-sm border px-3 py-2 text-[11px] uppercase tracking-[0.18em] transition-colors disabled:opacity-35"
+                    className="rounded-sm border px-3 py-3 text-[11px] uppercase tracking-[0.22em] transition-colors disabled:opacity-35"
                     style={{
-                      borderColor: `${dragon.color}26`,
-                      background: `${dragon.color}12`,
-                      color: `${dragon.color}ee`,
+                      borderColor: `${dragon.color}40`,
+                      background: `${dragon.color}22`,
+                      color: `${dragon.color}f4`,
+                      boxShadow: compareTargetId
+                        ? `0 10px 24px ${dragon.color}18`
+                        : "none",
                     }}
                   >
                     {labels.compareAction}
