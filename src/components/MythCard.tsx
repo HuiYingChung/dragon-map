@@ -7,6 +7,10 @@ import type { DragonRegion, Locale } from "@/data/dragons";
 interface MythCardProps {
   dragon: DragonRegion | null;
   locale: Locale;
+  compareOptions: DragonRegion[];
+  compareTargetId: string;
+  onCompareTargetChange: (id: string) => void;
+  onStartCompare: () => void;
   onClose: () => void;
 }
 
@@ -21,6 +25,9 @@ const LABELS = {
     associations: "Associated with",
     comparison: "Comparative note",
     description: "Curatorial note",
+    compareTitle: "Comparison mode",
+    comparePlaceholder: "Choose another dragon",
+    compareAction: "Compare",
   },
   zh: {
     close: "關閉",
@@ -32,6 +39,9 @@ const LABELS = {
     associations: "關聯象徵",
     comparison: "對照註記",
     description: "策展說明",
+    compareTitle: "比較模式",
+    comparePlaceholder: "選擇另一條龍",
+    compareAction: "開始比較",
   },
 };
 
@@ -78,7 +88,15 @@ function ChipList({
   );
 }
 
-export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
+export default function MythCard({
+  dragon,
+  locale,
+  compareOptions,
+  compareTargetId,
+  onCompareTargetChange,
+  onStartCompare,
+  onClose,
+}: MythCardProps) {
   const [isMobile, setIsMobile] = useState(false);
   const labels = LABELS[locale];
 
@@ -275,6 +293,57 @@ export default function MythCard({ dragon, locale, onClose }: MythCardProps) {
                     ? dragon.comparativeNoteZh
                     : dragon.comparativeNote}
                 </p>
+              </motion.section>
+
+              <motion.section
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.84, duration: 0.5 }}
+                className="rounded-sm border px-4 py-4"
+                style={{
+                  borderColor: `${dragon.color}22`,
+                  background: `${dragon.color}08`,
+                }}
+              >
+                <SectionTitle label={labels.compareTitle} color={dragon.color} />
+                <div className="flex flex-col gap-3">
+                  <select
+                    value={compareTargetId}
+                    onChange={(e) => onCompareTargetChange(e.target.value)}
+                    className="rounded-sm border bg-transparent px-3 py-2 text-[12px] outline-none"
+                    style={{
+                      borderColor: `${dragon.color}26`,
+                      color: "rgba(226, 216, 196, 0.9)",
+                    }}
+                  >
+                    <option value="" style={{ background: "#12100c", color: "#e2d8c4" }}>
+                      {labels.comparePlaceholder}
+                    </option>
+                    {compareOptions.map((option) => (
+                      <option
+                        key={option.id}
+                        value={option.id}
+                        style={{ background: "#12100c", color: "#e2d8c4" }}
+                      >
+                        {locale === "zh" ? option.nameZh : option.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button
+                    type="button"
+                    disabled={!compareTargetId}
+                    onClick={onStartCompare}
+                    className="rounded-sm border px-3 py-2 text-[11px] uppercase tracking-[0.18em] transition-colors disabled:opacity-35"
+                    style={{
+                      borderColor: `${dragon.color}26`,
+                      background: `${dragon.color}12`,
+                      color: `${dragon.color}ee`,
+                    }}
+                  >
+                    {labels.compareAction}
+                  </button>
+                </div>
               </motion.section>
             </div>
 

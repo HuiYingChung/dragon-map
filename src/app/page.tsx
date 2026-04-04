@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { dragonRegions, type Locale } from "@/data/dragons";
 import WorldMap from "@/components/WorldMap";
 import MythCard from "@/components/MythCard";
+import CompareCard from "@/components/CompareCard";
 import Marginalia from "@/components/Marginalia";
 import CursorAura from "@/components/CursorAura";
 import OracleChat from "@/components/OracleChat";
@@ -19,8 +20,12 @@ export default function Home() {
   const [locale, setLocale] = useState<Locale>("en");
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+  const [compareTargetId, setCompareTargetId] = useState("");
+  const [comparisonIds, setComparisonIds] = useState<[string, string] | null>(null);
 
   const handleRegionClick = useCallback((id: string) => {
+    setComparisonIds(null);
+    setCompareTargetId("");
     setActiveRegion((prev) => (prev === id ? null : id));
   }, []);
 
@@ -29,11 +34,31 @@ export default function Home() {
   }, []);
 
   const handleClose = useCallback(() => {
+    setComparisonIds(null);
+    setCompareTargetId("");
     setActiveRegion(null);
+  }, []);
+
+  const handleStartCompare = useCallback(() => {
+    if (!activeRegion || !compareTargetId) return;
+    setComparisonIds([activeRegion, compareTargetId]);
+  }, [activeRegion, compareTargetId]);
+
+  const handleCloseComparison = useCallback(() => {
+    setComparisonIds(null);
   }, []);
 
   const activeDragon = dragonRegions.find((r) => r.id === activeRegion) ?? null;
   const hoveredDragon = dragonRegions.find((r) => r.id === hoveredRegion);
+  const compareOptions = activeDragon
+    ? dragonRegions.filter((region) => region.id !== activeDragon.id)
+    : [];
+  const comparisonLeft = comparisonIds
+    ? dragonRegions.find((region) => region.id === comparisonIds[0]) ?? null
+    : null;
+  const comparisonRight = comparisonIds
+    ? dragonRegions.find((region) => region.id === comparisonIds[1]) ?? null
+    : null;
 
   return (
     <main className="relative w-screen h-screen overflow-hidden bg-[#080705]">
@@ -113,7 +138,24 @@ export default function Home() {
         </AnimatePresence>
       </div>
 
-      <MythCard dragon={activeDragon} locale={locale} onClose={handleClose} />
+      {comparisonIds ? (
+        <CompareCard
+          leftDragon={comparisonLeft}
+          rightDragon={comparisonRight}
+          locale={locale}
+          onClose={handleCloseComparison}
+        />
+      ) : (
+        <MythCard
+          dragon={activeDragon}
+          locale={locale}
+          compareOptions={compareOptions}
+          compareTargetId={compareTargetId}
+          onCompareTargetChange={setCompareTargetId}
+          onStartCompare={handleStartCompare}
+          onClose={handleClose}
+        />
+      )}
 
       <Marginalia dimmed={!!activeRegion} locale={locale} />
 
