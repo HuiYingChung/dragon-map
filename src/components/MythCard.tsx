@@ -117,7 +117,7 @@ export default function MythCard({
           exit={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 18 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="fixed z-50 pointer-events-auto overflow-hidden
-            bottom-0 left-0 right-0 rounded-t-sm max-h-[82vh] overflow-y-auto
+            bottom-2 left-2 right-2 rounded-sm max-h-[78vh] overflow-y-auto
             md:bottom-auto md:top-5 md:left-auto md:right-5 md:max-h-[calc(100vh-2.5rem)] md:w-[320px] md:rounded-sm"
           style={{
             background:

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import type { DragonRegion, Locale } from "@/data/dragons";
+import type { DragonRegion, Locale, TimelinePeriod } from "@/data/dragons";
 import DragonSilhouette from "./DragonSilhouette";
 
 interface WorldMapProps {
@@ -10,6 +10,7 @@ interface WorldMapProps {
   locale: Locale;
   activeRegion: string | null;
   hoveredRegion: string | null;
+  activeTimeline: TimelinePeriod | "all";
   onRegionHover: (id: string | null) => void;
   onRegionClick: (id: string) => void;
 }
@@ -19,6 +20,7 @@ export default function WorldMap({
   locale,
   activeRegion,
   hoveredRegion,
+  activeTimeline,
   onRegionHover,
   onRegionClick,
 }: WorldMapProps) {
@@ -91,6 +93,12 @@ export default function WorldMap({
             const isHovered = hoveredRegion === region.id;
             const isActive = activeRegion === region.id;
             const isHighlighted = isHovered || isActive;
+            const matchesTimeline =
+              activeTimeline === "all" || region.timelinePeriod === activeTimeline;
+            const idleOpacity = matchesTimeline ? 0.5 : 0.16;
+            const ringOpacity = matchesTimeline ? 0.34 : 0.12;
+            const labelOpacity = matchesTimeline ? 0.7 : 0.2;
+            const dotOpacity = matchesTimeline ? 0.82 : 0.28;
 
             return (
               <g key={region.id}>
@@ -101,7 +109,7 @@ export default function WorldMap({
                   r="5"
                   fill={`url(#hotspot-${region.id})`}
                   initial={false}
-                  style={{ opacity: isHighlighted ? 1 : 0.5 }}
+                  style={{ opacity: isHighlighted ? 1 : idleOpacity }}
                   animate={{
                     r: isHighlighted ? 7.5 : 5.4,
                   }}
@@ -116,7 +124,7 @@ export default function WorldMap({
                   fill="none"
                   stroke={region.color}
                   strokeWidth="0.14"
-                  style={{ opacity: isHighlighted ? 0.72 : 0.34 }}
+                  style={{ opacity: isHighlighted ? 0.72 : ringOpacity }}
                   animate={{
                     r: isHighlighted ? [2.2, 6.4, 2.2] : [1.9, 4.1, 1.9],
                   }}
@@ -134,7 +142,7 @@ export default function WorldMap({
                   r="0.62"
                   fill={region.color}
                   initial={false}
-                  style={{ opacity: isHighlighted ? 1 : 0.82 }}
+                  style={{ opacity: isHighlighted ? 1 : dotOpacity }}
                   animate={{
                     r: isHighlighted ? 0.95 : 0.56,
                   }}
@@ -151,7 +159,7 @@ export default function WorldMap({
                   fontFamily="'Cormorant Garamond', serif"
                   letterSpacing="0.08"
                   style={{
-                    opacity: isHighlighted ? 0.98 : 0.7,
+                    opacity: isHighlighted ? 0.98 : labelOpacity,
                     filter: "drop-shadow(0 1px 2px rgba(8,7,5,0.9))",
                     transition: "opacity 0.5s ease",
                   }}

@@ -11,6 +11,7 @@ interface Message {
 
 interface OracleChatProps {
   locale: Locale;
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 const STARTER_PROMPTS = {
@@ -45,7 +46,7 @@ const LABELS = {
   },
 };
 
-export default function OracleChat({ locale }: OracleChatProps) {
+export default function OracleChat({ locale, onOpenChange }: OracleChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -75,6 +76,10 @@ export default function OracleChat({ locale }: OracleChatProps) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isOpen]);
+
+  useEffect(() => {
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
 
   const sendMessage = useCallback(
     async (text: string) => {

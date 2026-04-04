@@ -1,4 +1,10 @@
 export type Locale = "en" | "zh";
+export type TimelinePeriod =
+  | "ancient"
+  | "classical"
+  | "medieval"
+  | "living"
+  | "layered";
 
 export interface DragonRegion {
   id: string;
@@ -10,6 +16,10 @@ export interface DragonRegion {
   regionZh: string;
   associatedWith: string;
   associatedWithZh: string;
+  timelinePeriod: TimelinePeriod;
+  timelinePeriodZh: string;
+  timelineRangeLabel: string;
+  timelineRangeLabelZh: string;
   era: string;
   eraZh: string;
   role: string;
@@ -51,6 +61,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "中國與東亞",
     associatedWith: "Rain, rivers, clouds, power, auspicious force",
     associatedWithZh: "雨、水脈、雲氣、權威、祥瑞之力",
+    timelinePeriod: "layered",
+    timelinePeriodZh: "多時代疊層",
+    timelineRangeLabel: "Ancient origins to imperial continuities",
+    timelineRangeLabelZh: "自古代源頭延續至帝制時期",
     era: "Pre-imperial to imperial China",
     eraZh: "先秦至帝制中國",
     role: "Auspicious regulator of water and cosmic order",
@@ -89,8 +103,12 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "日本列島",
     associatedWith: "Lakes, storms, mountain spirits, rainfall",
     associatedWithZh: "湖泊、風暴、山靈、降雨",
-    era: "Classical to medieval Japan",
-    eraZh: "日本古典至中世時期",
+    timelinePeriod: "layered",
+    timelinePeriodZh: "多時代疊層",
+    timelineRangeLabel: "Early chronicles to later shrine and folk tradition",
+    timelineRangeLabelZh: "自早期編年史延續至後世寺社與民間傳統",
+    era: "Early Japanese chronicles through later shrine and folk tradition",
+    eraZh: "自日本早期編年史延續至後世寺社與民間傳統",
     role: "Sacred water guardian and storm presence",
     roleZh: "神聖水域的守護者與風暴之靈",
     domains: ["Lakes", "Storms", "Mountains", "Rainfall", "Shrine landscapes"],
@@ -126,8 +144,12 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "朝鮮半島",
     associatedWith: "Transformation, ascension, protection, blessing",
     associatedWithZh: "蛻變、升天、護佑、祝福",
-    era: "Pre-modern Korean folklore and court culture",
-    eraZh: "前近代韓國民俗與宮廷文化",
+    timelinePeriod: "layered",
+    timelinePeriodZh: "多時代疊層",
+    timelineRangeLabel: "Premodern legend cycles into later folk memory",
+    timelineRangeLabelZh: "前近代傳奇系譜延續至後世民間記憶",
+    era: "Premodern Korean folklore, court culture, and later folk memory",
+    eraZh: "前近代韓國民俗、宮廷文化與後世民間記憶",
     role: "Ascending being of blessing, legitimacy, and transformation",
     roleZh: "象徵昇華、庇佑與正統性的蛻變之靈",
     domains: ["Transformation", "Ascent", "Blessing", "Kingship", "Moral cultivation"],
@@ -163,8 +185,12 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "印度與南亞",
     associatedWith: "Rivers, thresholds, sacred memory, protection",
     associatedWithZh: "河流、門檻、神聖記憶、守護",
-    era: "Ancient to early medieval South Asia",
-    eraZh: "古代至中世初期南亞",
+    timelinePeriod: "layered",
+    timelinePeriodZh: "多時代疊層",
+    timelineRangeLabel: "Ancient epic sources to living South Asian tradition",
+    timelineRangeLabelZh: "自古代史詩來源延續至仍在實踐的南亞傳統",
+    era: "Ancient epic and Buddhist sources through living South Asian tradition",
+    eraZh: "自古代史詩與佛教來源延續至仍在實踐的南亞傳統",
     role: "Threshold guardian between earthly and divine realms",
     roleZh: "連接人界與神界的門檻守護者",
     domains: ["Rivers", "Thresholds", "Wisdom", "Protection", "Underground waters"],
@@ -200,6 +226,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "中美洲",
     associatedWith: "Wind, knowledge, divinity, creation",
     associatedWithZh: "風、知識、神性、創造",
+    timelinePeriod: "classical",
+    timelinePeriodZh: "古典時期",
+    timelineRangeLabel: "Classical and postclassic Mesoamerica",
+    timelineRangeLabelZh: "中美洲古典期與後古典期",
     era: "Classical and postclassic Mesoamerica",
     eraZh: "中美洲古典期與後古典期",
     role: "Creator deity and civilizing force",
@@ -237,6 +267,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "亞馬遜盆地與南美洲",
     associatedWith: "Rivers, darkness, transformation, floodwaters, fear",
     associatedWithZh: "河流、幽暗、變形、洪水、敬畏",
+    timelinePeriod: "living",
+    timelinePeriodZh: "延續中的傳統",
+    timelineRangeLabel: "Living Amazonian oral tradition",
+    timelineRangeLabelZh: "延續中的亞馬遜口傳傳統",
     era: "Amazonian oral tradition across precolonial and later folklore",
     eraZh: "前殖民至後世亞馬遜口傳傳統",
     role: "River power associated with awe, danger, and metamorphosis",
@@ -275,6 +309,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "北美洲",
     associatedWith: "Lakes, rivers, storms, medicine, sacred danger",
     associatedWithZh: "湖泊、河流、風暴、靈藥、神聖危險",
+    timelinePeriod: "living",
+    timelinePeriodZh: "延續中的傳統",
+    timelineRangeLabel: "Living Indigenous oral traditions",
+    timelineRangeLabelZh: "延續中的原住民口傳傳統",
     era: "Indigenous oral traditions across North America",
     eraZh: "北美原住民跨部族口傳傳統",
     role: "Powerful water-being carrying both danger and sacred medicine",
@@ -312,6 +350,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "西歐",
     associatedWith: "Fire, treasure, conquest, fear, heroic struggle",
     associatedWithZh: "火焰、財寶、征服、恐懼、英雄試煉",
+    timelinePeriod: "medieval",
+    timelinePeriodZh: "中世紀",
+    timelineRangeLabel: "High and late medieval Europe",
+    timelineRangeLabelZh: "歐洲中世紀盛期至晚期",
     era: "Medieval Europe",
     eraZh: "中世紀歐洲",
     role: "Adversarial beast in heroic and Christian moral narrative",
@@ -348,6 +390,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "北大西洋與斯堪地那維亞",
     associatedWith: "Sea, fate, encirclement, storms, Ragnarok",
     associatedWithZh: "海洋、命運、環繞、風暴、諸神黃昏",
+    timelinePeriod: "medieval",
+    timelinePeriodZh: "中世紀",
+    timelineRangeLabel: "Old Norse myth recorded in medieval Iceland",
+    timelineRangeLabelZh: "中世紀冰島成文的古北歐神話",
     era: "Old Norse mythic imagination",
     eraZh: "古北歐神話傳統",
     role: "Cosmic serpent marking the scale of doom and world order",
@@ -384,6 +430,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "東歐",
     associatedWith: "Storms, swamps, forests, folklore, elemental fear",
     associatedWithZh: "風暴、沼澤、森林、民間傳說、元素性的恐懼",
+    timelinePeriod: "medieval",
+    timelinePeriodZh: "中世紀",
+    timelineRangeLabel: "Medieval and early vernacular folklore",
+    timelineRangeLabelZh: "中世紀至近代初期地方民俗",
     era: "Slavic folklore and medieval vernacular legend",
     eraZh: "斯拉夫民俗與中世紀地方傳說",
     role: "Folkloric storm-dragon embodying untamed elemental threat",
@@ -421,6 +471,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "埃及與北非",
     associatedWith: "Night, eclipse, chaos, the underworld, cosmic threat",
     associatedWithZh: "黑夜、蝕象、混沌、冥界、宇宙威脅",
+    timelinePeriod: "ancient",
+    timelinePeriodZh: "古代",
+    timelineRangeLabel: "Ancient Egyptian ritual cosmology",
+    timelineRangeLabelZh: "古埃及祭儀宇宙觀",
     era: "Ancient Egyptian cosmology",
     eraZh: "古埃及宇宙觀",
     role: "Embodiment of chaos opposing the solar order",
@@ -458,8 +512,12 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "中東與波斯",
     associatedWith: "Cosmic struggle, deserts, stars, ancient kings",
     associatedWithZh: "宇宙對抗、沙漠、星辰、古代王權",
-    era: "Ancient Persian and wider Middle Eastern mythic traditions",
-    eraZh: "古波斯與更廣義中東神話傳統",
+    timelinePeriod: "layered",
+    timelinePeriodZh: "多時代疊層",
+    timelineRangeLabel: "Avestan roots to later Persian epic tradition",
+    timelineRangeLabelZh: "自《阿維斯陀》根源延續至後世波斯史詩傳統",
+    era: "Avestan and later Persian epic tradition",
+    eraZh: "《阿維斯陀》與後世波斯史詩傳統",
     role: "Chaos-dragon opposed by heroes, rulers, and divine order",
     roleZh: "由英雄、王權與神聖秩序對抗的混沌之龍",
     domains: ["Desert", "Stars", "Kingship", "Cosmic struggle", "Heroic confrontation"],
@@ -495,6 +553,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "澳洲",
     associatedWith: "Creation, rain, waterways, ancestral law, renewal",
     associatedWithZh: "創世、降雨、水道、祖靈法則、更新",
+    timelinePeriod: "living",
+    timelinePeriodZh: "延續中的傳統",
+    timelineRangeLabel: "Living Dreaming traditions",
+    timelineRangeLabelZh: "延續中的創世祖靈傳統",
     era: "Aboriginal Dreaming traditions",
     eraZh: "澳洲原住民創世祖靈傳統",
     role: "Ancestral creator and law-bearing serpent",
@@ -532,6 +594,10 @@ export const dragonRegions: DragonRegion[] = [
     regionZh: "南太平洋與奧特亞羅瓦",
     associatedWith: "Sea routes, estuaries, guardianship, warning, ancestral power",
     associatedWithZh: "海路、河口、守護、警示、祖靈之力",
+    timelinePeriod: "living",
+    timelinePeriodZh: "延續中的傳統",
+    timelineRangeLabel: "Living Polynesian and Maori tradition",
+    timelineRangeLabelZh: "延續中的玻里尼西亞與毛利傳統",
     era: "Polynesian and Maori ancestral tradition",
     eraZh: "玻里尼西亞與毛利祖靈傳統",
     role: "Guardian-being of channels, estuaries, and dangerous thresholds",
@@ -558,5 +624,56 @@ export const dragonRegions: DragonRegion[] = [
     glowColor: "rgba(127, 183, 185, 0.3)",
     dragonStyle: "flowing",
     image: "/dragons/polynesia-pacific-oceanic-serpent-sea-guardian.webp",
+  },
+];
+
+export const timelinePeriods: Array<{
+  id: TimelinePeriod | "all";
+  label: string;
+  labelZh: string;
+  note: string;
+  noteZh: string;
+}> = [
+  {
+    id: "all",
+    label: "All eras",
+    labelZh: "全時期",
+    note: "View the atlas without time filtering",
+    noteZh: "不套用時間篩選，查看整張地圖",
+  },
+  {
+    id: "ancient",
+    label: "Ancient",
+    labelZh: "古代",
+    note: "Cosmologies rooted in ancient ritual worlds",
+    noteZh: "根植於古代祭儀與宇宙觀的神話",
+  },
+  {
+    id: "classical",
+    label: "Classical",
+    labelZh: "古典時期",
+    note: "Civilizational dragon forms refined through temple and court cultures",
+    noteZh: "在神廟與宮廷文化中成熟的文明龍形",
+  },
+  {
+    id: "medieval",
+    label: "Medieval",
+    labelZh: "中世紀",
+    note: "Dragons shaped by heroic, courtly, and regional legend cycles",
+    noteZh: "由英雄敘事、宮廷文化與地方傳奇塑形的龍",
+  },
+  {
+    id: "living",
+    label: "Living tradition",
+    labelZh: "延續中的傳統",
+    note: "Traditions that remain active in cultural memory and community practice",
+    noteZh: "仍活在文化記憶與社群實踐中的傳統",
+  },
+  {
+    id: "layered",
+    label: "Layered time",
+    labelZh: "多時代疊層",
+    note: "Figures that span multiple eras and cannot be reduced to one period",
+    noteZh: "跨越多重時代、難以被壓縮為單一時期的形象",
   },
 ];

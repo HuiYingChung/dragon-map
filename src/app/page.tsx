@@ -8,9 +8,11 @@ import { dragonRegions, type Locale } from "@/data/dragons";
 import WorldMap from "@/components/WorldMap";
 import MythCard from "@/components/MythCard";
 import CompareCard from "@/components/CompareCard";
+import TimelineFilter from "@/components/TimelineFilter";
 import Marginalia from "@/components/Marginalia";
 import CursorAura from "@/components/CursorAura";
 import OracleChat from "@/components/OracleChat";
+import type { TimelinePeriod } from "@/data/dragons";
 
 const AmbientEffects = dynamic(() => import("@/components/AmbientEffects"), {
   ssr: false,
@@ -22,6 +24,8 @@ export default function Home() {
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
   const [compareTargetId, setCompareTargetId] = useState("");
   const [comparisonIds, setComparisonIds] = useState<[string, string] | null>(null);
+  const [activeTimeline, setActiveTimeline] = useState<TimelinePeriod | "all">("all");
+  const [isOracleOpen, setIsOracleOpen] = useState(false);
 
   const handleRegionClick = useCallback((id: string) => {
     setComparisonIds(null);
@@ -75,6 +79,7 @@ export default function Home() {
           locale={locale}
           activeRegion={activeRegion}
           hoveredRegion={hoveredRegion}
+          activeTimeline={activeTimeline}
           onRegionHover={handleRegionHover}
           onRegionClick={handleRegionClick}
         />
@@ -138,6 +143,13 @@ export default function Home() {
         </AnimatePresence>
       </div>
 
+      <TimelineFilter
+        locale={locale}
+        activeTimeline={activeTimeline}
+        onChange={setActiveTimeline}
+        mobileHidden={!!activeRegion || !!comparisonIds || isOracleOpen}
+      />
+
       {comparisonIds ? (
         <CompareCard
           leftDragon={comparisonLeft}
@@ -159,10 +171,10 @@ export default function Home() {
 
       <Marginalia dimmed={!!activeRegion} locale={locale} />
 
-      <OracleChat locale={locale} />
+      <OracleChat locale={locale} onOpenChange={setIsOracleOpen} />
 
       <div
-        className="fixed top-5 left-5 z-40 pointer-events-none rounded-sm px-3 py-2"
+        className="fixed top-3 left-3 z-40 max-w-[calc(100vw-7.5rem)] pointer-events-none rounded-sm px-2.5 py-2 md:top-5 md:left-5 md:max-w-none md:px-3"
         style={{
           background:
             "linear-gradient(135deg, rgba(8, 7, 5, 0.76), rgba(8, 7, 5, 0.2) 78%, transparent)",
@@ -170,7 +182,7 @@ export default function Home() {
         }}
       >
         <h1
-          className="text-[12px] tracking-[0.3em] uppercase font-semibold"
+          className="text-[10px] tracking-[0.24em] uppercase font-semibold md:text-[12px] md:tracking-[0.3em]"
           style={{
             color: "rgba(224, 196, 118, 0.92)",
             textShadow: "0 1px 8px rgba(8, 7, 5, 0.55)",
@@ -179,7 +191,7 @@ export default function Home() {
           {locale === "zh" ? "群龍所居之處" : "Where Dragons Dwell"}
         </h1>
         <p
-          className="mt-1 text-[9px] tracking-[0.17em] uppercase"
+          className="mt-1 text-[8px] tracking-[0.14em] uppercase md:text-[9px] md:tracking-[0.17em]"
           style={{ color: "rgba(201, 178, 139, 0.78)" }}
         >
           {locale === "zh" ? "世界龍神話圖譜" : "An Atlas of Dragon Myths"}
@@ -187,7 +199,7 @@ export default function Home() {
       </div>
 
       <div
-        className="fixed left-6 bottom-6 z-40 pointer-events-none rounded-sm px-3 py-2"
+        className="fixed left-4 bottom-20 z-40 hidden pointer-events-none rounded-sm px-3 py-2 lg:left-6 lg:bottom-6 lg:block"
         style={{
           background:
             "linear-gradient(90deg, rgba(8, 7, 5, 0.72), rgba(8, 7, 5, 0.18) 78%, transparent)",
@@ -202,7 +214,7 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3">
+      <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2 md:bottom-6 md:right-6 md:gap-3">
         <p
           className="pointer-events-none hidden text-right text-[9px] tracking-[0.15em] uppercase font-light md:block"
           style={{ color: "rgba(140, 120, 90, 0.2)" }}

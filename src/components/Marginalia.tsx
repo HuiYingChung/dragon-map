@@ -15,8 +15,9 @@ export default function Marginalia({
   return (
     <motion.div
       className="fixed z-40 pointer-events-none rounded-sm px-3 py-2
-        left-4 top-[4.5rem] w-[min(calc(100%-2rem),260px)]
-        md:left-6 md:top-auto md:bottom-[15%] md:w-[240px]"
+        left-3 bottom-[5.5rem] w-[min(calc(100vw-7rem),260px)]
+        md:left-4 md:bottom-[8rem] md:w-[min(36vw,260px)]
+        lg:left-6 lg:bottom-[15%] lg:w-[240px]"
       initial={{ opacity: 0 }}
       animate={{ opacity: dimmed ? 0.15 : 1 }}
       transition={{ duration: 0.8 }}
