@@ -28,7 +28,11 @@ export default function TimelineFilter({
 
   return (
     <div
-      className={`timeline-filter fixed left-1/2 top-[4.6rem] z-40 w-[min(96vw,56rem)] -translate-x-1/2 rounded-sm px-3 py-3 transition-opacity duration-300 md:top-16 md:w-[min(94vw,56rem)] md:px-3 md:py-3 ${
+      className={`timeline-filter fixed z-40 rounded-sm px-3 py-3 transition-opacity duration-300 ${
+        compact
+          ? "left-3 top-[4.5rem] w-[10.5rem]"
+          : "left-1/2 top-[4.6rem] w-[min(96vw,56rem)] -translate-x-1/2 md:top-16 md:w-[min(94vw,56rem)] md:px-3 md:py-3"
+      } ${
         desktopInline
           ? "lg:static lg:left-auto lg:top-auto lg:z-auto lg:w-full lg:-translate-x-0 lg:translate-y-0 lg:px-0 lg:py-0"
           : "lg:left-6 lg:top-[9.25rem] lg:w-60 lg:-translate-x-0 lg:translate-y-0 lg:px-3 lg:py-4"
@@ -86,7 +90,7 @@ export default function TimelineFilter({
       <div
         className={
           compact
-            ? "timeline-filter-compact-list -mx-1 flex flex-col gap-2 overflow-y-auto px-1 pb-1"
+            ? "timeline-filter-compact-list flex flex-col gap-2 overflow-y-auto pb-1"
             : "-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 md:mx-0 md:grid md:grid-cols-6 md:gap-2 md:overflow-visible md:px-0 md:pb-0 lg:flex lg:flex-col lg:gap-2 lg:overflow-visible lg:px-0 lg:pb-0"
         }
       >

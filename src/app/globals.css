@@ -204,6 +204,7 @@ svg {
     transform: none !important;
     width: min(10.5rem, calc(100vw - 16rem)) !important;
     padding: 0.625rem !important;
+    overflow: hidden;
   }
 
   .timeline-filter-compact-header {
@@ -214,6 +215,15 @@ svg {
   .timeline-filter-compact-list {
     max-height: calc(100dvh - 10.5rem);
     padding-right: 0.25rem;
+  }
+
+  .timeline-filter-compact .text-\[10px\] {
+    font-size: 0.68rem !important;
+  }
+
+  .timeline-filter-compact .text-\[9px\] {
+    font-size: 0.62rem !important;
+    line-height: 1.45 !important;
   }
 
   .myth-card-landscape,
