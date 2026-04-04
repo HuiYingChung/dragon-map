@@ -171,13 +171,13 @@ export default function Home() {
               textShadow: "0 1px 8px rgba(8, 7, 5, 0.55)",
             }}
           >
-            {locale === "zh" ? "ç¾¤é¾æ‰€å±…ä¹‹è™•" : "Where Dragons Dwell"}
+            {locale === "zh" ? "群龍所居之處" : "Where Dragons Dwell"}
           </h1>
           <p
             className="mt-1 text-[9px] tracking-[0.17em] uppercase"
             style={{ color: "rgba(201, 178, 139, 0.78)" }}
           >
-            {locale === "zh" ? "ä¸–ç•Œé¾ç¥žè©±åœ–è­œ" : "An Atlas of Dragon Myths"}
+            {locale === "zh" ? "世界龍神話圖譜" : "An Atlas of Dragon Myths"}
           </p>
         </div>
 
@@ -199,7 +199,7 @@ export default function Home() {
               className="text-[9px] tracking-[0.16em] uppercase"
               style={{ color: "rgba(191, 168, 129, 0.62)" }}
             >
-              Copyright Â© 2026 Huiying Chung
+              Copyright © 2026 Huiying Chung
             </p>
           </div>
         </div>
