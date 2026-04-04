@@ -6,18 +6,23 @@ import type { Locale } from "@/data/dragons";
 interface MarginaliaProps {
   dimmed?: boolean;
   locale: Locale;
+  desktopInline?: boolean;
 }
 
 export default function Marginalia({
   dimmed = false,
   locale,
+  desktopInline = false,
 }: MarginaliaProps) {
   return (
     <motion.div
-      className="fixed z-40 pointer-events-none rounded-sm px-3 py-2
+      className={`fixed z-40 pointer-events-none rounded-sm px-3 py-2
         left-3 bottom-[5.5rem] w-[min(calc(100vw-7rem),260px)]
-        md:left-4 md:bottom-[8rem] md:w-[min(36vw,260px)]
-        lg:left-6 lg:bottom-[15%] lg:w-[240px]"
+        md:left-4 md:bottom-[8rem] md:w-[min(36vw,260px)] ${
+          desktopInline
+            ? "lg:static lg:left-auto lg:bottom-auto lg:z-auto lg:w-full lg:px-0 lg:py-0"
+            : "lg:left-6 lg:bottom-[7%] lg:w-[240px]"
+        }`}
       initial={{ opacity: 0 }}
       animate={{ opacity: dimmed ? 0.15 : 1 }}
       transition={{ duration: 0.8 }}

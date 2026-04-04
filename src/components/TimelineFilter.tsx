@@ -9,6 +9,7 @@ interface TimelineFilterProps {
   activeTimeline: TimelinePeriod | "all";
   onChange: (period: TimelinePeriod | "all") => void;
   mobileHidden?: boolean;
+  desktopInline?: boolean;
 }
 
 export default function TimelineFilter({
@@ -16,10 +17,15 @@ export default function TimelineFilter({
   activeTimeline,
   onChange,
   mobileHidden = false,
+  desktopInline = false,
 }: TimelineFilterProps) {
   return (
     <div
       className={`fixed left-1/2 top-[4.6rem] z-40 w-[min(96vw,56rem)] -translate-x-1/2 rounded-sm px-3 py-3 transition-opacity duration-300 md:top-16 md:w-[min(94vw,56rem)] md:px-3 md:py-3 ${
+        desktopInline
+          ? "lg:static lg:left-auto lg:top-auto lg:z-auto lg:w-full lg:-translate-x-0 lg:translate-y-0 lg:px-0 lg:py-0"
+          : "lg:left-6 lg:top-[9.25rem] lg:w-60 lg:-translate-x-0 lg:translate-y-0 lg:px-3 lg:py-4"
+      } ${
         mobileHidden ? "pointer-events-none opacity-0 md:pointer-events-auto md:opacity-100" : "opacity-100"
       }`}
       style={{
@@ -29,7 +35,7 @@ export default function TimelineFilter({
         border: "1px solid rgba(201, 168, 76, 0.12)",
       }}
     >
-      <div className="mb-2 flex items-center justify-between gap-3">
+      <div className="mb-2 flex items-center justify-between gap-3 lg:mb-3 lg:flex-col lg:items-start lg:justify-start">
         <p
           className="text-[10px] uppercase tracking-[0.24em]"
           style={{ color: "rgba(224, 196, 118, 0.78)" }}
@@ -37,14 +43,14 @@ export default function TimelineFilter({
           {locale === "zh" ? "時間軸" : "Timeline"}
         </p>
         <p
-          className="hidden text-right text-[9px] uppercase tracking-[0.14em] md:block"
+          className="hidden text-right text-[9px] uppercase tracking-[0.14em] md:block lg:text-left"
           style={{ color: "rgba(191, 168, 129, 0.46)" }}
         >
           {locale === "zh" ? "只淡化不符合時期的文化區域" : "Dims unmatched regions without disabling them"}
         </p>
       </div>
 
-      <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 md:mx-0 md:grid md:grid-cols-6 md:gap-2 md:overflow-visible md:px-0 md:pb-0">
+      <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 md:mx-0 md:grid md:grid-cols-6 md:gap-2 md:overflow-visible md:px-0 md:pb-0 lg:flex lg:flex-col lg:gap-2 lg:overflow-visible lg:px-0 lg:pb-0">
         {timelinePeriods.map((period) => {
           const isActive = activeTimeline === period.id;
           return (
@@ -52,7 +58,7 @@ export default function TimelineFilter({
               key={period.id}
               type="button"
               onClick={() => onChange(period.id)}
-              className="relative min-w-[7.5rem] shrink-0 rounded-sm border px-3 py-2 text-left transition-colors md:min-w-0"
+              className="relative min-w-[7.5rem] shrink-0 rounded-sm border px-3 py-2 text-left transition-colors md:min-w-0 lg:w-full"
               style={{
                 borderColor: isActive
                   ? "rgba(201, 168, 76, 0.32)"

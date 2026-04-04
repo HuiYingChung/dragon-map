@@ -70,7 +70,7 @@ export default function Home() {
       <AmbientEffects />
 
       <div
-        className={`relative z-10 flex h-full w-full items-center justify-center transition-[padding,transform] duration-700 ease-out ${
+        className={`relative z-10 flex h-full w-full items-center justify-center transition-[padding,transform] duration-700 ease-out lg:pl-[17rem] ${
           activeDragon ? "md:pr-[320px] lg:pr-[360px] pb-[40vh] md:pb-0" : ""
         } md:-translate-x-4 lg:-translate-x-6`}
       >
@@ -143,13 +143,6 @@ export default function Home() {
         </AnimatePresence>
       </div>
 
-      <TimelineFilter
-        locale={locale}
-        activeTimeline={activeTimeline}
-        onChange={setActiveTimeline}
-        mobileHidden={!!activeRegion || !!comparisonIds || isOracleOpen}
-      />
-
       {comparisonIds ? (
         <CompareCard
           leftDragon={comparisonLeft}
@@ -169,12 +162,66 @@ export default function Home() {
         />
       )}
 
-      <Marginalia dimmed={!!activeRegion} locale={locale} />
+      <div className="hidden lg:absolute lg:left-6 lg:top-5 lg:bottom-6 lg:z-40 lg:flex lg:w-60 lg:flex-col lg:justify-between">
+        <div className="pointer-events-none rounded-sm px-3 py-2">
+          <h1
+            className="text-[12px] tracking-[0.3em] uppercase font-semibold"
+            style={{
+              color: "rgba(224, 196, 118, 0.92)",
+              textShadow: "0 1px 8px rgba(8, 7, 5, 0.55)",
+            }}
+          >
+            {locale === "zh" ? "ç¾¤é¾æ‰€å±…ä¹‹è™•" : "Where Dragons Dwell"}
+          </h1>
+          <p
+            className="mt-1 text-[9px] tracking-[0.17em] uppercase"
+            style={{ color: "rgba(201, 178, 139, 0.78)" }}
+          >
+            {locale === "zh" ? "ä¸–ç•Œé¾ç¥žè©±åœ–è­œ" : "An Atlas of Dragon Myths"}
+          </p>
+        </div>
+
+        <div className="my-6">
+          <TimelineFilter
+            locale={locale}
+            activeTimeline={activeTimeline}
+            onChange={setActiveTimeline}
+            mobileHidden={!!activeRegion || !!comparisonIds || isOracleOpen}
+            desktopInline
+          />
+        </div>
+
+        <div className="space-y-5">
+          <Marginalia dimmed={!!activeRegion} locale={locale} desktopInline />
+
+          <div className="pointer-events-none rounded-sm px-3 py-2">
+            <p
+              className="text-[9px] tracking-[0.16em] uppercase"
+              style={{ color: "rgba(191, 168, 129, 0.62)" }}
+            >
+              Copyright Â© 2026 Huiying Chung
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="lg:hidden">
+        <TimelineFilter
+          locale={locale}
+          activeTimeline={activeTimeline}
+          onChange={setActiveTimeline}
+          mobileHidden={!!activeRegion || !!comparisonIds || isOracleOpen}
+        />
+      </div>
+
+      <div className="lg:hidden">
+        <Marginalia dimmed={!!activeRegion} locale={locale} />
+      </div>
 
       <OracleChat locale={locale} onOpenChange={setIsOracleOpen} />
 
       <div
-        className="fixed top-3 left-3 z-40 max-w-[calc(100vw-7.5rem)] pointer-events-none rounded-sm px-2.5 py-2 md:top-5 md:left-5 md:max-w-none md:px-3"
+        className="fixed top-3 left-3 z-40 max-w-[calc(100vw-7.5rem)] pointer-events-none rounded-sm px-2.5 py-2 md:top-5 md:left-5 md:max-w-none md:px-3 lg:hidden"
         style={{
           background:
             "linear-gradient(135deg, rgba(8, 7, 5, 0.76), rgba(8, 7, 5, 0.2) 78%, transparent)",
@@ -199,7 +246,7 @@ export default function Home() {
       </div>
 
       <div
-        className="fixed left-4 bottom-20 z-40 hidden pointer-events-none rounded-sm px-3 py-2 lg:left-6 lg:bottom-6 lg:block"
+        className="fixed left-4 bottom-20 z-40 hidden pointer-events-none rounded-sm px-3 py-2"
         style={{
           background:
             "linear-gradient(90deg, rgba(8, 7, 5, 0.72), rgba(8, 7, 5, 0.18) 78%, transparent)",
