@@ -228,9 +228,9 @@ svg {
 
   .myth-card-landscape,
   .compare-card-landscape {
-    top: 2.5rem !important;
+    top: 2rem !important;
     right: 0.75rem !important;
-    bottom: 1.5rem !important;
+    bottom: 1.75rem !important;
     left: auto !important;
     width: min(23rem, 43vw) !important;
     max-height: none !important;
