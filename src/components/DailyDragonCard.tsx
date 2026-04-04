@@ -81,6 +81,26 @@ export default function DailyDragonCard() {
   const [isOpen, setIsOpen] = useState(false);
   const [todaysCard, setTodaysCard] = useState<DragonRegion | null>(null);
   const [hasDrawnToday, setHasDrawnToday] = useState(false);
+  const [isSmallViewport, setIsSmallViewport] = useState(false);
+  const [isLandscapeMobile, setIsLandscapeMobile] = useState(false);
+
+  useEffect(() => {
+    const updateViewportMode = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setIsSmallViewport(width < 768);
+      setIsLandscapeMobile(width < 1024 && width > height && height <= 560);
+    };
+
+    updateViewportMode();
+    window.addEventListener("resize", updateViewportMode);
+    window.addEventListener("orientationchange", updateViewportMode);
+
+    return () => {
+      window.removeEventListener("resize", updateViewportMode);
+      window.removeEventListener("orientationchange", updateViewportMode);
+    };
+  }, []);
 
   const drawOrRevealCard = useCallback(() => {
     const today = getLocalDateKey();
@@ -129,7 +149,9 @@ export default function DailyDragonCard() {
       <button
         type="button"
         onClick={drawOrRevealCard}
-        className="pointer-events-auto flex-1 rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.18em] transition-all duration-200 hover:-translate-y-px hover:text-stone-100 hover:shadow-[0_10px_24px_rgba(201,168,76,0.16)] disabled:opacity-40 md:flex-none"
+        className={`pointer-events-auto rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.18em] transition-all duration-200 hover:-translate-y-px hover:text-stone-100 hover:shadow-[0_10px_24px_rgba(201,168,76,0.16)] disabled:opacity-40 ${
+          isSmallViewport ? "min-w-0 flex-[1.25]" : "flex-1 md:flex-none"
+        }`}
         style={{
           color: "rgba(230, 210, 173, 0.92)",
           borderColor: "rgba(224, 196, 118, 0.34)",
@@ -156,7 +178,9 @@ export default function DailyDragonCard() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 14, scale: 0.98 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
-              className="absolute left-4 right-4 top-[5.5rem] mx-auto max-w-[62rem] overflow-hidden rounded-sm border md:left-6 md:right-6 md:top-12"
+              className={`daily-card-modal absolute left-3 right-3 top-[5rem] bottom-3 mx-auto overflow-y-auto rounded-sm border md:left-6 md:right-6 md:top-12 md:bottom-auto md:max-h-[calc(100dvh-6rem)] md:max-w-[62rem] md:overflow-hidden ${
+                isLandscapeMobile ? "daily-card-modal-landscape" : ""
+              }`}
               style={{
                 borderColor: `${todaysCard.color}33`,
                 background:
@@ -165,8 +189,8 @@ export default function DailyDragonCard() {
               }}
               onClick={(event) => event.stopPropagation()}
             >
-              <div className="grid gap-0 md:grid-cols-[minmax(0,1.1fr)_minmax(320px,24rem)]">
-                <section className="relative min-h-[22rem] overflow-hidden px-5 py-5 md:px-7 md:py-7">
+              <div className="grid gap-0 md:grid-cols-[minmax(0,1.1fr)_minmax(280px,24rem)]">
+                <section className="relative min-h-[20rem] overflow-hidden px-4 py-4 md:px-7 md:py-7">
                   <div
                     className="absolute inset-0"
                     style={{
@@ -184,7 +208,7 @@ export default function DailyDragonCard() {
                           {labels.eyebrow}
                         </p>
                         <h2
-                          className="mt-2 text-[24px] uppercase tracking-[0.1em] md:text-[32px]"
+                          className="mt-2 text-[20px] uppercase tracking-[0.1em] sm:text-[24px] md:text-[32px]"
                           style={{ color: "rgba(236, 226, 207, 0.96)" }}
                         >
                           {labels.title}
@@ -202,13 +226,13 @@ export default function DailyDragonCard() {
                     </div>
 
                     <p
-                      className="mt-4 max-w-2xl text-[14px] leading-[1.8] md:text-[15px]"
+                      className="mt-3 max-w-2xl text-[13px] leading-[1.75] md:mt-4 md:text-[15px]"
                       style={{ color: "rgba(220, 210, 188, 0.88)" }}
                     >
                       {labels.lead}
                     </p>
 
-                    <div className="mt-6 grid gap-4 md:grid-cols-[minmax(0,1fr)_14rem]">
+                    <div className="mt-4 grid gap-4 md:mt-6 md:grid-cols-[minmax(0,1fr)_14rem]">
                       <div
                         className="relative overflow-hidden rounded-sm border p-4"
                         style={{
@@ -224,7 +248,7 @@ export default function DailyDragonCard() {
                           }}
                         />
 
-                        <div className="relative aspect-[3/2] overflow-hidden rounded-[0.1rem] border border-black/20 bg-[#19140f]">
+                        <div className="relative aspect-[4/3] overflow-hidden rounded-[0.1rem] border border-black/20 bg-[#19140f] sm:aspect-[3/2]">
                           <div
                             className="absolute inset-0"
                             style={{
@@ -237,7 +261,7 @@ export default function DailyDragonCard() {
                             alt={`${todaysCard.name} museum card artwork`}
                             fill
                             sizes="(max-width: 768px) 100vw, 420px"
-                            className="object-contain p-5 opacity-80"
+                            className="object-contain p-3 opacity-80 sm:p-5"
                           />
                           <div className="absolute left-3 top-3 rounded-sm border border-white/10 bg-black/35 px-2 py-1">
                             <p className="text-[9px] uppercase tracking-[0.18em] text-stone-100">
@@ -246,7 +270,7 @@ export default function DailyDragonCard() {
                           </div>
                         </div>
 
-                        <p className="mt-4 text-[13px] leading-[1.7] text-stone-300">
+                        <p className="mt-3 text-[12px] leading-[1.7] text-stone-300 md:mt-4 md:text-[13px]">
                           {labels.placeholderNote}
                         </p>
                       </div>
@@ -266,15 +290,15 @@ export default function DailyDragonCard() {
                             {labels.drawnToday}
                           </p>
                           <h3
-                            className="mt-3 text-[26px] uppercase tracking-[0.1em]"
+                            className="mt-3 text-[22px] uppercase tracking-[0.1em] sm:text-[26px]"
                             style={{ color: `${todaysCard.color}f2` }}
                           >
                             {todaysCard.name}
                           </h3>
-                          <p className="mt-2 text-[12px] uppercase tracking-[0.18em] text-stone-300">
+                          <p className="mt-2 text-[11px] uppercase tracking-[0.18em] text-stone-300 sm:text-[12px]">
                             {todaysCard.tradition}
                           </p>
-                          <p className="mt-4 text-[13px] italic leading-[1.8] text-stone-200">
+                          <p className="mt-3 text-[12px] italic leading-[1.75] text-stone-200 sm:mt-4 sm:text-[13px]">
                             {todaysCard.atmosphere}
                           </p>
                         </div>
@@ -290,15 +314,15 @@ export default function DailyDragonCard() {
                             <p className="text-[10px] uppercase tracking-[0.18em] text-stone-400">
                               {labels.onePerDay}
                             </p>
-                            <p className="mt-2 text-[13px] leading-[1.7] text-stone-200">
+                            <p className="mt-2 text-[12px] leading-[1.65] text-stone-200 sm:text-[13px]">
                               {labels.returnTomorrow}
                             </p>
                           </div>
 
-                          <div className="flex flex-col gap-2">
+                          <div className="grid gap-2 sm:flex sm:flex-col">
                             <Link
                               href={`/dragons/${todaysCard.id}/card`}
-                              className="rounded-sm border px-3 py-3 text-center text-[11px] uppercase tracking-[0.22em] transition-all duration-200 hover:-translate-y-px hover:brightness-110 hover:shadow-[0_10px_24px_rgba(201,168,76,0.18)]"
+                              className="rounded-sm border px-3 py-3 text-center text-[10px] uppercase tracking-[0.22em] transition-all duration-200 hover:-translate-y-px hover:brightness-110 hover:shadow-[0_10px_24px_rgba(201,168,76,0.18)] sm:text-[11px]"
                               style={{
                                 borderColor: `${todaysCard.color}34`,
                                 background: `linear-gradient(180deg, ${todaysCard.color}28, ${todaysCard.color}14)`,
@@ -309,7 +333,7 @@ export default function DailyDragonCard() {
                             </Link>
                             <Link
                               href={`/dragons/${todaysCard.id}`}
-                              className="rounded-sm border px-3 py-3 text-center text-[11px] uppercase tracking-[0.22em] text-stone-200 transition-all duration-200 hover:-translate-y-px hover:border-[rgba(201,168,76,0.28)] hover:bg-[rgba(255,255,255,0.05)] hover:text-stone-100"
+                              className="rounded-sm border px-3 py-3 text-center text-[10px] uppercase tracking-[0.22em] text-stone-200 transition-all duration-200 hover:-translate-y-px hover:border-[rgba(201,168,76,0.28)] hover:bg-[rgba(255,255,255,0.05)] hover:text-stone-100 sm:text-[11px]"
                               style={{
                                 borderColor: "rgba(201, 168, 76, 0.16)",
                                 background: "rgba(255,255,255,0.03)",

@@ -169,6 +169,12 @@ svg {
   .marginalia-panel {
     display: none;
   }
+
+  .daily-card-modal {
+    top: 0.75rem !important;
+    bottom: 0.75rem !important;
+    max-height: none !important;
+  }
 }
 
 @media (max-width: 1023px) and (orientation: landscape) and (max-height: 560px) {
@@ -286,6 +292,13 @@ svg {
 
   .marginalia-panel {
     display: none !important;
+  }
+
+  .daily-card-modal-landscape {
+    inset: 0.75rem !important;
+    max-width: none !important;
+    max-height: none !important;
+    overflow-y: auto !important;
   }
 }
 
