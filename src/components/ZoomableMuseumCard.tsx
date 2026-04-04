@@ -250,7 +250,7 @@ export default function ZoomableMuseumCard({ dragon }: ZoomableMuseumCardProps) 
           <p className="text-[10px] uppercase tracking-[0.2em] text-stone-500">
             Preview matches print layout
           </p>
-          <div className="flex items-center gap-2">
+          <div className="hidden items-center gap-2 md:flex">
             <div className="min-w-[4.5rem] text-center text-[10px] uppercase tracking-[0.18em] text-stone-400">
               Fixed preview
             </div>
