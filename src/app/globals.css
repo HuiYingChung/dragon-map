@@ -226,11 +226,10 @@ svg {
     line-height: 1.45 !important;
   }
 
-  .myth-card-landscape,
-  .compare-card-landscape {
-    top: 1.25rem !important;
+  .myth-card-landscape {
+    top: 0.5rem !important;
     right: 0.75rem !important;
-    bottom: 2rem !important;
+    bottom: 0.6rem !important;
     left: auto !important;
     width: min(23rem, 43vw) !important;
     max-height: none !important;
@@ -238,7 +237,13 @@ svg {
   }
 
   .compare-card-landscape {
+    top: 1.25rem !important;
+    right: 0.75rem !important;
+    bottom: 2rem !important;
+    left: auto !important;
     width: min(28rem, 48vw) !important;
+    max-height: none !important;
+    border-radius: 0.125rem !important;
   }
 
   .oracle-chat-trigger-landscape {
