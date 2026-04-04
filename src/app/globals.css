@@ -37,6 +37,17 @@ body {
   .cursor-pointer {
     cursor: none !important;
   }
+
+  body.native-cursor-page,
+  body.native-cursor-page button,
+  body.native-cursor-page a,
+  body.native-cursor-page input,
+  body.native-cursor-page textarea,
+  body.native-cursor-page select,
+  body.native-cursor-page [role="button"],
+  body.native-cursor-page .cursor-pointer {
+    cursor: auto !important;
+  }
 }
 
 /* Custom scrollbar */
@@ -275,5 +286,123 @@ svg {
 
   .marginalia-panel {
     display: none !important;
+  }
+}
+
+@media print {
+  @page {
+    size: auto;
+    margin: 0.5in;
+  }
+
+  html,
+  body {
+    width: auto !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    print-color-adjust: exact !important;
+    -webkit-print-color-adjust: exact !important;
+  }
+
+  .postcard-print-page {
+    width: auto !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  .print-shell {
+    width: 100% !important;
+    height: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    gap: 0 !important;
+  }
+
+  .print-page-header,
+  .postcard-print-actions,
+  .cursor-aura {
+    display: none !important;
+  }
+
+  .screen-card {
+    display: none !important;
+  }
+
+  .print-only-card {
+    display: block !important;
+    position: relative !important;
+  }
+
+  .museum-postcard {
+    width: 3.5in !important;
+    height: 2in !important;
+    min-height: 2in !important;
+    max-width: none !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    border-radius: 0 !important;
+    break-inside: avoid;
+    page-break-inside: avoid !important;
+    overflow: hidden !important;
+  }
+
+  .business-card {
+    aspect-ratio: 7 / 4 !important;
+  }
+
+  .print-card-surface {
+    border-width: 0.75pt !important;
+  }
+
+  .print-card-panel {
+    padding: 0.1in !important;
+  }
+
+  .museum-postcard h2 {
+    font-size: 14pt !important;
+    line-height: 1 !important;
+  }
+
+  .museum-postcard p,
+  .museum-postcard span {
+    line-height: 1.2 !important;
+  }
+
+  .museum-postcard .text-\[12px\] {
+    font-size: 7pt !important;
+  }
+
+  .museum-postcard .text-\[11px\] {
+    font-size: 6.5pt !important;
+  }
+
+  .museum-postcard .text-\[10px\] {
+    font-size: 5.5pt !important;
+  }
+
+  .museum-postcard .text-\[9px\] {
+    font-size: 5pt !important;
+  }
+
+  .museum-postcard .text-\[8px\] {
+    font-size: 4.5pt !important;
+  }
+
+  .museum-postcard img {
+    object-fit: contain !important;
+  }
+
+  .print-only-card * {
+    overflow: hidden !important;
   }
 }

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { dragonRegions } from "@/data/dragons";
+import CursorAura from "@/components/CursorAura";
 
 type DragonPageProps = {
   params: Promise<{
@@ -70,13 +71,18 @@ export default async function DragonDetailPage({ params }: DragonPageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-[#080705] px-5 py-8 text-stone-200 md:px-8 lg:px-12">
+    <main className="dragon-detail-page min-h-screen bg-[#080705] px-5 py-8 text-stone-200 md:px-8 lg:px-12">
+      <CursorAura />
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
-            className="text-[11px] uppercase tracking-[0.28em] transition-opacity hover:opacity-100"
-            style={{ color: `${dragon.color}cc` }}
+            className="rounded-sm border px-3 py-2 text-[11px] uppercase tracking-[0.24em] transition-all duration-200 hover:-translate-y-px hover:text-stone-100 hover:shadow-[0_10px_24px_rgba(201,168,76,0.14)]"
+            style={{
+              color: `${dragon.color}dd`,
+              borderColor: `${dragon.color}30`,
+              background: `${dragon.color}10`,
+            }}
           >
             Back to atlas
           </Link>
@@ -142,6 +148,17 @@ export default async function DragonDetailPage({ params }: DragonPageProps) {
                   filter: "blur(22px)",
                 }}
               />
+              <Link
+                href={`/dragons/${dragon.id}/card`}
+                className="absolute right-4 top-4 z-10 rounded-sm border px-3 py-2 text-[10px] uppercase tracking-[0.2em] transition-all duration-200 hover:-translate-y-px hover:brightness-110 hover:shadow-[0_10px_22px_rgba(201,168,76,0.16)]"
+                style={{
+                  color: `${dragon.color}f0`,
+                  borderColor: `${dragon.color}34`,
+                  background: `linear-gradient(180deg, ${dragon.color}22, ${dragon.color}10)`,
+                }}
+              >
+                Print Museum Card
+              </Link>
               <Image
                 src={dragon.image}
                 alt={`${dragon.name} illustration`}
@@ -158,17 +175,17 @@ export default async function DragonDetailPage({ params }: DragonPageProps) {
         <section className="grid gap-4 md:grid-cols-3">
           <article className="rounded-sm border border-stone-800/80 bg-black/10 p-5">
             <h2 className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
-              Chinese
+              Name
             </h2>
-            <p className="mt-3 text-sm leading-7 text-stone-300">{dragon.nameZh}</p>
-            <p className="mt-2 text-sm leading-7 text-stone-400">{dragon.traditionZh}</p>
+            <p className="mt-3 text-sm leading-7 text-stone-300">{dragon.name}</p>
+            <p className="mt-2 text-sm leading-7 text-stone-400">{dragon.tradition}</p>
           </article>
           <article className="rounded-sm border border-stone-800/80 bg-black/10 p-5">
             <h2 className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
               Region
             </h2>
             <p className="mt-3 text-sm leading-7 text-stone-300">{dragon.region}</p>
-            <p className="mt-2 text-sm leading-7 text-stone-400">{dragon.regionZh}</p>
+            <p className="mt-2 text-sm leading-7 text-stone-400">{dragon.timelineRangeLabel}</p>
           </article>
           <article className="rounded-sm border border-stone-800/80 bg-black/10 p-5">
             <h2 className="text-[11px] uppercase tracking-[0.24em] text-stone-500">

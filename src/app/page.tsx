@@ -12,6 +12,7 @@ import TimelineFilter from "@/components/TimelineFilter";
 import Marginalia from "@/components/Marginalia";
 import CursorAura from "@/components/CursorAura";
 import OracleChat from "@/components/OracleChat";
+import DailyDragonCard from "@/components/DailyDragonCard";
 import type { TimelinePeriod } from "@/data/dragons";
 
 const AmbientEffects = dynamic(() => import("@/components/AmbientEffects"), {
@@ -444,6 +445,7 @@ export default function Home() {
         >
           {locale === "zh" ? "如何探索" : "How to Explore"}
         </button>
+        <DailyDragonCard />
         <button
           type="button"
           onClick={() => setLocale((prev) => (prev === "en" ? "zh" : "en"))}
