@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
 import type { Locale, TimelinePeriod } from "@/data/dragons";
 import { timelinePeriods } from "@/data/dragons";
@@ -22,7 +21,6 @@ export default function TimelineFilter({
   desktopInline = false,
   compact = false,
 }: TimelineFilterProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const activePeriod =
     activeTimeline === "all"
       ? null
@@ -36,9 +34,7 @@ export default function TimelineFilter({
           : "lg:left-6 lg:top-[9.25rem] lg:w-60 lg:-translate-x-0 lg:translate-y-0 lg:px-3 lg:py-4"
       } ${
         mobileHidden ? "pointer-events-none opacity-0 md:pointer-events-auto md:opacity-100" : "opacity-100"
-      } ${compact ? "timeline-filter-compact" : ""} ${
-        compact && isExpanded ? "timeline-filter-expanded" : ""
-      }`}
+      } ${compact ? "timeline-filter-compact" : ""}`}
       style={{
         background:
           "linear-gradient(180deg, rgba(8, 7, 5, 0.82), rgba(8, 7, 5, 0.5) 78%, rgba(8,7,5,0.24))",
@@ -46,7 +42,11 @@ export default function TimelineFilter({
         border: "1px solid rgba(201, 168, 76, 0.12)",
       }}
     >
-      <div className="mb-2 flex items-center justify-between gap-3 lg:mb-3 lg:flex-col lg:items-start lg:justify-start">
+      <div
+        className={`mb-2 flex items-center justify-between gap-3 lg:mb-3 lg:flex-col lg:items-start lg:justify-start ${
+          compact ? "timeline-filter-compact-header" : ""
+        }`}
+      >
         <p
           className="text-[10px] uppercase tracking-[0.24em]"
           style={{ color: "rgba(224, 196, 118, 0.78)" }}
@@ -55,9 +55,7 @@ export default function TimelineFilter({
         </p>
 
         {compact ? (
-          <button
-            type="button"
-            onClick={() => setIsExpanded((prev) => !prev)}
+          <p
             className="rounded-sm border px-2.5 py-1 text-[9px] uppercase tracking-[0.18em]"
             style={{
               color: "rgba(214, 193, 160, 0.86)",
@@ -72,7 +70,7 @@ export default function TimelineFilter({
               : locale === "zh"
                 ? "全部"
                 : "All"}
-          </button>
+          </p>
         ) : (
           <p
             className="hidden text-right text-[9px] uppercase tracking-[0.14em] md:block lg:text-left"
@@ -86,11 +84,11 @@ export default function TimelineFilter({
       </div>
 
       <div
-        className={`${
+        className={
           compact
-            ? "-mx-1 flex gap-2 overflow-x-auto px-1 pb-1"
+            ? "timeline-filter-compact-list -mx-1 flex flex-col gap-2 overflow-y-auto px-1 pb-1"
             : "-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 md:mx-0 md:grid md:grid-cols-6 md:gap-2 md:overflow-visible md:px-0 md:pb-0 lg:flex lg:flex-col lg:gap-2 lg:overflow-visible lg:px-0 lg:pb-0"
-        } ${compact && !isExpanded ? "hidden" : ""}`}
+        }
       >
         {timelinePeriods.map((period) => {
           const isActive = activeTimeline === period.id;
@@ -98,14 +96,9 @@ export default function TimelineFilter({
             <button
               key={period.id}
               type="button"
-              onClick={() => {
-                onChange(period.id);
-                if (compact) {
-                  setIsExpanded(false);
-                }
-              }}
+              onClick={() => onChange(period.id)}
               className={`relative min-w-[7.5rem] shrink-0 rounded-sm border px-3 py-2 text-left transition-colors ${
-                compact ? "" : "md:min-w-0 lg:w-full"
+                compact ? "min-w-0" : "md:min-w-0 lg:w-full"
               }`}
               style={{
                 borderColor: isActive
@@ -143,12 +136,18 @@ export default function TimelineFilter({
                     : "rgba(191, 168, 129, 0.62)",
                 }}
               >
-                <span className="md:hidden">
-                  {locale === "zh" ? period.labelZh : period.label}
-                </span>
-                <span className="hidden md:inline">
-                  {locale === "zh" ? period.noteZh : period.note}
-                </span>
+                {compact ? (
+                  locale === "zh" ? period.noteZh : period.note
+                ) : (
+                  <>
+                    <span className="md:hidden">
+                      {locale === "zh" ? period.labelZh : period.label}
+                    </span>
+                    <span className="hidden md:inline">
+                      {locale === "zh" ? period.noteZh : period.note}
+                    </span>
+                  </>
+                )}
               </span>
             </button>
           );

@@ -197,24 +197,30 @@ svg {
   }
 
   .timeline-filter-compact {
-    top: auto !important;
+    top: 4.5rem !important;
     right: auto !important;
-    bottom: 0.75rem !important;
+    bottom: 4.75rem !important;
     left: 0.75rem !important;
     transform: none !important;
-    width: min(16rem, calc(100vw - 16rem)) !important;
+    width: min(10.5rem, calc(100vw - 16rem)) !important;
     padding: 0.625rem !important;
   }
 
-  .timeline-filter-compact.timeline-filter-expanded {
-    width: min(22rem, calc(100vw - 2rem)) !important;
+  .timeline-filter-compact-header {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  .timeline-filter-compact-list {
+    max-height: calc(100dvh - 10.5rem);
+    padding-right: 0.25rem;
   }
 
   .myth-card-landscape,
   .compare-card-landscape {
-    top: 3.5rem !important;
+    top: 3rem !important;
     right: 0.75rem !important;
-    bottom: 0.75rem !important;
+    bottom: 1.25rem !important;
     left: auto !important;
     width: min(23rem, 43vw) !important;
     max-height: none !important;
