@@ -7,6 +7,7 @@ import type { DragonRegion, Locale } from "@/data/dragons";
 interface MythCardProps {
   dragon: DragonRegion | null;
   locale: Locale;
+  landscapeMobile?: boolean;
   compareOptions: DragonRegion[];
   compareTargetId: string;
   onCompareTargetChange: (id: string) => void;
@@ -131,6 +132,7 @@ function FactCard({
 export default function MythCard({
   dragon,
   locale,
+  landscapeMobile = false,
   compareOptions,
   compareTargetId,
   onCompareTargetChange,
@@ -156,18 +158,22 @@ export default function MythCard({
           animate={{ opacity: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 18 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="myth-card fixed z-50 pointer-events-auto overflow-hidden
+          className={`myth-card fixed z-50 pointer-events-auto overflow-hidden
             bottom-2 left-2 right-2 rounded-sm max-h-[78vh] overflow-y-auto
-            md:bottom-auto md:top-5 md:left-auto md:right-5 md:max-h-[calc(100vh-2.5rem)] md:w-[340px] md:rounded-sm lg:w-[360px]"
+            md:bottom-auto md:top-5 md:left-auto md:right-5 md:max-h-[calc(100vh-2.5rem)] md:w-[340px] md:rounded-sm lg:w-[360px] ${
+              landscapeMobile ? "myth-card-landscape" : ""
+            }`}
           style={{
             background:
               "linear-gradient(180deg, rgba(9,8,6,0.96), rgba(9,8,6,0.88) 40%, rgba(9,8,6,0.78) 100%)",
             backdropFilter: "blur(14px)",
             WebkitBackdropFilter: "blur(14px)",
             border: `1px solid ${dragon.color}18`,
-            boxShadow: isMobile
-              ? "0 -12px 40px rgba(0,0,0,0.45)"
-              : "-18px 0 40px rgba(0,0,0,0.22)",
+            boxShadow: landscapeMobile
+              ? "-24px 0 40px rgba(0,0,0,0.34)"
+              : isMobile
+                ? "0 -12px 40px rgba(0,0,0,0.45)"
+                : "-18px 0 40px rgba(0,0,0,0.22)",
           }}
         >
           <div className="flex flex-col px-5 py-5 pb-8 md:px-6 md:py-6">

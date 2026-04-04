@@ -11,6 +11,7 @@ interface Message {
 
 interface OracleChatProps {
   locale: Locale;
+  landscapeMobile?: boolean;
   onOpenChange?: (isOpen: boolean) => void;
 }
 
@@ -46,7 +47,11 @@ const LABELS = {
   },
 };
 
-export default function OracleChat({ locale, onOpenChange }: OracleChatProps) {
+export default function OracleChat({
+  locale,
+  landscapeMobile = false,
+  onOpenChange,
+}: OracleChatProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -131,7 +136,9 @@ export default function OracleChat({ locale, onOpenChange }: OracleChatProps) {
       <motion.button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="oracle-chat-trigger fixed bottom-24 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full pointer-events-auto"
+        className={`oracle-chat-trigger fixed bottom-24 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full pointer-events-auto ${
+          landscapeMobile ? "oracle-chat-trigger-landscape" : ""
+        }`}
         style={{
           background:
             "linear-gradient(135deg, rgba(22, 18, 12, 0.95), rgba(12, 10, 7, 0.9))",
@@ -158,9 +165,11 @@ export default function OracleChat({ locale, onOpenChange }: OracleChatProps) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.38, ease: "easeOut" }}
-            className="oracle-chat-panel fixed z-50 pointer-events-auto flex flex-col rounded-t-sm
+            className={`oracle-chat-panel fixed z-50 pointer-events-auto flex flex-col rounded-t-sm
               bottom-0 left-0 right-0 h-[82vh]
-              sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[500px] sm:rounded-sm"
+              sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[500px] sm:rounded-sm ${
+                landscapeMobile ? "oracle-chat-panel-landscape" : ""
+              }`}
             style={{
               background:
                 "linear-gradient(180deg, rgba(10,8,5,0.97) 0%, rgba(8,7,5,0.95) 100%)",

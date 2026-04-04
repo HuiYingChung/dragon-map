@@ -8,6 +8,7 @@ interface CompareCardProps {
   leftDragon: DragonRegion | null;
   rightDragon: DragonRegion | null;
   locale: Locale;
+  landscapeMobile?: boolean;
   onClose: () => void;
 }
 
@@ -166,6 +167,7 @@ export default function CompareCard({
   leftDragon,
   rightDragon,
   locale,
+  landscapeMobile = false,
   onClose,
 }: CompareCardProps) {
   const [isMobile, setIsMobile] = useState(false);
@@ -187,18 +189,22 @@ export default function CompareCard({
           animate={{ opacity: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 18 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="compare-card fixed z-50 pointer-events-auto overflow-hidden
+          className={`compare-card fixed z-50 pointer-events-auto overflow-hidden
             bottom-2 left-2 right-2 rounded-sm max-h-[80vh] overflow-y-auto
-            md:bottom-auto md:top-5 md:left-auto md:right-5 md:w-[min(92vw,760px)] md:max-h-[calc(100vh-2.5rem)] md:rounded-sm"
+            md:bottom-auto md:top-5 md:left-auto md:right-5 md:w-[min(92vw,760px)] md:max-h-[calc(100vh-2.5rem)] md:rounded-sm ${
+              landscapeMobile ? "compare-card-landscape" : ""
+            }`}
           style={{
             background:
               "linear-gradient(180deg, rgba(9,8,6,0.95), rgba(9,8,6,0.86) 40%, rgba(9,8,6,0.76) 100%)",
             backdropFilter: "blur(14px)",
             WebkitBackdropFilter: "blur(14px)",
             border: "1px solid rgba(201, 168, 76, 0.12)",
-            boxShadow: isMobile
-              ? "0 -12px 40px rgba(0,0,0,0.45)"
-              : "-18px 0 40px rgba(0,0,0,0.22)",
+            boxShadow: landscapeMobile
+              ? "-24px 0 40px rgba(0,0,0,0.34)"
+              : isMobile
+                ? "0 -12px 40px rgba(0,0,0,0.45)"
+                : "-18px 0 40px rgba(0,0,0,0.22)",
           }}
         >
           <div className="px-5 py-5 pb-8 md:px-6 md:py-6">
@@ -222,7 +228,7 @@ export default function CompareCard({
               </button>
             </div>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className={`mt-6 grid gap-4 ${landscapeMobile ? "" : "md:grid-cols-2"}`}>
               <CompareColumn dragon={leftDragon} locale={locale} labels={labels} />
               <CompareColumn dragon={rightDragon} locale={locale} labels={labels} />
             </div>

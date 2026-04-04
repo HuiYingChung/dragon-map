@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { dragonRegions, type Locale } from "@/data/dragons";
 import WorldMap from "@/components/WorldMap";
@@ -27,6 +27,24 @@ export default function Home() {
   const [activeTimeline, setActiveTimeline] = useState<TimelinePeriod | "all">("all");
   const [isOracleOpen, setIsOracleOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isLandscapeMobile, setIsLandscapeMobile] = useState(false);
+
+  useEffect(() => {
+    const updateViewportMode = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setIsLandscapeMobile(width < 1024 && width > height && height <= 560);
+    };
+
+    updateViewportMode();
+    window.addEventListener("resize", updateViewportMode);
+    window.addEventListener("orientationchange", updateViewportMode);
+
+    return () => {
+      window.removeEventListener("resize", updateViewportMode);
+      window.removeEventListener("orientationchange", updateViewportMode);
+    };
+  }, []);
 
   const handleRegionClick = useCallback((id: string) => {
     setComparisonIds(null);
@@ -80,13 +98,19 @@ export default function Home() {
         ];
 
   return (
-    <main className="page-shell relative h-[100dvh] min-h-[100dvh] w-screen overflow-hidden bg-[#080705]">
+    <main
+      className={`page-shell relative h-[100dvh] min-h-[100dvh] w-screen overflow-hidden bg-[#080705] ${
+        isLandscapeMobile ? "page-shell-landscape" : ""
+      }`}
+    >
       <CursorAura />
       <AmbientEffects />
 
       <div
         className={`page-map-wrap relative z-10 flex h-full w-full items-center justify-center transition-[padding,transform] duration-700 ease-out lg:pl-[17rem] ${
           activeDragon ? "pb-[34vh] md:pb-0 md:pr-[320px] lg:pr-[360px]" : ""
+        } ${activeDragon || comparisonIds ? "page-map-with-panel" : ""} ${
+          isLandscapeMobile ? "page-map-wrap-landscape" : ""
         } md:-translate-x-4 lg:-translate-x-6`}
       >
         <WorldMap
@@ -100,7 +124,7 @@ export default function Home() {
         />
 
         <AnimatePresence>
-          {hoveredDragon && !activeRegion && (
+          {hoveredDragon && !activeRegion && !isLandscapeMobile && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -159,12 +183,14 @@ export default function Home() {
           leftDragon={comparisonLeft}
           rightDragon={comparisonRight}
           locale={locale}
+          landscapeMobile={isLandscapeMobile}
           onClose={handleCloseComparison}
         />
       ) : (
         <MythCard
           dragon={activeDragon}
           locale={locale}
+          landscapeMobile={isLandscapeMobile}
           compareOptions={compareOptions}
           compareTargetId={compareTargetId}
           onCompareTargetChange={setCompareTargetId}
@@ -197,6 +223,7 @@ export default function Home() {
             locale={locale}
             activeTimeline={activeTimeline}
             onChange={setActiveTimeline}
+            compact={isLandscapeMobile}
             mobileHidden={!!activeRegion || !!comparisonIds || isOracleOpen}
             desktopInline
           />
@@ -221,6 +248,7 @@ export default function Home() {
           locale={locale}
           activeTimeline={activeTimeline}
           onChange={setActiveTimeline}
+          compact={isLandscapeMobile}
           mobileHidden={!!activeRegion || !!comparisonIds || isOracleOpen}
         />
       </div>
@@ -229,7 +257,11 @@ export default function Home() {
         <Marginalia dimmed={!!activeRegion} locale={locale} />
       </div>
 
-      <OracleChat locale={locale} onOpenChange={setIsOracleOpen} />
+      <OracleChat
+        locale={locale}
+        landscapeMobile={isLandscapeMobile}
+        onOpenChange={setIsOracleOpen}
+      />
 
       <AnimatePresence>
         {isGuideOpen && (
@@ -245,7 +277,9 @@ export default function Home() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 12, scale: 0.98 }}
               transition={{ duration: 0.28, ease: "easeOut" }}
-              className="page-guide-panel absolute left-4 right-4 top-[5.5rem] mx-auto max-w-[28rem] rounded-sm border px-5 py-5 md:left-auto md:bottom-28 md:right-6 md:top-auto md:w-[24rem]"
+              className={`page-guide-panel absolute left-4 right-4 top-[5.5rem] mx-auto max-w-[28rem] rounded-sm border px-5 py-5 md:left-auto md:bottom-28 md:right-6 md:top-auto md:w-[24rem] ${
+                isLandscapeMobile ? "page-guide-panel-landscape" : ""
+              }`}
               style={{
                 borderColor: "rgba(201, 168, 76, 0.2)",
                 background:
@@ -313,7 +347,11 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      <div className="page-mobile-title fixed left-3 top-3 z-40 max-w-[calc(100vw-7.5rem)] pointer-events-none rounded-sm px-2.5 py-2 md:left-5 md:top-5 md:max-w-none md:px-3 lg:hidden">
+      <div
+        className={`page-mobile-title fixed left-3 top-3 z-40 max-w-[calc(100vw-7.5rem)] pointer-events-none rounded-sm px-2.5 py-2 md:left-5 md:top-5 md:max-w-none md:px-3 lg:hidden ${
+          isLandscapeMobile ? "page-mobile-title-landscape" : ""
+        }`}
+      >
         <div
           style={{
             background:
@@ -355,15 +393,23 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="page-bottom-controls fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2 md:bottom-6 md:right-6 md:gap-3">
+      <div
+        className={`page-bottom-controls fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2 md:bottom-6 md:right-6 md:gap-3 ${
+          isLandscapeMobile ? "page-bottom-controls-landscape" : ""
+        }`}
+      >
         <p
-          className="pointer-events-none hidden text-right text-[9px] font-light uppercase tracking-[0.15em] md:block"
+          className={`pointer-events-none text-right text-[9px] font-light uppercase tracking-[0.15em] ${
+            isLandscapeMobile ? "hidden" : "hidden md:block"
+          }`}
           style={{ color: "rgba(140, 120, 90, 0.2)" }}
         >
           {locale === "zh" ? "滑過以喚醒 · 點擊以展開" : "Hover to awaken · Click to reveal"}
         </p>
         <p
-          className="pointer-events-none block text-right text-[9px] font-light uppercase tracking-[0.15em] md:hidden"
+          className={`pointer-events-none block text-right text-[9px] font-light uppercase tracking-[0.15em] ${
+            isLandscapeMobile ? "hidden" : "md:hidden"
+          }`}
           style={{ color: "rgba(140, 120, 90, 0.3)" }}
         >
           {locale === "zh" ? "點擊以展開" : "Tap to reveal"}
