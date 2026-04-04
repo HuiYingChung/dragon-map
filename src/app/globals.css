@@ -227,9 +227,9 @@ svg {
   }
 
   .myth-card-landscape {
-    top: 0.5rem !important;
+    top: 0.1rem !important;
     right: 0.75rem !important;
-    bottom: 0.6rem !important;
+    bottom: 0.1rem !important;
     left: auto !important;
     width: min(23rem, 43vw) !important;
     max-height: none !important;
