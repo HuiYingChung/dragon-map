@@ -86,9 +86,11 @@ export default function TimelineFilter({
       </div>
 
       <div
-        className={`-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 md:mx-0 md:grid md:grid-cols-6 md:gap-2 md:overflow-visible md:px-0 md:pb-0 lg:flex lg:flex-col lg:gap-2 lg:overflow-visible lg:px-0 lg:pb-0 ${
-          compact && !isExpanded ? "hidden" : ""
-        }`}
+        className={`${
+          compact
+            ? "-mx-1 flex gap-2 overflow-x-auto px-1 pb-1"
+            : "-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 md:mx-0 md:grid md:grid-cols-6 md:gap-2 md:overflow-visible md:px-0 md:pb-0 lg:flex lg:flex-col lg:gap-2 lg:overflow-visible lg:px-0 lg:pb-0"
+        } ${compact && !isExpanded ? "hidden" : ""}`}
       >
         {timelinePeriods.map((period) => {
           const isActive = activeTimeline === period.id;
@@ -102,7 +104,9 @@ export default function TimelineFilter({
                   setIsExpanded(false);
                 }
               }}
-              className="relative min-w-[7.5rem] shrink-0 rounded-sm border px-3 py-2 text-left transition-colors md:min-w-0 lg:w-full"
+              className={`relative min-w-[7.5rem] shrink-0 rounded-sm border px-3 py-2 text-left transition-colors ${
+                compact ? "" : "md:min-w-0 lg:w-full"
+              }`}
               style={{
                 borderColor: isActive
                   ? "rgba(201, 168, 76, 0.32)"
