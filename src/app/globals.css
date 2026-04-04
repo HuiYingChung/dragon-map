@@ -105,6 +105,10 @@ svg {
   border: 0;
 }
 
+.print-card-only {
+  display: none;
+}
+
 @media (max-height: 500px) {
   .page-map-wrap {
     padding-bottom: 18vh !important;
@@ -344,17 +348,15 @@ svg {
 
   .print-page-header,
   .postcard-print-actions,
-  .cursor-aura {
+  .card-preview-controls,
+  .cursor-aura,
+  .screen-preview-only,
+  .card-zoom-overlay {
     display: none !important;
   }
 
-  .screen-card {
-    display: none !important;
-  }
-
-  .print-only-card {
+  .print-card-only {
     display: block !important;
-    position: relative !important;
   }
 
   .museum-postcard {
@@ -416,7 +418,7 @@ svg {
     object-fit: contain !important;
   }
 
-  .print-only-card * {
-    overflow: hidden !important;
+  .card-preview-scale {
+    transform: none !important;
   }
 }

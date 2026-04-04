@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 interface CursorState {
@@ -17,9 +17,11 @@ export default function CursorAura() {
     visible: false,
     interactive: false,
   });
+  const mediaQueryRef = useRef<MediaQueryList | null>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(pointer: fine) and (min-width: 1024px)");
+    mediaQueryRef.current = mediaQuery;
     if (!mediaQuery.matches) {
       return;
     }
@@ -45,22 +47,50 @@ export default function CursorAura() {
       });
     };
 
-    const handleLeave = () => {
+    const hideCursor = () => {
       setCursor((prev) => ({ ...prev, visible: false, interactive: false }));
     };
 
-    const handleEnter = () => {
+    const handleEnterWindow = () => {
       setCursor((prev) => ({ ...prev, visible: true }));
     };
 
+    const handleWindowMouseOut = (event: MouseEvent) => {
+      if (event.relatedTarget === null) {
+        hideCursor();
+      }
+    };
+
+    const handleWindowBlur = () => {
+      hideCursor();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState !== "visible") {
+        hideCursor();
+      }
+    };
+
+    const handleMediaQueryChange = (event: MediaQueryListEvent) => {
+      if (!event.matches) {
+        hideCursor();
+      }
+    };
+
     window.addEventListener("mousemove", handleMove);
-    document.addEventListener("mouseleave", handleLeave);
-    document.addEventListener("mouseenter", handleEnter);
+    window.addEventListener("mouseenter", handleEnterWindow);
+    window.addEventListener("mouseout", handleWindowMouseOut);
+    window.addEventListener("blur", handleWindowBlur);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
 
     return () => {
       window.removeEventListener("mousemove", handleMove);
-      document.removeEventListener("mouseleave", handleLeave);
-      document.removeEventListener("mouseenter", handleEnter);
+      window.removeEventListener("mouseenter", handleEnterWindow);
+      window.removeEventListener("mouseout", handleWindowMouseOut);
+      window.removeEventListener("blur", handleWindowBlur);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
     };
   }, []);
 
