@@ -91,12 +91,14 @@ export default function Home() {
           "滑過地圖上的區域即可預覽該地的龍與氛圍，點擊後展開詳細卡片。",
           "使用時間軸可聚焦特定時代；其他傳統會被淡化，但仍可繼續探索。",
           "在右側卡片底部選擇第二條龍，即可進入並列比較模式。",
+          "使用底部的抽卡按鈕可領取今日龍卡；每天只會隨機抽出一張，並可開啟列印版本收藏。",
           "打開 Oracle，向它詢問不同文化之間的龍、蛇與神話聯繫。",
         ]
       : [
           "Hover over a region to preview its dragon tradition and click to open the full entry.",
           "Use the timeline to focus on a period; other traditions dim, but remain explorable.",
           "Choose a second dragon at the bottom of the card to enter side-by-side comparison mode.",
+          "Use the draw-card button along the bottom controls to claim today's dragon card. Each day yields one random keepsake that you can open and print.",
           "Open the Oracle to ask about cross-cultural dragon, serpent, and myth connections.",
         ];
 
