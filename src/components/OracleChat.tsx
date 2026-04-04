@@ -15,37 +15,217 @@ interface OracleChatProps {
   onOpenChange?: (isOpen: boolean) => void;
 }
 
-const STARTER_PROMPTS = {
+const QUICK_SCOPES = {
   en: [
-    "What do Eastern and Western dragons have in common?",
-    "Which dragon rules the ocean?",
-    "Why do some cultures fear dragons while others revere them?",
+    {
+      label: "Compare",
+      prompt: "Compare Long and the European dragon.",
+    },
+    {
+      label: "Explore",
+      prompt: "Recommend what I should explore if I care about water dragons.",
+    },
+    {
+      label: "Patterns",
+      prompt: "What symbolic patterns connect dragons with rain, rivers, and kingship?",
+    },
+    {
+      label: "Regions",
+      prompt: "Which regions in this atlas treat dragons as guardians rather than threats?",
+    },
   ],
   zh: [
-    "東方與西方的龍有什麼共同之處？",
-    "哪條龍統治著海洋？",
-    "為什麼某些文化畏懼龍，而另一些文化卻崇敬龍？",
+    {
+      label: "比較",
+      prompt: "比較中國龍與歐洲龍。",
+    },
+    {
+      label: "探索",
+      prompt: "如果我對水域之龍有興趣，推薦我先探索哪裡？",
+    },
+    {
+      label: "象徵",
+      prompt: "龍為何常與雨、水脈與王權連在一起？",
+    },
+    {
+      label: "區域",
+      prompt: "這張圖譜中，哪些地區更常把龍視為守護者而非威脅？",
+    },
+  ],
+};
+
+const STARTER_PROMPTS = {
+  en: [
+    "Compare Long and the European dragon.",
+    "Recommend what I should explore if I care about water dragons.",
+    "What symbolic patterns connect dragons with rain, rivers, and kingship?",
+  ],
+  zh: [
+    "比較中國龍與歐洲龍。",
+    "如果我對水域之龍有興趣，推薦我先探索哪裡？",
+    "龍為何常與雨、水脈與王權連在一起？",
   ],
 };
 
 const LABELS = {
   en: {
     title: "Ask the Oracle",
-    placeholder: "Speak your question...",
+    placeholder: "Compare, explore, symbols, or region/theme...",
     send: "Send",
     loading: "The Oracle stirs...",
     close: "close",
     error: "The Oracle's vision clouds. Please try again.",
+    scopeTitle: "Oracle scope",
+    scopeText:
+      "Compare traditions, get exploration recommendations, ask about symbolic patterns, or ask region/theme questions.",
+    invalid:
+      "The Oracle accepts only comparison, exploration recommendations, symbolic patterns, or region/theme questions from this atlas.",
+    usePrompt: "Use prompt",
   },
   zh: {
     title: "問龍使者",
-    placeholder: "請提出您的問題…",
+    placeholder: "可問比較、探索建議、象徵模式或區域主題…",
     send: "送出",
     loading: "龍使者正在感應…",
     close: "關閉",
     error: "龍使者的視野蒙塵，請再試一次。",
+    scopeTitle: "可詢問範圍",
+    scopeText: "可比較不同傳統、請求探索建議、詢問象徵模式，或提出區域與主題問題。",
+    invalid: "龍使者只接受圖譜內的比較、探索建議、象徵模式，或區域與主題問題。",
+    usePrompt: "帶入問題",
   },
 };
+
+function isAtlasScopedQuestion(message: string) {
+  const normalized = message.toLowerCase();
+
+  const directAtlasTerms = [
+    "dragon",
+    "dragons",
+    "serpent",
+    "serpents",
+    "myth",
+    "myths",
+    "mythology",
+    "atlas",
+    "oracle",
+    "long",
+    "ryu",
+    "yong",
+    "imugi",
+    "naga",
+    "quetzalcoatl",
+    "boiuna",
+    "horned serpent",
+    "european dragon",
+    "jormungandr",
+    "zmey",
+    "apep",
+    "azhdaha",
+    "rainbow serpent",
+    "taniwha",
+    "symbol",
+    "symbolic",
+    "theme",
+    "themes",
+    "region",
+    "regions",
+    "compare",
+    "comparison",
+    "explore",
+    "recommend",
+    "pattern",
+    "patterns",
+    "east asia",
+    "japan",
+    "korea",
+    "india",
+    "south asia",
+    "mesoamerica",
+    "south america",
+    "north america",
+    "europe",
+    "norse",
+    "slavic",
+    "egypt",
+    "persia",
+    "middle east",
+    "australia",
+    "polynesia",
+    "ocean",
+    "sea",
+    "river",
+    "storm",
+    "creation",
+    "kingship",
+    "chaos",
+    "wisdom",
+  ];
+
+  const chineseAtlasTerms = [
+    "龍",
+    "龙",
+    "蛇",
+    "神話",
+    "神话",
+    "圖譜",
+    "图谱",
+    "地圖",
+    "地图",
+    "比較",
+    "比较",
+    "對照",
+    "对照",
+    "推薦",
+    "推荐",
+    "探索",
+    "象徵",
+    "象征",
+    "符號",
+    "符号",
+    "主題",
+    "主题",
+    "區域",
+    "区域",
+    "東亞",
+    "东亚",
+    "日本",
+    "韓國",
+    "韩国",
+    "印度",
+    "南亞",
+    "南亚",
+    "中美洲",
+    "南美",
+    "北美",
+    "歐洲",
+    "欧洲",
+    "北歐",
+    "北欧",
+    "斯拉夫",
+    "埃及",
+    "波斯",
+    "中東",
+    "中东",
+    "澳洲",
+    "大洋洲",
+    "海洋",
+    "河流",
+    "風暴",
+    "风暴",
+    "創世",
+    "创世",
+    "王權",
+    "王权",
+    "混沌",
+    "智慧",
+  ];
+
+  return (
+    directAtlasTerms.some((term) => normalized.includes(term)) ||
+    chineseAtlasTerms.some((term) => message.includes(term))
+  );
+}
 
 export default function OracleChat({
   locale,
@@ -62,6 +242,7 @@ export default function OracleChat({
   const inputRef = useRef<HTMLInputElement>(null);
   const labels = LABELS[locale];
   const starters = STARTER_PROMPTS[locale];
+  const quickScopes = QUICK_SCOPES[locale];
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -90,6 +271,11 @@ export default function OracleChat({
     async (text: string) => {
       const trimmed = text.trim();
       if (!trimmed || isLoading) return;
+
+      if (!isAtlasScopedQuestion(trimmed)) {
+        setError(labels.invalid);
+        return;
+      }
 
       setInput("");
       setError(null);
@@ -121,7 +307,7 @@ export default function OracleChat({
         setIsLoading(false);
       }
     },
-    [isLoading, locale, labels.error],
+    [isLoading, locale, labels.error, labels.invalid],
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -231,6 +417,49 @@ export default function OracleChat({
             )}
 
             <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
+              <div
+                className="rounded-sm px-3 py-2"
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(201, 168, 76, 0.12)",
+                }}
+              >
+                <p
+                  className="text-[11px] sm:text-[10px] uppercase tracking-[0.2em]"
+                  style={{ color: "rgba(201, 168, 76, 0.72)" }}
+                >
+                  {labels.scopeTitle}
+                </p>
+                <p
+                  className="mt-1 text-[14px] sm:text-[12px] leading-relaxed"
+                  style={{ color: "rgba(214, 193, 160, 0.82)" }}
+                >
+                  {labels.scopeText}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {quickScopes.map((scope) => (
+                    <button
+                      key={scope.label}
+                      type="button"
+                      onClick={() => {
+                        setInput(scope.prompt);
+                        setError(null);
+                        requestAnimationFrame(() => inputRef.current?.focus());
+                      }}
+                      className="rounded-sm px-2.5 py-1 text-[11px] sm:text-[10px] uppercase tracking-[0.16em] transition-colors"
+                      style={{
+                        color: "rgba(224, 196, 118, 0.82)",
+                        border: "1px solid rgba(201, 168, 76, 0.16)",
+                        background: "rgba(201, 168, 76, 0.06)",
+                      }}
+                      title={`${labels.usePrompt}: ${scope.prompt}`}
+                    >
+                      {scope.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {showStarters && (
                 <div className="mt-1 flex flex-col gap-2">
                   <p

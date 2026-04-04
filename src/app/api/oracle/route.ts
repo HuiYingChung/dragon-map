@@ -7,7 +7,19 @@ import { NextRequest } from "next/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SYSTEM_PROMPT = `You are the Oracle of Dragons - a keeper of ancient myths from every corner of the world. You speak with quiet authority and poetic precision. When asked about dragons, serpents, or mythological creatures, you draw connections across cultures, reveal hidden patterns, and illuminate what these creatures meant to the people who imagined them. You know these dragons from the atlas: Long (China), Ryu (Japan), Yong/Imugi (Korea), Naga (South Asia), Quetzalcoatl (Mesoamerica), Boiuna (South America), Horned Serpent (Indigenous North America), European Dragon, Jormungandr (Norse), Zmey (Slavic), Apep (Egypt), Azhdaha (Persia), Rainbow Serpent (Australia), Taniwha (Polynesia). Keep responses under 150 words. If the user writes in Chinese, respond in Traditional Chinese. Never break character.`;
+const SYSTEM_PROMPT = `You are the Oracle of Dragons - a keeper of ancient myths from every corner of the world. You speak with quiet authority and poetic precision.
+
+You may help with only these four kinds of requests:
+1. Compare two or more dragon traditions in the atlas.
+2. Recommend what part of the atlas to explore next.
+3. Explain symbolic patterns across dragon, serpent, and sacred-creature traditions.
+4. Answer region-based or theme-based questions about the atlas.
+
+If a request falls outside those four purposes, refuse briefly and redirect the user toward one of those allowed uses. Do not engage in general conversation, personal advice, jokes, coding help, or unrelated factual questions.
+
+You know these dragons from the atlas: Long (China), Ryu (Japan), Yong/Imugi (Korea), Naga (South Asia), Quetzalcoatl (Mesoamerica), Boiuna (South America), Horned Serpent (Indigenous North America), European Dragon, Jormungandr (Norse), Zmey (Slavic), Apep (Egypt), Azhdaha (Persia), Rainbow Serpent (Australia), Taniwha (Polynesia).
+
+Keep responses under 150 words. If the user writes in Chinese, respond in Traditional Chinese. Never break character.`;
 
 const MAX_MESSAGE_CHARS = 400;
 const SHORT_WINDOW_RETRY_SECONDS = 60 * 5;
@@ -54,6 +66,145 @@ function buildMockReply(message: string, language: string) {
   }
 
   return defaultReply;
+}
+
+function isAtlasScopedQuestion(message: string) {
+  const normalized = message.toLowerCase();
+
+  const directAtlasTerms = [
+    "dragon",
+    "dragons",
+    "serpent",
+    "serpents",
+    "myth",
+    "myths",
+    "mythology",
+    "atlas",
+    "oracle",
+    "long",
+    "ryu",
+    "yong",
+    "imugi",
+    "naga",
+    "quetzalcoatl",
+    "boiuna",
+    "horned serpent",
+    "european dragon",
+    "jormungandr",
+    "zmey",
+    "apep",
+    "azhdaha",
+    "rainbow serpent",
+    "taniwha",
+    "symbol",
+    "symbolic",
+    "theme",
+    "themes",
+    "region",
+    "regions",
+    "compare",
+    "comparison",
+    "explore",
+    "recommend",
+    "pattern",
+    "patterns",
+    "east asia",
+    "japan",
+    "korea",
+    "india",
+    "south asia",
+    "mesoamerica",
+    "south america",
+    "north america",
+    "europe",
+    "norse",
+    "slavic",
+    "egypt",
+    "persia",
+    "middle east",
+    "australia",
+    "polynesia",
+    "ocean",
+    "sea",
+    "river",
+    "storm",
+    "creation",
+    "kingship",
+    "chaos",
+    "wisdom",
+  ];
+
+  const chineseAtlasTerms = [
+    "龍",
+    "龙",
+    "蛇",
+    "神話",
+    "神话",
+    "圖譜",
+    "图谱",
+    "地圖",
+    "地图",
+    "比較",
+    "比较",
+    "對照",
+    "对照",
+    "推薦",
+    "推荐",
+    "探索",
+    "象徵",
+    "象征",
+    "符號",
+    "符号",
+    "主題",
+    "主题",
+    "區域",
+    "区域",
+    "東亞",
+    "东亚",
+    "日本",
+    "韓國",
+    "韩国",
+    "印度",
+    "南亞",
+    "南亚",
+    "中美洲",
+    "南美",
+    "北美",
+    "歐洲",
+    "欧洲",
+    "北歐",
+    "北欧",
+    "斯拉夫",
+    "埃及",
+    "波斯",
+    "中東",
+    "中东",
+    "澳洲",
+    "大洋洲",
+    "海洋",
+    "河流",
+    "風暴",
+    "风暴",
+    "創世",
+    "创世",
+    "王權",
+    "王权",
+    "混沌",
+    "智慧",
+  ];
+
+  return (
+    directAtlasTerms.some((term) => normalized.includes(term)) ||
+    chineseAtlasTerms.some((term) => message.includes(term))
+  );
+}
+
+function buildScopeReply(language: "en" | "zh") {
+  if (language === "zh") {
+    return "龍使者只回答這張圖譜中的四類問題: 比較不同龍傳統、推薦你接下來該探索哪裡、解釋象徵模式，或回答與區域與主題相關的問題。若你願意，可改問某個地區、某種象徵，或請我比較兩條龍。";
+  }
+
+  return "The Oracle serves only four paths: comparing dragon traditions, recommending what to explore next, explaining symbolic patterns, or answering region and theme questions from this atlas. Ask instead about a region, a motif, or two dragons you wish to compare.";
 }
 
 function parseAllowedOrigins() {
@@ -288,6 +439,13 @@ export async function POST(request: NextRequest) {
   }
 
   const language = isLanguage(body.language) ? body.language : "en";
+
+  if (!isAtlasScopedQuestion(trimmedMessage)) {
+    return Response.json({
+      reply: buildScopeReply(language),
+      restricted: true,
+    });
+  }
 
   try {
     const rateLimit = await enforceRateLimits(request);
