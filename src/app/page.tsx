@@ -401,7 +401,7 @@ export default function Home() {
       </div>
 
       <div
-        className={`page-bottom-controls fixed bottom-3 left-3 right-16 z-40 flex items-center justify-center gap-2 rounded-sm border px-3 py-2 md:bottom-6 md:left-auto md:right-6 md:flex-col md:items-end md:justify-start md:gap-3 md:border-0 md:px-0 md:py-0 ${
+        className={`page-bottom-controls fixed bottom-3 left-3 right-16 z-40 flex items-center justify-center gap-2 rounded-sm border px-3 py-2 md:bottom-6 md:left-auto md:right-24 md:flex-col md:items-end md:justify-start md:gap-3 md:border-0 md:px-0 md:py-0 ${
           isLandscapeMobile ? "page-bottom-controls-landscape" : ""
         }`}
         style={{
