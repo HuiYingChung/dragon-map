@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import { dragonRegions, type DragonRegion } from "@/data/dragons";
 
 const STORAGE_KEY = "dragon-map:daily-card-v1";
+const MUSEUM_CARD_SERIES = "Atlas Archive";
 
 type StoredDailyCard = {
   date: string;
@@ -25,6 +26,7 @@ const CARD_LABELS = {
     "The atlas yields one dragon each day. Once drawn, today's card remains yours until tomorrow.",
   drawnToday: "Drawn today",
   catalogNo: "Catalog no.",
+  series: "Series",
   placeholder: "Museum card artwork",
   placeholderNote:
     "This card is ready to keep, print, or revisit from the atlas archive.",
@@ -317,6 +319,9 @@ export default function DailyDragonCard() {
                                 </p>
                                 <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-stone-400">
                                   {labels.catalogNo} {todaysCard.catalogId}
+                                </p>
+                                <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-stone-500">
+                                  {labels.series} {MUSEUM_CARD_SERIES}
                                 </p>
                                 <h3
                                   className="mt-3 text-[22px] uppercase tracking-[0.1em] sm:text-[26px] md:text-[30px] lg:text-[26px]"

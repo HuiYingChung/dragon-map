@@ -10,6 +10,7 @@ type ZoomableMuseumCardProps = {
 
 const CARD_WIDTH_PX = 3.5 * 96;
 const CARD_HEIGHT_PX = 2 * 96;
+const MUSEUM_CARD_SERIES = "Atlas Archive";
 
 function MuseumCard({ dragon }: { dragon: DragonRegion }) {
   return (
@@ -39,6 +40,12 @@ function MuseumCard({ dragon }: { dragon: DragonRegion }) {
                 style={{ fontSize: "5pt" }}
               >
                 Where Dragons Dwell
+              </p>
+              <p
+                className="mt-[0.02in] uppercase tracking-[0.18em] text-[#7a6549]"
+                style={{ fontSize: "4.3pt" }}
+              >
+                Series {MUSEUM_CARD_SERIES}
               </p>
               <h2
                 className="mt-[0.04in] uppercase leading-none tracking-[0.08em] text-[#2f2417]"
@@ -164,10 +171,10 @@ function MuseumCard({ dragon }: { dragon: DragonRegion }) {
                   className="uppercase tracking-[0.16em] text-[#7a6549]"
                   style={{ fontSize: "4.5pt" }}
                 >
-                  Keywords
+                  Series
                 </p>
                 <p className="mt-[0.02in] leading-[1.2]" style={{ fontSize: "5.5pt" }}>
-                  {dragon.domains.slice(0, 3).join(" · ")}
+                  {MUSEUM_CARD_SERIES}
                 </p>
               </div>
             </div>
