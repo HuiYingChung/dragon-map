@@ -81,6 +81,9 @@ const LABELS = {
     invalid:
       "The Oracle accepts only comparison, exploration recommendations, symbolic patterns, or region/theme questions from this atlas.",
     usePrompt: "Use prompt",
+    clear: "Clear",
+    clearConversation: "Clear conversation",
+    emptyState: "The Oracle awaits a new question.",
   },
   zh: {
     title: "問龍使者",
@@ -93,6 +96,9 @@ const LABELS = {
     scopeText: "可比較不同傳統、請求探索建議、詢問象徵模式，或提出區域與主題問題。",
     invalid: "龍使者只接受圖譜內的比較、探索建議、象徵模式，或區域與主題問題。",
     usePrompt: "帶入問題",
+    clear: "清除",
+    clearConversation: "清除對話",
+    emptyState: "對話已清空，龍使者正等待新的提問。",
   },
 };
 
@@ -315,6 +321,14 @@ export default function OracleChat({
     sendMessage(input);
   };
 
+  const clearConversation = useCallback(() => {
+    setMessages([]);
+    setError(null);
+    setIsMockMode(false);
+    setInput("");
+    requestAnimationFrame(() => inputRef.current?.focus());
+  }, []);
+
   const showStarters = messages.length === 0 && !isLoading;
 
   return (
@@ -380,20 +394,37 @@ export default function OracleChat({
                   {labels.title}
                 </h2>
               </div>
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="text-[13px] sm:text-[11px] tracking-[0.18em] uppercase transition-colors"
-                style={{ color: "rgba(180, 158, 110, 0.7)" }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "rgba(224, 196, 118, 0.95)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "rgba(180, 158, 110, 0.7)";
-                }}
-              >
-                {labels.close}
-              </button>
+              <div className="flex items-center gap-3">
+                {messages.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearConversation}
+                    className="rounded-sm border px-2.5 py-1.5 text-[11px] uppercase tracking-[0.16em] transition-all duration-200 hover:-translate-y-px hover:bg-white/5 hover:text-stone-100"
+                    style={{
+                      color: "rgba(191, 168, 129, 0.74)",
+                      borderColor: "rgba(201, 168, 76, 0.14)",
+                      background: "rgba(255,255,255,0.02)",
+                    }}
+                    title={labels.clearConversation}
+                  >
+                    {labels.clear}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="text-[13px] sm:text-[11px] tracking-[0.18em] uppercase transition-colors"
+                  style={{ color: "rgba(180, 158, 110, 0.7)" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = "rgba(224, 196, 118, 0.95)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = "rgba(180, 158, 110, 0.7)";
+                  }}
+                >
+                  {labels.close}
+                </button>
+              </div>
             </div>
 
             {isMockMode && (
@@ -555,6 +586,15 @@ export default function OracleChat({
                   style={{ color: "rgba(200, 110, 90, 0.9)" }}
                 >
                   {error}
+                </p>
+              )}
+
+              {!showStarters && messages.length === 0 && !error && !isLoading && (
+                <p
+                  className="px-2 text-center text-[13px] sm:text-[12px] italic tracking-[0.03em]"
+                  style={{ color: "rgba(180, 158, 110, 0.62)" }}
+                >
+                  {labels.emptyState}
                 </p>
               )}
 

@@ -17,6 +17,8 @@ type StoredDailyCard = {
 const CARD_LABELS = {
   trigger: "Draw Today's Dragon Card",
   reveal: "Reveal Today's Card",
+  claimed: "Today's Card Claimed",
+  claimedNote: "You have already drawn today's keepsake. Reopen it any time before midnight.",
   title: "Today's Museum Card",
   eyebrow: "Daily Keepsake",
   lead:
@@ -156,15 +158,34 @@ export default function DailyDragonCard() {
         }`}
         style={{
           color: "rgba(230, 210, 173, 0.92)",
-          borderColor: "rgba(224, 196, 118, 0.34)",
+          borderColor: hasDrawnToday
+            ? "rgba(136, 197, 155, 0.34)"
+            : "rgba(224, 196, 118, 0.34)",
           background:
-            "linear-gradient(180deg, rgba(76, 50, 21, 0.92), rgba(31, 21, 11, 0.84))",
-          boxShadow: hasDrawnToday ? "0 0 0 1px rgba(224, 196, 118, 0.12) inset" : "none",
+            hasDrawnToday
+              ? "linear-gradient(180deg, rgba(23, 48, 35, 0.9), rgba(15, 30, 24, 0.84))"
+              : "linear-gradient(180deg, rgba(76, 50, 21, 0.92), rgba(31, 21, 11, 0.84))",
+          boxShadow: hasDrawnToday ? "0 0 0 1px rgba(136, 197, 155, 0.18) inset" : "none",
           backdropFilter: "blur(2px)",
         }}
+        title={hasDrawnToday ? labels.claimedNote : labels.trigger}
       >
-        {availabilityLabel}
+        <span className="block">{availabilityLabel}</span>
+        {hasDrawnToday && !isSmallViewport && (
+          <span className="mt-1 block text-[8px] tracking-[0.14em] text-[rgba(194,230,205,0.72)]">
+            {labels.claimed}
+          </span>
+        )}
       </button>
+
+      {hasDrawnToday && !isSmallViewport && (
+        <p
+          className="mt-2 max-w-[15rem] text-[10px] leading-[1.55] tracking-[0.03em]"
+          style={{ color: "rgba(178, 197, 183, 0.82)" }}
+        >
+          {labels.claimedNote}
+        </p>
+      )}
 
       {canUsePortal
         ? createPortal(
