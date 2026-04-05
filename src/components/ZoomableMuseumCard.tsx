@@ -128,7 +128,7 @@ function MuseumCard({ dragon }: { dragon: DragonRegion }) {
                 className="uppercase tracking-[0.16em] text-[#7a6549]"
                 style={{ fontSize: "4.5pt" }}
               >
-                Atlas card
+                {dragon.catalogId}
               </p>
             </div>
 
@@ -146,6 +146,17 @@ function MuseumCard({ dragon }: { dragon: DragonRegion }) {
                 </p>
                 <p className="mt-[0.02in] leading-[1.2]" style={{ fontSize: "5.5pt" }}>
                   {dragon.role}
+                </p>
+              </div>
+              <div>
+                <p
+                  className="uppercase tracking-[0.16em] text-[#7a6549]"
+                  style={{ fontSize: "4.5pt" }}
+                >
+                  Catalog no.
+                </p>
+                <p className="mt-[0.02in] leading-[1.2]" style={{ fontSize: "5.5pt" }}>
+                  {dragon.catalogId}
                 </p>
               </div>
               <div>

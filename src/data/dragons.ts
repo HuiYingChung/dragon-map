@@ -8,6 +8,7 @@ export type TimelinePeriod =
 
 export interface DragonRegion {
   id: string;
+  catalogId: string;
   name: string;
   nameZh: string;
   tradition: string;
@@ -53,6 +54,7 @@ export interface DragonRegion {
 export const dragonRegions: DragonRegion[] = [
   {
     id: "china",
+    catalogId: "WDD-EA-001",
     name: "Long",
     nameZh: "龍",
     tradition: "Chinese / East Asian",
@@ -95,6 +97,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "japan",
+    catalogId: "WDD-EA-002",
     name: "Ryu",
     nameZh: "龍",
     tradition: "Japanese",
@@ -136,6 +139,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "korea",
+    catalogId: "WDD-EA-003",
     name: "Yong / Imugi",
     nameZh: "龍 / 蟒靈",
     tradition: "Korean",
@@ -177,6 +181,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "india",
+    catalogId: "WDD-SAS-001",
     name: "Naga",
     nameZh: "那伽",
     tradition: "Hindu / Buddhist",
@@ -218,6 +223,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "mesoamerica",
+    catalogId: "WDD-MES-001",
     name: "Quetzalcoatl",
     nameZh: "羽蛇神",
     tradition: "Mesoamerican",
@@ -259,6 +265,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "south-america",
+    catalogId: "WDD-SAM-001",
     name: "Boiuna",
     nameZh: "博尤納",
     tradition: "Amazonian / South American",
@@ -301,6 +308,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "north-america",
+    catalogId: "WDD-NAM-001",
     name: "Horned Serpent",
     nameZh: "角蛇",
     tradition: "Indigenous North American",
@@ -342,6 +350,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "europe",
+    catalogId: "WDD-EUR-001",
     name: "Dragon",
     nameZh: "巨龍",
     tradition: "European Medieval",
@@ -382,6 +391,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "norse",
+    catalogId: "WDD-NOR-001",
     name: "Jormungandr",
     nameZh: "約爾蒙岡德",
     tradition: "Norse",
@@ -422,6 +432,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "slavic",
+    catalogId: "WDD-SLV-001",
     name: "Zmey",
     nameZh: "茲梅伊",
     tradition: "Slavic / Eastern European",
@@ -463,6 +474,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "egypt",
+    catalogId: "WDD-EGY-001",
     name: "Apep",
     nameZh: "阿佩普",
     tradition: "Egyptian",
@@ -504,6 +516,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "persia",
+    catalogId: "WDD-PER-001",
     name: "Azhdaha",
     nameZh: "阿茲達哈",
     tradition: "Persian / Middle Eastern",
@@ -545,6 +558,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "australia",
+    catalogId: "WDD-AUS-001",
     name: "Rainbow Serpent",
     nameZh: "彩虹蛇",
     tradition: "Aboriginal Australian",
@@ -586,6 +600,7 @@ export const dragonRegions: DragonRegion[] = [
   },
   {
     id: "polynesia",
+    catalogId: "WDD-POL-001",
     name: "Taniwha",
     nameZh: "塔尼法",
     tradition: "Polynesian / Maori",

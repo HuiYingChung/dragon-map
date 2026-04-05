@@ -24,6 +24,7 @@ const CARD_LABELS = {
   lead:
     "The atlas yields one dragon each day. Once drawn, today's card remains yours until tomorrow.",
   drawnToday: "Drawn today",
+  catalogNo: "Catalog no.",
   placeholder: "Museum card artwork",
   placeholderNote:
     "This card is ready to keep, print, or revisit from the atlas archive.",
@@ -313,6 +314,9 @@ export default function DailyDragonCard() {
                                   style={{ color: `${todaysCard.color}bb` }}
                                 >
                                   {labels.drawnToday}
+                                </p>
+                                <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-stone-400">
+                                  {labels.catalogNo} {todaysCard.catalogId}
                                 </p>
                                 <h3
                                   className="mt-3 text-[22px] uppercase tracking-[0.1em] sm:text-[26px] md:text-[30px] lg:text-[26px]"
