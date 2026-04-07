@@ -421,7 +421,10 @@ export default function Home() {
           className={`pointer-events-none text-right text-[9px] font-light uppercase tracking-[0.15em] ${
             isLandscapeMobile ? "hidden" : "hidden md:block"
           }`}
-          style={{ color: "rgba(140, 120, 90, 0.2)" }}
+          style={{
+            color: "rgba(191, 168, 129, 0.6)",
+            textShadow: "0 1px 10px rgba(8, 7, 5, 0.45)",
+          }}
         >
           {locale === "zh" ? "滑過以喚醒 · 點擊以展開" : "Hover to awaken · Click to reveal"}
         </p>
