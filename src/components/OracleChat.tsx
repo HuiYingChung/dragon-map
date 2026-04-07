@@ -244,7 +244,6 @@ export default function OracleChat({
   const [isLoading, setIsLoading] = useState(false);
   const [isMockMode, setIsMockMode] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [mobileViewportHeight, setMobileViewportHeight] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const labels = LABELS[locale];
@@ -273,43 +272,6 @@ export default function OracleChat({
   useEffect(() => {
     onOpenChange?.(isOpen);
   }, [isOpen, onOpenChange]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setMobileViewportHeight(null);
-      return;
-    }
-
-    const updateViewportHeight = () => {
-      if (window.innerWidth >= 640) {
-        setMobileViewportHeight(null);
-        return;
-      }
-
-      const nextHeight = window.visualViewport?.height ?? window.innerHeight;
-      setMobileViewportHeight(nextHeight);
-    };
-
-    updateViewportHeight();
-    window.addEventListener("resize", updateViewportHeight);
-    window.visualViewport?.addEventListener("resize", updateViewportHeight);
-    window.visualViewport?.addEventListener("scroll", updateViewportHeight);
-
-    return () => {
-      window.removeEventListener("resize", updateViewportHeight);
-      window.visualViewport?.removeEventListener("resize", updateViewportHeight);
-      window.visualViewport?.removeEventListener("scroll", updateViewportHeight);
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen || mobileViewportHeight === null) return;
-
-    requestAnimationFrame(() => {
-      inputRef.current?.scrollIntoView({ block: "nearest" });
-      messagesEndRef.current?.scrollIntoView({ block: "end" });
-    });
-  }, [isOpen, mobileViewportHeight, messages.length]);
 
   const sendMessage = useCallback(
     async (text: string) => {
@@ -415,16 +377,6 @@ export default function OracleChat({
               WebkitBackdropFilter: "blur(20px)",
               border: "1px solid rgba(201, 168, 76, 0.14)",
               boxShadow: "0 -8px 48px rgba(0,0,0,0.55), 0 0 32px rgba(201,168,76,0.06)",
-              ...(mobileViewportHeight !== null
-                ? {
-                    top: "0.5rem",
-                    right: "0.5rem",
-                    bottom: "auto",
-                    left: "0.5rem",
-                    height: `calc(${mobileViewportHeight}px - 1rem)`,
-                    maxHeight: `calc(${mobileViewportHeight}px - 1rem)`,
-                  }
-                : null),
             }}
           >
             <div
@@ -495,7 +447,7 @@ export default function OracleChat({
               </div>
             )}
 
-            <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
+            <div className="flex flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
               <div
                 className="rounded-sm px-3 py-2"
                 style={{
