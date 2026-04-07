@@ -52,7 +52,7 @@ export default function TimelineFilter({
         }`}
       >
         <p
-          className="text-[10px] uppercase tracking-[0.24em]"
+          className="text-[11px] uppercase tracking-[0.24em] md:text-[10px]"
           style={{ color: "rgba(224, 196, 118, 0.78)" }}
         >
           {locale === "zh" ? "時間軸" : "Timeline"}
@@ -60,7 +60,7 @@ export default function TimelineFilter({
 
         {compact ? (
           <p
-            className="rounded-sm border px-2.5 py-1 text-[9px] uppercase tracking-[0.18em]"
+            className="rounded-sm border px-2.5 py-1 text-[10px] uppercase tracking-[0.18em]"
             style={{
               color: "rgba(214, 193, 160, 0.86)",
               borderColor: "rgba(201, 168, 76, 0.18)",
@@ -123,7 +123,7 @@ export default function TimelineFilter({
                 />
               )}
               <span
-                className="block text-[10px] uppercase tracking-[0.2em] md:text-[11px]"
+                className="block text-[11px] uppercase tracking-[0.2em] md:text-[11px]"
                 style={{
                   color: isActive
                     ? "rgba(224, 196, 118, 0.92)"
@@ -133,7 +133,7 @@ export default function TimelineFilter({
                 {locale === "zh" ? period.labelZh : period.label}
               </span>
               <span
-                className="mt-1 block text-[9px] leading-relaxed md:text-[11px]"
+                className="mt-1 block text-[10px] leading-relaxed md:text-[11px]"
                 style={{
                   color: isActive
                     ? "rgba(226, 216, 196, 0.84)"
