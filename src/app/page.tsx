@@ -422,8 +422,8 @@ export default function Home() {
             isLandscapeMobile ? "hidden" : "hidden md:block"
           }`}
           style={{
-            color: "rgba(191, 168, 129, 0.6)",
-            textShadow: "0 1px 10px rgba(8, 7, 5, 0.45)",
+            color: "rgba(224, 196, 118, 0.82)",
+            textShadow: "0 1px 12px rgba(8, 7, 5, 0.6)",
           }}
         >
           {locale === "zh" ? "滑過以喚醒 · 點擊以展開" : "Hover to awaken · Click to reveal"}
