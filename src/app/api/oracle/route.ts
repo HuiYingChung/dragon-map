@@ -246,9 +246,19 @@ function isAllowedOrigin(request: NextRequest) {
 }
 
 function getClientIp(request: NextRequest) {
-  const forwardedFor = request.headers.get("x-forwarded-for");
+  // Prefer headers the platform edge sets to the *true* client IP and that the
+  // caller cannot forge (Vercel / nginx overwrite these on the way in).
+  // We deliberately do NOT trust the first value of `x-forwarded-for`: a caller
+  // can prepend an arbitrary IP there to reset their own rate-limit bucket.
   const realIp = request.headers.get("x-real-ip");
-  return forwardedFor?.split(",")[0]?.trim() || realIp || "unknown";
+  const vercelForwardedFor = request.headers.get("x-vercel-forwarded-for");
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  return (
+    realIp?.split(",")[0]?.trim() ||
+    vercelForwardedFor?.split(",")[0]?.trim() ||
+    forwardedFor?.split(",")[0]?.trim() ||
+    "unknown"
+  );
 }
 
 function getClientIdentifier(request: NextRequest) {
