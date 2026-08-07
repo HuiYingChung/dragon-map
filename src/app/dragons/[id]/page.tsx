@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { dragonRegions } from "@/data/dragons";
+import { getSourcesForDragon } from "@/data/sources";
+import SourceList from "@/components/SourceList";
 import CursorAura from "@/components/CursorAura";
 
 type DragonPageProps = {
@@ -196,6 +198,36 @@ export default async function DragonDetailPage({ params }: DragonPageProps) {
               dragon myths and sacred serpent traditions across world cultures.
             </p>
           </article>
+        </section>
+
+        <section
+          className="rounded-sm border p-6 md:p-8"
+          style={{
+            borderColor: `${dragon.color}22`,
+            background:
+              "linear-gradient(180deg, rgba(14, 12, 9, 0.9), rgba(14, 12, 9, 0.75))",
+          }}
+        >
+          <h2
+            className="text-[11px] uppercase tracking-[0.24em]"
+            style={{ color: `${dragon.color}aa` }}
+          >
+            Sources &amp; Further Reading
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-stone-400">
+            Every reference below was verified against a live URL or a standard
+            published edition. Primary texts and foundational ethnographic
+            records are marked <span className="uppercase text-[11px] tracking-[0.1em]">primary</span>;
+            modern academic studies and museum resources follow.
+          </p>
+          <div className="mt-5">
+            <SourceList
+              sources={getSourcesForDragon(dragon.id)}
+              locale="en"
+              color={dragon.color}
+              columns
+            />
+          </div>
         </section>
       </div>
     </main>

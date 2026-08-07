@@ -3,6 +3,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import type { DragonRegion, Locale } from "@/data/dragons";
+import { getSourcesForDragon } from "@/data/sources";
+import SourceList from "@/components/SourceList";
 
 interface MythCardProps {
   dragon: DragonRegion | null;
@@ -25,6 +27,7 @@ const LABELS = {
     domains: "Primary domains",
     traits: "Visual traits",
     sources: "Source context",
+    references: "References",
     associations: "Associated with",
     comparison: "Comparative note",
     description: "Curatorial note",
@@ -43,6 +46,7 @@ const LABELS = {
     domains: "主要領域",
     traits: "形象特徵",
     sources: "來源脈絡",
+    references: "參考文獻",
     associations: "關聯象徵",
     comparison: "對照註記",
     description: "策展說明",
@@ -335,6 +339,20 @@ export default function MythCard({
                       ? dragon.comparativeNoteZh
                       : dragon.comparativeNote}
                   </p>
+                </div>
+
+                <div>
+                  <SectionTitle
+                    label={labels.references}
+                    color={dragon.color}
+                    muted
+                  />
+                  <SourceList
+                    sources={getSourcesForDragon(dragon.id)}
+                    locale={locale}
+                    color={dragon.color}
+                    compact
+                  />
                 </div>
               </motion.section>
 

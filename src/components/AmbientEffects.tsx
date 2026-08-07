@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 
 interface Particle {
@@ -29,6 +29,30 @@ function createParticles(): Particle[] {
 
 export default function AmbientEffects() {
   const [particles] = useState<Particle[]>(createParticles);
+  const prefersReducedMotion = useReducedMotion();
+
+  if (prefersReducedMotion) {
+    // Static atmosphere only: fog and vignette without drifting particles.
+    return (
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 30% 40%, rgba(80,70,50,0.08) 0%, transparent 70%)",
+            opacity: 0.45,
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 70% 70% at 50% 50%, transparent 30%, rgba(5,4,3,0.7) 100%)",
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

@@ -24,6 +24,12 @@
 .DS_Store
 *.pem
 
+# original high-resolution artwork (kept out of the repo; ~250MB)
+/assets/
+
+# git bundles used for repo migration
+*.bundle
+
 # debug
 npm-debug.log*
 yarn-debug.log*
