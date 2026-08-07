@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { DragonRegion, Locale, TimelinePeriod } from "@/data/dragons";
 import DragonSilhouette from "./DragonSilhouette";
 
@@ -24,6 +24,7 @@ export default function WorldMap({
   onRegionHover,
   onRegionClick,
 }: WorldMapProps) {
+  const prefersReducedMotion = useReducedMotion();
   const visibleRegions = regions.filter(
     (region) => hoveredRegion === region.id || activeRegion === region.id,
   );
@@ -116,7 +117,7 @@ export default function WorldMap({
                   transition={{ duration: 0.8, ease: "easeInOut" }}
                 />
 
-                {/* Pulse ring */}
+                {/* Pulse ring (static when the visitor prefers reduced motion) */}
                 <motion.circle
                   cx={region.mapPosition.x}
                   cy={region.mapPosition.y}
@@ -125,14 +126,16 @@ export default function WorldMap({
                   stroke={region.color}
                   strokeWidth="0.14"
                   style={{ opacity: isHighlighted ? 0.72 : ringOpacity }}
-                  animate={{
-                    r: isHighlighted ? [2.2, 6.4, 2.2] : [1.9, 4.1, 1.9],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
+                  animate={
+                    prefersReducedMotion
+                      ? { r: isHighlighted ? 3.4 : 2.6 }
+                      : { r: isHighlighted ? [2.2, 6.4, 2.2] : [1.9, 4.1, 1.9] }
+                  }
+                  transition={
+                    prefersReducedMotion
+                      ? { duration: 0.4 }
+                      : { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                  }
                 />
 
                 {/* Center dot */}
@@ -167,16 +170,32 @@ export default function WorldMap({
                   {locale === "zh" ? region.nameZh : region.name}
                 </text>
 
-                {/* Invisible hit area */}
+                {/* Invisible hit area — focusable so the map works by keyboard */}
                 <circle
                   cx={region.mapPosition.x}
                   cy={region.mapPosition.y}
                   r="7"
                   fill="transparent"
-                  className="cursor-pointer"
+                  className="cursor-pointer outline-none"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={
+                    locale === "zh"
+                      ? `${region.nameZh}（${region.traditionZh}）`
+                      : `${region.name} (${region.tradition})`
+                  }
+                  aria-pressed={isActive}
                   onMouseEnter={() => onRegionHover(region.id)}
                   onMouseLeave={() => onRegionHover(null)}
+                  onFocus={() => onRegionHover(region.id)}
+                  onBlur={() => onRegionHover(null)}
                   onClick={() => onRegionClick(region.id)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      onRegionClick(region.id);
+                    }
+                  }}
                 />
 
               </g>
