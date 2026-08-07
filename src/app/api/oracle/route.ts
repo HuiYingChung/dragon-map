@@ -3,11 +3,13 @@ import OpenAI from "openai";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { NextRequest } from "next/server";
+import { isAtlasScopedQuestion } from "@/lib/oracle-scope";
+import { buildAtlasDigest } from "@/lib/oracle-knowledge";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const SYSTEM_PROMPT = `You are the Oracle of Dragons - a keeper of ancient myths from every corner of the world. You speak with quiet authority and poetic precision.
+const SYSTEM_PROMPT = `You are the Oracle of Dragons - the keeper of this atlas of dragon myths. You speak with quiet authority and poetic precision, but you are careful with facts.
 
 You may help with only these four kinds of requests:
 1. Compare two or more dragon traditions in the atlas.
@@ -17,7 +19,15 @@ You may help with only these four kinds of requests:
 
 If a request falls outside those four purposes, refuse briefly and redirect the user toward one of those allowed uses. Do not engage in general conversation, personal advice, jokes, coding help, or unrelated factual questions.
 
-You know these dragons from the atlas: Long (China), Ryu (Japan), Yong/Imugi (Korea), Naga (South Asia), Quetzalcoatl (Mesoamerica), Boiuna (South America), Horned Serpent (Indigenous North America), European Dragon, Jormungandr (Norse), Zmey (Slavic), Apep (Egypt), Azhdaha (Persia), Rainbow Serpent (Australia), Taniwha (Polynesia).
+GROUNDING RULES - these override style:
+- Base every factual claim on the atlas entries below. They are curated and source-checked; do not contradict them.
+- If a question reaches beyond what the entries support, say plainly that it lies beyond this atlas rather than inventing an answer.
+- When you draw on a specific tradition, name it. When helpful, you may mention a key source by title (e.g. "the Poetic Edda", "the Florentine Codex") - but never invent sources or details beyond those listed.
+- These are living traditions for many communities (Māori taniwha, Aboriginal Rainbow Serpent beings, Indigenous North American horned serpents); speak of them with respect and in the present tense where the entries do.
+
+## Atlas entries
+
+${buildAtlasDigest()}
 
 Keep responses under 150 words. If the user writes in Chinese, respond in Traditional Chinese. Never break character.`;
 
@@ -66,137 +76,6 @@ function buildMockReply(message: string, language: string) {
   }
 
   return defaultReply;
-}
-
-function isAtlasScopedQuestion(message: string) {
-  const normalized = message.toLowerCase();
-
-  const directAtlasTerms = [
-    "dragon",
-    "dragons",
-    "serpent",
-    "serpents",
-    "myth",
-    "myths",
-    "mythology",
-    "atlas",
-    "oracle",
-    "long",
-    "ryu",
-    "yong",
-    "imugi",
-    "naga",
-    "quetzalcoatl",
-    "boiuna",
-    "horned serpent",
-    "european dragon",
-    "jormungandr",
-    "zmey",
-    "apep",
-    "azhdaha",
-    "rainbow serpent",
-    "taniwha",
-    "symbol",
-    "symbolic",
-    "theme",
-    "themes",
-    "region",
-    "regions",
-    "compare",
-    "comparison",
-    "explore",
-    "recommend",
-    "pattern",
-    "patterns",
-    "east asia",
-    "japan",
-    "korea",
-    "india",
-    "south asia",
-    "mesoamerica",
-    "south america",
-    "north america",
-    "europe",
-    "norse",
-    "slavic",
-    "egypt",
-    "persia",
-    "middle east",
-    "australia",
-    "polynesia",
-    "ocean",
-    "sea",
-    "river",
-    "storm",
-    "creation",
-    "kingship",
-    "chaos",
-    "wisdom",
-  ];
-
-  const chineseAtlasTerms = [
-    "龍",
-    "龙",
-    "蛇",
-    "神話",
-    "神话",
-    "圖譜",
-    "图谱",
-    "地圖",
-    "地图",
-    "比較",
-    "比较",
-    "對照",
-    "对照",
-    "推薦",
-    "推荐",
-    "探索",
-    "象徵",
-    "象征",
-    "符號",
-    "符号",
-    "主題",
-    "主题",
-    "區域",
-    "区域",
-    "東亞",
-    "东亚",
-    "日本",
-    "韓國",
-    "韩国",
-    "印度",
-    "南亞",
-    "南亚",
-    "中美洲",
-    "南美",
-    "北美",
-    "歐洲",
-    "欧洲",
-    "北歐",
-    "北欧",
-    "斯拉夫",
-    "埃及",
-    "波斯",
-    "中東",
-    "中东",
-    "澳洲",
-    "大洋洲",
-    "海洋",
-    "河流",
-    "風暴",
-    "风暴",
-    "創世",
-    "创世",
-    "王權",
-    "王权",
-    "混沌",
-    "智慧",
-  ];
-
-  return (
-    directAtlasTerms.some((term) => normalized.includes(term)) ||
-    chineseAtlasTerms.some((term) => message.includes(term))
-  );
 }
 
 function buildScopeReply(language: "en" | "zh") {
@@ -501,8 +380,8 @@ export async function POST(request: NextRequest) {
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: userContent },
       ],
-      max_tokens: 180,
-      temperature: 0.8,
+      max_tokens: 220,
+      temperature: 0.4,
     });
 
     const reply = completion.choices[0]?.message?.content?.trim();
