@@ -56,7 +56,7 @@ export default function SourceList({
           >
             <div className="flex items-start justify-between gap-2">
               <p
-                className={`${compact ? "text-[13px]" : "text-[14px]"} leading-snug text-stone-200`}
+                className={`${compact ? "text-[14px]" : "text-[15px]"} leading-snug text-stone-200`}
               >
                 {source.url ? (
                   <a
@@ -84,13 +84,13 @@ export default function SourceList({
               </span>
             </div>
             <p
-              className="mt-1 text-[11px] uppercase tracking-[0.08em]"
+              className="mt-1 text-[12px] uppercase tracking-[0.08em]"
               style={{ color: "rgba(191, 168, 129, 0.6)" }}
             >
               {[source.author, source.year].filter(Boolean).join(" · ")}
             </p>
             {!compact && (
-              <p className="mt-1.5 text-[12px] leading-relaxed text-stone-400">
+              <p className="mt-1.5 text-[13px] leading-relaxed text-stone-400">
                 {note}
               </p>
             )}

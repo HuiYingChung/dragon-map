@@ -71,7 +71,7 @@ function SectionTitle({
 }) {
   return (
     <p
-      className="mb-2 text-[11px] tracking-[0.24em] uppercase"
+      className="mb-2 text-[12px] tracking-[0.24em] uppercase"
       style={{ color: muted ? "rgba(191, 168, 129, 0.58)" : `${color}aa` }}
     >
       {label}
@@ -91,7 +91,7 @@ function ChipList({
       {items.map((item) => (
         <span
           key={item}
-          className="rounded-sm px-2.5 py-1 text-[12px] leading-none"
+          className="rounded-sm px-2.5 py-1 text-[13px] leading-none"
           style={{
             border: `1px solid ${color}26`,
             background: `${color}10`,
@@ -123,12 +123,12 @@ function FactCard({
       }}
     >
       <p
-        className="text-[10px] uppercase tracking-[0.18em]"
+        className="text-[11px] uppercase tracking-[0.18em]"
         style={{ color: "rgba(191, 168, 129, 0.56)" }}
       >
         {label}
       </p>
-      <p className="mt-2 text-[14px] leading-relaxed text-stone-100 md:text-[13px]">
+      <p className="mt-2 text-[15px] leading-relaxed text-stone-100 md:text-[14px]">
         {value}
       </p>
     </div>
@@ -228,11 +228,11 @@ export default function MythCard({
                 {locale === "zh" ? dragon.nameZh : dragon.name}
               </h2>
 
-              <p className="mt-2 text-[13px] uppercase tracking-[0.18em] text-stone-300 md:text-[12px]">
+              <p className="mt-2 text-[14px] uppercase tracking-[0.18em] text-stone-300 md:text-[13px]">
                 {locale === "zh" ? dragon.traditionZh : dragon.tradition}
               </p>
 
-              <p className="mt-1 text-[15px] italic leading-relaxed text-stone-200 md:text-[13px]">
+              <p className="mt-1 text-[16px] italic leading-relaxed text-stone-200 md:text-[14px]">
                 {locale === "zh" ? dragon.regionZh : dragon.region}
               </p>
 
@@ -243,7 +243,7 @@ export default function MythCard({
                   background: `${dragon.color}08`,
                 }}
               >
-                <p className="text-[16px] leading-[1.9] text-stone-100 md:text-[14px]">
+                <p className="text-[17px] leading-[1.9] text-stone-100 md:text-[15px]">
                   {locale === "zh" ? dragon.descriptionZh : dragon.description}
                 </p>
               </div>
@@ -306,7 +306,7 @@ export default function MythCard({
               >
                 <SectionTitle label={labels.associations} color={dragon.color} />
                 <p
-                  className="text-[14px] italic leading-[1.8] md:text-[13px]"
+                  className="text-[15px] italic leading-[1.8] md:text-[14px]"
                   style={{ color: `${dragon.color}dd` }}
                 >
                   {locale === "zh"
@@ -333,14 +333,14 @@ export default function MythCard({
               >
                 <div>
                   <SectionTitle label={labels.sources} color={dragon.color} muted />
-                  <p className="text-[14px] leading-[1.8] text-stone-300 md:text-[13px]">
+                  <p className="text-[15px] leading-[1.8] text-stone-300 md:text-[14px]">
                     {locale === "zh" ? dragon.sourceContextZh : dragon.sourceContext}
                   </p>
                 </div>
 
                 <div>
                   <SectionTitle label={labels.comparison} color={dragon.color} muted />
-                  <p className="text-[14px] leading-[1.8] text-stone-300 md:text-[13px]">
+                  <p className="text-[15px] leading-[1.8] text-stone-300 md:text-[14px]">
                     {locale === "zh"
                       ? dragon.comparativeNoteZh
                       : dragon.comparativeNote}
@@ -374,13 +374,13 @@ export default function MythCard({
                 }}
               >
                 <SectionTitle label={labels.compareTitle} color={dragon.color} />
-                <p className="mb-4 text-[14px] leading-[1.75] text-stone-200 md:text-[13px]">
+                <p className="mb-4 text-[15px] leading-[1.75] text-stone-200 md:text-[14px]">
                   {labels.compareLead}
                 </p>
                 <div className="flex flex-col gap-3">
                   <div>
                     <p
-                      className="mb-2 text-[10px] uppercase tracking-[0.18em]"
+                      className="mb-2 text-[11px] uppercase tracking-[0.18em]"
                       style={{ color: "rgba(191, 168, 129, 0.62)" }}
                     >
                       {labels.compareFieldLabel}
