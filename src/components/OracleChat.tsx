@@ -206,9 +206,9 @@ export default function OracleChat({
       <motion.button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className={`oracle-chat-trigger fixed bottom-24 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full pointer-events-auto ${
-          landscapeMobile ? "oracle-chat-trigger-landscape" : ""
-        }`}
+        className={`oracle-chat-trigger fixed bottom-24 right-6 z-50 flex h-11 w-11 items-center justify-center rounded-full pointer-events-auto transition-opacity duration-200 ${
+          isOpen ? "pointer-events-none opacity-0" : "opacity-100"
+        } ${landscapeMobile ? "oracle-chat-trigger-landscape" : ""}`}
         style={{
           background:
             "linear-gradient(135deg, rgba(22, 18, 12, 0.95), rgba(12, 10, 7, 0.9))",
@@ -237,7 +237,8 @@ export default function OracleChat({
             transition={{ duration: 0.38, ease: "easeOut" }}
             className={`oracle-chat-panel fixed z-50 pointer-events-auto flex flex-col rounded-t-sm
               bottom-0 left-0 right-0 h-[82vh]
-              sm:bottom-24 sm:right-6 sm:left-auto sm:w-[400px] sm:h-[500px] sm:rounded-sm ${
+              sm:bottom-24 sm:right-5 sm:left-auto sm:w-[400px] sm:h-[500px] sm:rounded-sm
+              md:w-[340px] lg:w-[360px] ${
                 landscapeMobile ? "oracle-chat-panel-landscape" : ""
               }`}
             style={{

@@ -10,6 +10,8 @@ interface MythCardProps {
   dragon: DragonRegion | null;
   locale: Locale;
   landscapeMobile?: boolean;
+  /** When the Oracle panel is open, the card shortens to stack above it. */
+  oracleOpen?: boolean;
   compareOptions: DragonRegion[];
   compareTargetId: string;
   onCompareTargetChange: (id: string) => void;
@@ -137,6 +139,7 @@ export default function MythCard({
   dragon,
   locale,
   landscapeMobile = false,
+  oracleOpen = false,
   compareOptions,
   compareTargetId,
   onCompareTargetChange,
@@ -164,9 +167,12 @@ export default function MythCard({
           transition={{ duration: 0.8, ease: "easeOut" }}
           className={`myth-card fixed z-50 pointer-events-auto overflow-hidden
             bottom-2 left-2 right-2 rounded-sm max-h-[78vh] overflow-y-auto
-            md:bottom-auto md:top-5 md:left-auto md:right-5 md:max-h-[calc(100vh-2.5rem)] md:w-[340px] md:rounded-sm lg:w-[360px] ${
-              landscapeMobile ? "myth-card-landscape" : ""
-            }`}
+            md:bottom-auto md:top-5 md:left-auto md:right-5 md:w-[340px] md:rounded-sm lg:w-[360px]
+            transition-[max-height,opacity] duration-300 ${
+              oracleOpen
+                ? "opacity-0 pointer-events-none md:pointer-events-auto md:opacity-100 md:max-h-[max(160px,calc(100vh-40rem))]"
+                : "md:max-h-[calc(100vh-2.5rem)]"
+            } ${landscapeMobile ? "myth-card-landscape" : ""}`}
           style={{
             background:
               "linear-gradient(180deg, rgba(9,8,6,0.96), rgba(9,8,6,0.88) 40%, rgba(9,8,6,0.78) 100%)",

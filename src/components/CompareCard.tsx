@@ -9,6 +9,8 @@ interface CompareCardProps {
   rightDragon: DragonRegion | null;
   locale: Locale;
   landscapeMobile?: boolean;
+  /** When the Oracle panel is open, the wide comparison card fades back. */
+  oracleOpen?: boolean;
   onClose: () => void;
 }
 
@@ -168,6 +170,7 @@ export default function CompareCard({
   rightDragon,
   locale,
   landscapeMobile = false,
+  oracleOpen = false,
   onClose,
 }: CompareCardProps) {
   const [isMobile, setIsMobile] = useState(false);
@@ -191,7 +194,10 @@ export default function CompareCard({
           transition={{ duration: 0.8, ease: "easeOut" }}
           className={`compare-card fixed z-50 pointer-events-auto overflow-hidden
             bottom-2 left-2 right-2 rounded-sm max-h-[80vh] overflow-y-auto
-            md:bottom-auto md:top-5 md:left-auto md:right-5 md:w-[min(92vw,760px)] md:max-h-[calc(100vh-2.5rem)] md:rounded-sm ${
+            md:bottom-auto md:top-5 md:left-auto md:right-5 md:w-[min(92vw,760px)] md:max-h-[calc(100vh-2.5rem)] md:rounded-sm
+            transition-opacity duration-300 ${
+              oracleOpen ? "pointer-events-none opacity-0" : ""
+            } ${
               landscapeMobile ? "compare-card-landscape" : ""
             }`}
           style={{

@@ -189,6 +189,7 @@ export default function Home() {
           rightDragon={comparisonRight}
           locale={locale}
           landscapeMobile={isLandscapeMobile}
+          oracleOpen={isOracleOpen}
           onClose={handleCloseComparison}
         />
       ) : (
@@ -196,6 +197,7 @@ export default function Home() {
           dragon={activeDragon}
           locale={locale}
           landscapeMobile={isLandscapeMobile}
+          oracleOpen={isOracleOpen}
           compareOptions={compareOptions}
           compareTargetId={compareTargetId}
           onCompareTargetChange={setCompareTargetId}
