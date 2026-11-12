@@ -8,6 +8,7 @@ import { buildAtlasDigest } from "@/lib/oracle-knowledge";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 45;
 
 const SYSTEM_PROMPT = `You are the Oracle of Dragons - the keeper of this atlas of dragon myths. You speak with quiet authority and poetic precision, but you are careful with facts.
 
@@ -31,6 +32,9 @@ ${buildAtlasDigest()}
 
 Keep responses under 150 words. If the user writes in Chinese, respond in Traditional Chinese. Never break character.`;
 
+const ORACLE_MODEL = process.env.ORACLE_MODEL?.trim() || "gpt-6-luna";
+const ORACLE_MAX_COMPLETION_TOKENS = 220;
+const ORACLE_REQUEST_TIMEOUT_MS = 15_000;
 const MAX_MESSAGE_CHARS = 400;
 const SHORT_WINDOW_RETRY_SECONDS = 60 * 5;
 const LONG_WINDOW_RETRY_SECONDS = 60 * 60;
@@ -280,7 +284,11 @@ function getOpenAIClient() {
     return null;
   }
 
-  openaiClient = new OpenAI({ apiKey });
+  openaiClient = new OpenAI({
+    apiKey,
+    timeout: ORACLE_REQUEST_TIMEOUT_MS,
+    maxRetries: 1,
+  });
   return openaiClient;
 }
 
@@ -375,12 +383,15 @@ export async function POST(request: NextRequest) {
         : trimmedMessage;
 
     const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: ORACLE_MODEL,
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
         { role: "user", content: userContent },
       ],
-      max_tokens: 220,
+      // Reasoning tokens count against the completion cap, so short persona
+      // replies run with reasoning off.
+      reasoning_effort: "none",
+      max_completion_tokens: ORACLE_MAX_COMPLETION_TOKENS,
       temperature: 0.4,
     });
 
