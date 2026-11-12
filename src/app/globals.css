@@ -3,6 +3,7 @@
 :root {
   --background: #080705;
   --foreground: #c9a84c;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -23,7 +24,10 @@ body {
   overflow-x: hidden;
   background: #080705;
   color: #b4a082;
-  font-family: "Cormorant Garamond", "Georgia", serif;
+  font-family: "Cormorant Garamond", "Noto Serif TC", "Georgia", serif;
+  /* Noto Serif TC ships no italic face; keep CJK upright instead of letting
+     the browser slant it. Latin text still uses Cormorant's real italics. */
+  font-synthesis-style: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

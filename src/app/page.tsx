@@ -49,6 +49,14 @@ export default function Home() {
     };
   }, []);
 
+  // Keeps Han glyph variants and screen-reader voice matched to the UI language.
+  useEffect(() => {
+    document.documentElement.lang = locale === "zh" ? "zh-Hant-TW" : "en";
+    return () => {
+      document.documentElement.lang = "en";
+    };
+  }, [locale]);
+
   const handleRegionClick = useCallback((id: string) => {
     setComparisonIds(null);
     setCompareTargetId("");
