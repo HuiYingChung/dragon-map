@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Locale } from "@/data/dragons";
 import { isAtlasScopedQuestion } from "@/lib/oracle-scope";
+import OracleSigil from "./OracleSigil";
 
 interface Message {
   role: "user" | "oracle";
@@ -222,9 +223,7 @@ export default function OracleChat({
         aria-label={labels.title}
         title={labels.title}
       >
-        <span className="select-none text-[18px] leading-none" role="img" aria-hidden>
-          🐉
-        </span>
+        <OracleSigil size={32} className="select-none" />
       </motion.button>
 
       <AnimatePresence>
@@ -255,9 +254,7 @@ export default function OracleChat({
               style={{ borderBottom: "1px solid rgba(201, 168, 76, 0.12)" }}
             >
               <div className="flex items-center gap-2.5">
-                <span className="text-[16px]" role="img" aria-hidden>
-                  🐉
-                </span>
+                <OracleSigil size={26} />
                 <h2
                   className="text-[15px] sm:text-[13px] tracking-[0.18em] uppercase font-semibold"
                   style={{ color: "rgba(224, 196, 118, 0.95)" }}
