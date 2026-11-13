@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { DragonRegion, Locale, TimelinePeriod } from "@/data/dragons";
 import DragonSilhouette from "./DragonSilhouette";
 
@@ -159,7 +159,7 @@ export default function WorldMap({
                   textAnchor="middle"
                   fill={region.color}
                   fontSize="1.7"
-                  fontFamily="'Cormorant Garamond', serif"
+                  fontFamily="'Cormorant Garamond', 'Noto Serif TC', serif"
                   letterSpacing="0.08"
                   style={{
                     opacity: isHighlighted ? 0.98 : labelOpacity,
@@ -204,19 +204,15 @@ export default function WorldMap({
         </svg>
 
         {/* Dragon image overlays (HTML layer on top of SVG) */}
-        {visibleRegions.map((region) => {
-          const isHovered = hoveredRegion === region.id;
-          const isActive = activeRegion === region.id;
-          const isHighlighted = isHovered || isActive;
-
-          return (
+        <AnimatePresence>
+          {visibleRegions.map((region) => (
             <DragonSilhouette
               key={`dragon-${region.id}`}
               dragon={region}
-              isActive={isHighlighted}
+              isActive
             />
-          );
-        })}
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );

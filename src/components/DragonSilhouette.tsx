@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { DragonRegion } from "@/data/dragons";
 
 interface DragonSilhouetteProps {
@@ -13,6 +13,10 @@ export default function DragonSilhouette({
   dragon,
   isActive,
 }: DragonSilhouetteProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const shouldFloat = isActive && !prefersReducedMotion;
+  const fadeDuration = prefersReducedMotion ? 0.2 : 1.2;
+
   return (
     <div
       className="absolute pointer-events-none"
@@ -25,16 +29,24 @@ export default function DragonSilhouette({
       }}
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.85 }}
+        initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.85 }}
         animate={{
           opacity: isActive ? 0.9 : 0,
-          scale: isActive ? 1 : 0.85,
-          y: isActive ? [0, -8, 0, 6, 0] : 0,
-          rotate: isActive ? [0, -0.8, 0, 0.8, 0] : 0,
+          scale: isActive || prefersReducedMotion ? 1 : 0.85,
+          y: shouldFloat ? [0, -8, 0, 6, 0] : 0,
+          rotate: shouldFloat ? [0, -0.8, 0, 0.8, 0] : 0,
+        }}
+        exit={{
+          opacity: 0,
+          scale: prefersReducedMotion ? 1 : 0.94,
+          transition: {
+            duration: prefersReducedMotion ? 0.2 : 0.7,
+            ease: "easeInOut",
+          },
         }}
         transition={{
-          opacity: { duration: 1.2, ease: "easeInOut" },
-          scale: { duration: 1.2, ease: "easeInOut" },
+          opacity: { duration: fadeDuration, ease: "easeInOut" },
+          scale: { duration: fadeDuration, ease: "easeInOut" },
           y: {
             duration: 7.5,
             repeat: Infinity,
