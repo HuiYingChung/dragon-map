@@ -161,9 +161,12 @@ export default function MythCard({
       {dragon && (
         <motion.aside
           key={dragon.id}
-          initial={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 24 }}
-          animate={{ opacity: 1, y: 0, x: 0 }}
-          exit={{ opacity: 0, y: isMobile ? 40 : 0, x: isMobile ? 0 : 18 }}
+          // WebKit briefly reapplies the initial/exit opacity when Framer Motion
+          // hands the completed animation back to React. Keep the opaque card
+          // surface stable and animate only its position to avoid that flash.
+          initial={{ y: isMobile ? 40 : 0, x: isMobile ? 0 : 24 }}
+          animate={{ y: 0, x: 0 }}
+          exit={{ y: isMobile ? 40 : 0, x: isMobile ? 0 : 18 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className={`myth-card fixed z-50 pointer-events-auto overflow-hidden
             bottom-2 left-2 right-2 rounded-sm max-h-[78vh] overflow-y-auto
